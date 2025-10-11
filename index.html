@@ -299,10 +299,23 @@
     gap: 10px;
     text-decoration: none;
     margin-top: 15px;
+    padding: 16px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
   }
 
   .whatsapp-btn:hover {
     background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
   }
 
   #result {
@@ -336,6 +349,10 @@
     color: #d0d0d0;
     font-size: 14px;
     margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border-left: 3px solid #00b4ff;
   }
 
   canvas {
@@ -402,7 +419,7 @@
 
   .photo-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 15px;
     margin-top: 20px;
   }
@@ -527,6 +544,9 @@
               <option value="Puppy">Puppy</option>
               <option value="Larbin">Larbin</option>
               <option value="Esclave du cou">Esclave du cou</option>
+              <option value="Foot Slave">Foot Slave</option>
+              <option value="Black de compagnie">Black de compagnie</option>
+              <option value="Bougnoule de compagnie">Bougnoule de compagnie</option>
             </select>
           </div>
 
@@ -600,7 +620,9 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
       generateLogo();
 
       document.getElementById('result').classList.add('show');
-      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      setTimeout(() => {
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
     });
 
     function generateLogo() {
