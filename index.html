@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Astro Master — Profil & Générateur</title>
+<title>Astro Master – Profil & Générateur</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   * {
@@ -115,12 +115,25 @@
     text-shadow: 0 0 40px rgba(0,180,255,0.5);
   }
 
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 32px;
+    }
+  }
+
   .tagline {
     font-size: 18px;
     color: #a0a0a0;
     font-weight: 300;
     letter-spacing: 2px;
     text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .tagline {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
   }
 
   .grid {
@@ -137,25 +150,42 @@
   }
 
   .server-card {
-    background: linear-gradient(135deg, rgba(20,20,20,0.98) 0%, rgba(10,10,10,0.98) 100%);
-    border: 1px solid rgba(0,180,255,0.3);
-    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(25,25,25,0.98) 0%, rgba(15,15,15,0.98) 100%);
+    border: 2px solid rgba(60,60,60,0.8);
+    border-left: 4px solid rgba(0,180,255,0.4);
+    border-radius: 3px;
     padding: 30px;
     box-shadow: 
-      0 10px 40px rgba(0,0,0,0.8),
-      inset 0 1px 0 rgba(255,255,255,0.05),
-      0 0 30px rgba(0,180,255,0.15);
+      0 4px 20px rgba(0,0,0,0.9),
+      inset 0 1px 0 rgba(255,255,255,0.03),
+      inset 0 -1px 0 rgba(0,0,0,0.5);
     position: relative;
     transition: all 0.3s ease;
   }
 
+  .server-card::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 15px;
+    bottom: 15px;
+    width: 3px;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,180,255,0.3) 0px,
+      rgba(0,180,255,0.3) 8px,
+      transparent 8px,
+      transparent 12px
+    );
+  }
+
   .server-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     box-shadow: 
-      0 15px 50px rgba(0,0,0,0.9),
-      inset 0 1px 0 rgba(255,255,255,0.08),
-      0 0 40px rgba(0,180,255,0.3);
-    border-color: rgba(0,180,255,0.5);
+      0 6px 30px rgba(0,0,0,0.95),
+      inset 0 1px 0 rgba(255,255,255,0.05),
+      inset 0 -1px 0 rgba(0,0,0,0.5);
+    border-left-color: rgba(0,180,255,0.7);
   }
 
   .server-card::after {
@@ -163,11 +193,14 @@
     position: absolute;
     top: 15px;
     right: 15px;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     background: #00ff00;
     border-radius: 50%;
-    box-shadow: 0 0 15px #00ff00, 0 0 30px rgba(0,255,0,0.3);
+    box-shadow: 
+      0 0 10px #00ff00, 
+      0 0 20px rgba(0,255,0,0.3),
+      inset 0 1px 2px rgba(255,255,255,0.3);
     animation: pulse 3s ease-in-out infinite;
   }
 
@@ -265,6 +298,53 @@
     cursor: pointer;
   }
 
+  .roles-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .role-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(0,180,255,0.3);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .role-checkbox:hover {
+    border-color: rgba(0,180,255,0.5);
+    background: rgba(0,180,255,0.1);
+  }
+
+  .role-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #00b4ff;
+  }
+
+  .role-checkbox.checked {
+    border-color: #00b4ff;
+    background: rgba(0,180,255,0.2);
+  }
+
+  .role-checkbox span {
+    color: #c0c0c0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .role-checkbox.checked span {
+    color: #00ff88;
+    font-weight: 600;
+  }
+
   button {
     width: 100%;
     background: linear-gradient(135deg, #00b4ff 0%, #0088cc 100%);
@@ -289,6 +369,11 @@
 
   button:active {
     transform: translateY(0);
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .whatsapp-btn {
@@ -445,6 +530,32 @@
     display: block;
     margin-bottom: 10px;
   }
+
+  .error-message {
+    color: #ff4444;
+    font-size: 13px;
+    margin-top: 5px;
+    display: none;
+  }
+
+  .error-message.show {
+    display: block;
+  }
+
+  .loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 </style>
 </head>
 <body>
@@ -457,23 +568,13 @@
     <div class="grid">
       <!-- Profil -->
       <div class="server-card">
-        <h2>👤 Profil</h2>
-        <div class="badges">
-          <span class="badge">Dominant actif</span>
-          <span class="badge">Pony play</span>
-          <span class="badge">Puppy play</span>
-          <span class="badge">Majordome</span>
-          <span class="badge">Fétichiste du cou</span>
-          <span class="badge">Foot Slave</span>
-          <span class="badge">Black de compagnie (raceplay)</span>
-          <span class="badge">Bougnoule de compagnie (raceplay)</span>
-        </div>
+        <h2>👤 À propos</h2>
         <p class="about-text">
-          Passionné par la technologie et l'immensité de l'univers, je recherche des relations basées sur la confiance, le respect mutuel et la clarté des rôles. Particulièrement attiré par la beauté et l'élégance du cou.
+          Passionné par la technologie et l'immensité de l'univers, je recherche des relations basées sur la confiance, le respect mutuel et la clarté des rôles.
         </p>
       </div>
 
-      <!-- Intérêts -->
+      <!-- Centres d'intérêt -->
       <div class="server-card">
         <h2>⚡ Centres d'intérêt</h2>
         <div class="badges">
@@ -483,7 +584,26 @@
           <span class="badge">Astrophysique</span>
         </div>
         <p class="about-text">
-          Expert en systèmes informatiques avec une passion pour l'observation des étoiles et l'exploration spatiale.
+          Passionné de systèmes informatiques avec une fascination pour l'observation des étoiles et l'exploration spatiale.
+        </p>
+      </div>
+
+      <!-- Kinks -->
+      <div class="server-card full">
+        <h2>🔥 Kinks & Pratiques</h2>
+        <div class="badges">
+          <span class="badge">Dominant actif</span>
+          <span class="badge">Pony play</span>
+          <span class="badge">Puppy play</span>
+          <span class="badge">Majordome</span>
+          <span class="badge">Fétichiste du cou</span>
+          <span class="badge">Foot Slave</span>
+          <span class="badge">Black de compagnie (raceplay)</span>
+          <span class="badge">Bougnoule de compagnie (raceplay)</span>
+          <span class="badge">Garde du corps</span>
+        </div>
+        <p class="about-text">
+          Relations D/s basées sur le consentement mutuel et le respect des limites. Particulièrement attiré par la beauté et l'élégance du cou.
         </p>
       </div>
 
@@ -493,7 +613,7 @@
         <p class="about-text" style="margin-bottom: 15px;">
           Pour toute question ou discussion, contactez-moi directement sur WhatsApp.
         </p>
-        <a href="https://wa.me/33783204184" class="whatsapp-btn" target="_blank">
+        <a href="https://wa.me/33783204184" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
           <span>📱</span>
           Ouvrir WhatsApp
         </a>
@@ -506,15 +626,15 @@
           Je serais ravi de recevoir vos photos du cou sous différents angles (face, profil gauche, profil droit). Cliquez sur les zones ci-dessous pour m'envoyer vos photos via WhatsApp.
         </p>
         <div class="photo-grid">
-          <div class="photo-upload-btn" onclick="sendNeckPhoto('face')">
+          <div class="photo-upload-btn" onclick="sendNeckPhoto('face')" role="button" tabindex="0" aria-label="Envoyer photo du cou de face">
             <span>📷</span>
             <div>Face</div>
           </div>
-          <div class="photo-upload-btn" onclick="sendNeckPhoto('profil gauche')">
+          <div class="photo-upload-btn" onclick="sendNeckPhoto('profil gauche')" role="button" tabindex="0" aria-label="Envoyer photo du cou profil gauche">
             <span>📷</span>
             <div>Profil Gauche</div>
           </div>
-          <div class="photo-upload-btn" onclick="sendNeckPhoto('profil droit')">
+          <div class="photo-upload-btn" onclick="sendNeckPhoto('profil droit')" role="button" tabindex="0" aria-label="Envoyer photo du cou profil droit">
             <span>📷</span>
             <div>Profil Droit</div>
           </div>
@@ -527,30 +647,60 @@
         <form id="generatorForm">
           <div class="form-group">
             <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" placeholder="Entrez votre prénom" required>
+            <input type="text" id="prenom" placeholder="Entrez votre prénom" required maxlength="50" autocomplete="given-name">
+            <div class="error-message" id="prenomError">Le prénom ne doit contenir que des lettres, espaces et tirets</div>
           </div>
 
           <div class="form-group">
             <label for="nom">Nom</label>
-            <input type="text" id="nom" placeholder="Entrez votre nom" required>
+            <input type="text" id="nom" placeholder="Entrez votre nom" required maxlength="50" autocomplete="family-name">
+            <div class="error-message" id="nomError">Le nom ne doit contenir que des lettres, espaces et tirets</div>
           </div>
 
           <div class="form-group">
-            <label for="role">Rôle</label>
-            <select id="role" required>
-              <option value="">Sélectionnez un rôle</option>
-              <option value="Majordome">Majordome</option>
-              <option value="Poney">Poney</option>
-              <option value="Puppy">Puppy</option>
-              <option value="Larbin">Larbin</option>
-              <option value="Esclave du cou">Esclave du cou</option>
-              <option value="Foot Slave">Foot Slave</option>
-              <option value="Black de compagnie">Black de compagnie</option>
-              <option value="Bougnoule de compagnie">Bougnoule de compagnie</option>
-            </select>
+            <label>Rôle(s) - Sélectionnez un ou plusieurs rôles</label>
+            <div class="roles-container">
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Majordome">
+                <span>Majordome</span>
+              </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Poney">
+                <span>Poney</span>
+              </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Puppy">
+                <span>Puppy</span>
+              </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Larbin">
+                <span>Larbin</span>
+              </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Esclave du cou">
+                <span>Esclave du cou</span>
+              </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Foot Slave">
+                <span>Foot Slave</span>
+              </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Black de compagnie">
+                <span>Black de compagnie</span>
+              </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Bougnoule de compagnie">
+                <span>Bougnoule de compagnie</span>
+              </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Garde du corps/Agent de sécurité">
+                <span>Garde du corps/Agent de sécurité</span>
+              </label>
+            </div>
+            <div class="error-message" id="roleError">Veuillez sélectionner au moins un rôle</div>
           </div>
 
-          <button type="submit">Générer le macaron</button>
+          <button type="submit" id="submitBtn">Générer le macaron</button>
         </form>
 
         <div id="result">
@@ -585,7 +735,19 @@
     let currentContractText = '';
     let currentPrenom = '';
     let currentNom = '';
-    let currentRole = '';
+    let currentRoles = [];
+
+    // Gestion des checkboxes de rôles
+    document.querySelectorAll('.role-checkbox').forEach(label => {
+      label.addEventListener('click', function(e) {
+        if (e.target.tagName !== 'INPUT') {
+          const checkbox = this.querySelector('input[type="checkbox"]');
+          checkbox.checked = !checkbox.checked;
+        }
+        this.classList.toggle('checked', this.querySelector('input[type="checkbox"]').checked);
+        document.getElementById('roleError').classList.remove('show');
+      });
+    });
 
     function sendNeckPhoto(angle) {
       const message = `Bonjour Astro Master, je souhaite vous envoyer une photo de mon cou (${angle})`;
@@ -593,16 +755,74 @@
       window.open(whatsappUrl, '_blank');
     }
 
+    function validateName(name) {
+      const nameRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
+      return nameRegex.test(name);
+    }
+
+    function sanitizeInput(input) {
+      return input.trim().replace(/[<>]/g, '');
+    }
+
+    document.getElementById('prenom').addEventListener('input', function(e) {
+      const errorDiv = document.getElementById('prenomError');
+      if (e.target.value && !validateName(e.target.value)) {
+        errorDiv.classList.add('show');
+      } else {
+        errorDiv.classList.remove('show');
+      }
+    });
+
+    document.getElementById('nom').addEventListener('input', function(e) {
+      const errorDiv = document.getElementById('nomError');
+      if (e.target.value && !validateName(e.target.value)) {
+        errorDiv.classList.add('show');
+      } else {
+        errorDiv.classList.remove('show');
+      }
+    });
+
     document.getElementById('generatorForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      currentPrenom = document.getElementById('prenom').value.trim();
-      currentNom = document.getElementById('nom').value.trim();
-      currentRole = document.getElementById('role').value;
+      const prenomInput = document.getElementById('prenom').value.trim();
+      const nomInput = document.getElementById('nom').value.trim();
+      
+      // Récupérer tous les rôles cochés
+      const selectedRoles = Array.from(document.querySelectorAll('input[name="role"]:checked'))
+        .map(checkbox => checkbox.value);
 
-      currentContractText = `CONTRAT D'APPARTENANCE
+      if (!validateName(prenomInput)) {
+        document.getElementById('prenomError').classList.add('show');
+        return;
+      }
 
-Je soussigné(e) ${currentPrenom} ${currentNom}, reconnais officiellement mon rôle en tant que ${currentRole} d'Astro Master.
+      if (!validateName(nomInput)) {
+        document.getElementById('nomError').classList.add('show');
+        return;
+      }
+
+      if (selectedRoles.length === 0) {
+        document.getElementById('roleError').classList.add('show');
+        return;
+      }
+
+      currentPrenom = sanitizeInput(prenomInput);
+      currentNom = sanitizeInput(nomInput);
+      currentRoles = selectedRoles;
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Génération en cours...<span class="loading"></span>';
+
+      setTimeout(() => {
+        const rolesText = currentRoles.length === 1 
+          ? currentRoles[0] 
+          : currentRoles.slice(0, -1).join(', ') + ' et ' + currentRoles[currentRoles.length - 1];
+
+        currentContractText = `CONTRAT D'APPARTENANCE
+
+Je soussigné(e) ${currentPrenom} ${currentNom}, reconnais officiellement mon rôle en tant que ${rolesText} d'Astro Master.
 
 Je m'engage à :
 • Servir avec dévouement et respect
@@ -615,14 +835,19 @@ Ce contrat est basé sur le consentement mutuel, le respect et la confiance.
 Signé : ${currentPrenom} ${currentNom}
 Date : ${new Date().toLocaleDateString('fr-FR')}`;
 
-      document.getElementById('contract').textContent = currentContractText;
+        document.getElementById('contract').textContent = currentContractText;
 
-      generateLogo();
+        generateLogo();
 
-      document.getElementById('result').classList.add('show');
-      setTimeout(() => {
-        document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
+        document.getElementById('result').classList.add('show');
+        
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Générer le macaron';
+
+        setTimeout(() => {
+          document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }, 800);
     });
 
     function generateLogo() {
@@ -654,58 +879,87 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
       ctx.textAlign = 'center';
       ctx.fillText('ASTRO MASTER', 125, 70);
 
+      // Affichage des rôles
       ctx.fillStyle = '#00ff88';
-      ctx.font = 'bold 24px Inter, sans-serif';
-      ctx.fillText(currentRole.toUpperCase(), 125, 125);
+      if (currentRoles.length === 1) {
+        ctx.font = 'bold 22px Inter, sans-serif';
+        const roleText = currentRoles[0].toUpperCase();
+        if (roleText.length > 20) {
+          ctx.font = 'bold 18px Inter, sans-serif';
+        }
+        ctx.fillText(roleText, 125, 125);
+      } else {
+        // Plusieurs rôles : afficher sur plusieurs lignes
+        ctx.font = 'bold 16px Inter, sans-serif';
+        let yPos = 105;
+        currentRoles.forEach((role, index) => {
+          const roleText = role.toUpperCase();
+          if (roleText.length > 25) {
+            ctx.font = 'bold 13px Inter, sans-serif';
+          }
+          ctx.fillText(roleText, 125, yPos + (index * 20));
+        });
+      }
 
       ctx.fillStyle = '#e8e8e8';
       ctx.font = '16px Inter, sans-serif';
-      ctx.fillText(currentPrenom + ' ' + currentNom, 125, 160);
+      const yOffset = currentRoles.length > 1 ? 105 + (currentRoles.length * 20) + 20 : 160;
+      ctx.fillText(currentPrenom + ' ' + currentNom, 125, yOffset);
 
       ctx.fillStyle = '#888';
       ctx.font = '12px Inter, sans-serif';
-      ctx.fillText(new Date().toLocaleDateString('fr-FR'), 125, 185);
+      ctx.fillText(new Date().toLocaleDateString('fr-FR'), 125, yOffset + 25);
     }
 
     function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
-      doc.setFontSize(20);
-      doc.setFont(undefined, 'bold');
-      doc.text('CONTRAT D\'APPARTENANCE', 105, 20, { align: 'center' });
+        doc.setFontSize(20);
+        doc.setFont(undefined, 'bold');
+        doc.text('CONTRAT D\'APPARTENANCE', 105, 20, { align: 'center' });
 
-      doc.setFontSize(12);
-      doc.setFont(undefined, 'normal');
-      
-      const lines = currentContractText.split('\n');
-      let yPos = 40;
-      
-      lines.forEach(line => {
-        if (line.trim()) {
-          const splitLines = doc.splitTextToSize(line, 170);
-          splitLines.forEach(splitLine => {
-            doc.text(splitLine, 20, yPos);
-            yPos += 7;
-          });
-        } else {
-          yPos += 5;
-        }
-      });
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'normal');
+        
+        const lines = currentContractText.split('\n');
+        let yPos = 40;
+        
+        lines.forEach(line => {
+          if (line.trim()) {
+            const splitLines = doc.splitTextToSize(line, 170);
+            splitLines.forEach(splitLine => {
+              doc.text(splitLine, 20, yPos);
+              yPos += 7;
+            });
+          } else {
+            yPos += 5;
+          }
+        });
 
-      const canvas = document.getElementById('logo');
-      const imgData = canvas.toDataURL('image/jpeg', 1.0);
-      doc.addImage(imgData, 'JPEG', 70, yPos + 10, 70, 70);
+        const canvas = document.getElementById('logo');
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        doc.addImage(imgData, 'JPEG', 70, yPos + 10, 70, 70);
 
-      doc.save(`Contrat_${currentPrenom}_${currentNom}.pdf`);
+        doc.save(`Contrat_${currentPrenom}_${currentNom}.pdf`);
+      } catch (error) {
+        console.error('Erreur lors de la génération du PDF:', error);
+        alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
+      }
     }
 
     function downloadJPEG() {
-      const canvas = document.getElementById('logo');
-      const link = document.createElement('a');
-      link.download = `Macaron_${currentPrenom}_${currentNom}.jpg`;
-      link.href = canvas.toDataURL('image/jpeg', 1.0);
-      link.click();
+      try {
+        const canvas = document.getElementById('logo');
+        const link = document.createElement('a');
+        link.download = `Macaron_${currentPrenom}_${currentNom}.jpg`;
+        link.href = canvas.toDataURL('image/jpeg', 1.0);
+        link.click();
+      } catch (error) {
+        console.error('Erreur lors du téléchargement JPEG:', error);
+        alert('Une erreur est survenue lors du téléchargement. Veuillez réessayer.');
+      }
     }
   </script>
 </body>
