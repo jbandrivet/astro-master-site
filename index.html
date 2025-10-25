@@ -623,22 +623,23 @@
       <div class="server-card full">
         <h2>📸 Envoyez vos photos du cou</h2>
         <p class="about-text" style="margin-bottom: 20px;">
-          Je serais ravi de recevoir vos photos du cou sous différents angles (face, profil gauche, profil droit). Cliquez sur les zones ci-dessous pour m'envoyer vos photos via WhatsApp.
+          Je serais ravi de recevoir vos photos du cou sous différents angles (face, profil gauche, profil droit). Cliquez sur les zones ci-dessous pour prendre et m'envoyer vos photos.
         </p>
         <div class="photo-grid">
-          <div class="photo-upload-btn" onclick="sendNeckPhoto('face')" role="button" tabindex="0" aria-label="Envoyer photo du cou de face">
+          <div class="photo-upload-btn" onclick="captureNeckPhoto('face')" role="button" tabindex="0" aria-label="Prendre photo du cou de face">
             <span>📷</span>
             <div>Face</div>
           </div>
-          <div class="photo-upload-btn" onclick="sendNeckPhoto('profil gauche')" role="button" tabindex="0" aria-label="Envoyer photo du cou profil gauche">
+          <div class="photo-upload-btn" onclick="captureNeckPhoto('profil gauche')" role="button" tabindex="0" aria-label="Prendre photo du cou profil gauche">
             <span>📷</span>
             <div>Profil Gauche</div>
           </div>
-          <div class="photo-upload-btn" onclick="sendNeckPhoto('profil droit')" role="button" tabindex="0" aria-label="Envoyer photo du cou profil droit">
+          <div class="photo-upload-btn" onclick="captureNeckPhoto('profil droit')" role="button" tabindex="0" aria-label="Prendre photo du cou profil droit">
             <span>📷</span>
             <div>Profil Droit</div>
           </div>
         </div>
+        <input type="file" id="neckPhotoInput" accept="image/*" capture="environment" style="display: none;">
       </div>
 
       <!-- Générateur -->
@@ -736,6 +737,7 @@
     let currentPrenom = '';
     let currentNom = '';
     let currentRoles = [];
+    let currentNeckPhotoAngle = '';
 
     // Gestion des checkboxes de rôles
     document.querySelectorAll('.role-checkbox').forEach(label => {
@@ -749,7 +751,57 @@
       });
     });
 
-    function sendNeckPhoto(angle) {
+    // Gestion de la capture de photos du cou
+    function captureNeckPhoto(angle) {
+      currentNeckPhotoAngle = angle;
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (isMobile && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        // Sur mobile, ouvrir directement l'appareil photo
+        const input = document.getElementById('neckPhotoInput');
+        input.click();
+      } else {
+        // Sur PC, proposer d'envoyer via WhatsApp
+        sendNeckPhotoViaWhatsApp(angle);
+      }
+    }
+
+    // Écouteur pour la sélection de fichier
+    document.getElementById('neckPhotoInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        handleNeckPhotoShare(file, currentNeckPhotoAngle);
+      }
+      // Réinitialiser l'input pour permettre de reprendre la même photo
+      e.target.value = '';
+    });
+
+    function handleNeckPhotoShare(file, angle) {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (isMobile && navigator.share) {
+        // Utiliser l'API Web Share pour partager la photo
+        const fileName = `Cou_${angle}_${new Date().getTime()}.jpg`;
+        const shareFile = new File([file], fileName, { type: file.type });
+        
+        navigator.share({
+          files: [shareFile],
+          title: `Photo du cou - ${angle}`,
+          text: `Photo du cou (${angle}) pour Astro Master`
+        }).then(() => {
+          console.log('Photo partagée avec succès');
+        }).catch((error) => {
+          console.log('Partage annulé ou erreur:', error);
+          // Si le partage échoue, proposer WhatsApp
+          sendNeckPhotoViaWhatsApp(angle);
+        });
+      } else {
+        // Sur PC ou si Web Share API non disponible, rediriger vers WhatsApp
+        sendNeckPhotoViaWhatsApp(angle);
+      }
+    }
+
+    function sendNeckPhotoViaWhatsApp(angle) {
       const message = `Bonjour Astro Master, je souhaite vous envoyer une photo de mon cou (${angle})`;
       const whatsappUrl = `https://wa.me/33783204184?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
@@ -942,7 +994,27 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
         const imgData = canvas.toDataURL('image/jpeg', 1.0);
         doc.addImage(imgData, 'JPEG', 70, yPos + 10, 70, 70);
 
-        doc.save(`Contrat_${currentPrenom}_${currentNom}.pdf`);
+        const pdfBlob = doc.output('blob');
+        const fileName = `Contrat_${currentPrenom}_${currentNom}.pdf`;
+        
+        // Détection mobile pour compatibilité
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        if (isMobile && navigator.share) {
+          // Utiliser l'API Web Share sur mobile si disponible
+          const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+          navigator.share({
+            files: [file],
+            title: 'Contrat d\'appartenance',
+            text: 'Contrat généré par Astro Master'
+          }).catch(err => {
+            // Si le partage échoue, télécharger normalement
+            fallbackDownload(pdfBlob, fileName);
+          });
+        } else {
+          // Téléchargement standard pour PC
+          fallbackDownload(pdfBlob, fileName);
+        }
       } catch (error) {
         console.error('Erreur lors de la génération du PDF:', error);
         alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
@@ -952,14 +1024,45 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
     function downloadJPEG() {
       try {
         const canvas = document.getElementById('logo');
-        const link = document.createElement('a');
-        link.download = `Macaron_${currentPrenom}_${currentNom}.jpg`;
-        link.href = canvas.toDataURL('image/jpeg', 1.0);
-        link.click();
+        const fileName = `Macaron_${currentPrenom}_${currentNom}.jpg`;
+        
+        // Conversion du canvas en blob
+        canvas.toBlob(function(blob) {
+          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+          
+          if (isMobile && navigator.share) {
+            // Utiliser l'API Web Share sur mobile si disponible
+            const file = new File([blob], fileName, { type: 'image/jpeg' });
+            navigator.share({
+              files: [file],
+              title: 'Macaron d\'appartenance',
+              text: 'Macaron généré par Astro Master'
+            }).catch(err => {
+              // Si le partage échoue, télécharger normalement
+              fallbackDownload(blob, fileName);
+            });
+          } else {
+            // Téléchargement standard pour PC
+            fallbackDownload(blob, fileName);
+          }
+        }, 'image/jpeg', 1.0);
       } catch (error) {
         console.error('Erreur lors du téléchargement JPEG:', error);
         alert('Une erreur est survenue lors du téléchargement. Veuillez réessayer.');
       }
+    }
+
+    function fallbackDownload(blob, fileName) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Libérer l'URL après un court délai
+      setTimeout(() => URL.revokeObjectURL(url), 100);
     }
   </script>
 </body>
