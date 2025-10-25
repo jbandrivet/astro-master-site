@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="fr">
 <head>
@@ -998,24 +997,29 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
         const pdfBlob = doc.output('blob');
         const fileName = `Contrat_${currentPrenom}_${currentNom}.pdf`;
         
-        // Détection mobile pour compatibilité
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        
-        if (isMobile && navigator.share) {
-          // Utiliser l'API Web Share sur mobile si disponible
+        // Vérifier si l'API Web Share est disponible et supporte les fichiers
+        if (navigator.share && navigator.canShare) {
           const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
-          navigator.share({
-            files: [file],
-            title: 'Contrat d\'appartenance',
-            text: 'Contrat généré par Astro Master'
-          }).catch(err => {
-            // Si le partage échoue, télécharger normalement
-            fallbackDownload(pdfBlob, fileName);
-          });
-        } else {
-          // Téléchargement standard pour PC
-          fallbackDownload(pdfBlob, fileName);
+          
+          // Vérifier si on peut partager ce type de fichier
+          if (navigator.canShare({ files: [file] })) {
+            navigator.share({
+              files: [file],
+              title: 'Contrat d\'appartenance',
+              text: 'Contrat généré par Astro Master'
+            }).catch(err => {
+              // Si le partage échoue ou est annulé, télécharger normalement
+              if (err.name !== 'AbortError') {
+                console.log('Erreur de partage:', err);
+              }
+              fallbackDownload(pdfBlob, fileName);
+            });
+            return;
+          }
         }
+        
+        // Téléchargement standard si Web Share non disponible
+        fallbackDownload(pdfBlob, fileName);
       } catch (error) {
         console.error('Erreur lors de la génération du PDF:', error);
         alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
@@ -1029,23 +1033,29 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
         
         // Conversion du canvas en blob
         canvas.toBlob(function(blob) {
-          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-          
-          if (isMobile && navigator.share) {
-            // Utiliser l'API Web Share sur mobile si disponible
+          // Vérifier si l'API Web Share est disponible et supporte les fichiers
+          if (navigator.share && navigator.canShare) {
             const file = new File([blob], fileName, { type: 'image/jpeg' });
-            navigator.share({
-              files: [file],
-              title: 'Macaron d\'appartenance',
-              text: 'Macaron généré par Astro Master'
-            }).catch(err => {
-              // Si le partage échoue, télécharger normalement
-              fallbackDownload(blob, fileName);
-            });
-          } else {
-            // Téléchargement standard pour PC
-            fallbackDownload(blob, fileName);
+            
+            // Vérifier si on peut partager ce type de fichier
+            if (navigator.canShare({ files: [file] })) {
+              navigator.share({
+                files: [file],
+                title: 'Macaron d\'appartenance',
+                text: 'Macaron généré par Astro Master'
+              }).catch(err => {
+                // Si le partage échoue ou est annulé, télécharger normalement
+                if (err.name !== 'AbortError') {
+                  console.log('Erreur de partage:', err);
+                }
+                fallbackDownload(blob, fileName);
+              });
+              return;
+            }
           }
+          
+          // Téléchargement standard si Web Share non disponible
+          fallbackDownload(blob, fileName);
         }, 'image/jpeg', 1.0);
       } catch (error) {
         console.error('Erreur lors du téléchargement JPEG:', error);
