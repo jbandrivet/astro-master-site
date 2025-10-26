@@ -21,7 +21,6 @@
     overflow-x: hidden;
   }
 
-  /* Fond serveur Dell rack animé */
   body::before {
     content: '';
     position: fixed;
@@ -247,12 +246,59 @@
     font-weight: 600;
     color: #00b4ff;
     transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
   }
 
   .badge:hover {
     background: rgba(0,180,255,0.25);
     border-color: rgba(0,180,255,0.6);
     transform: scale(1.05);
+  }
+
+  .badge.active {
+    background: rgba(0,180,255,0.35);
+    border-color: rgba(0,180,255,0.9);
+    box-shadow: 0 0 15px rgba(0,180,255,0.4);
+  }
+
+  .kink-explanation {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    background: rgba(0,0,0,0.5);
+    border-left: 3px solid #00b4ff;
+    border-radius: 8px;
+    display: none;
+  }
+
+  .kink-explanation.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .kink-explanation h3 {
+    color: #00ff88;
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .kink-explanation p {
+    color: #c0c0c0;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .about-text {
@@ -566,7 +612,6 @@
     </header>
 
     <div class="grid">
-      <!-- Profil -->
       <div class="server-card">
         <h2>👤 À propos</h2>
         <p class="about-text">
@@ -574,7 +619,6 @@
         </p>
       </div>
 
-      <!-- Centres d'intérêt -->
       <div class="server-card">
         <h2>⚡ Centres d'intérêt</h2>
         <div class="badges">
@@ -588,26 +632,30 @@
         </p>
       </div>
 
-      <!-- Kinks -->
       <div class="server-card full">
         <h2>🔥 Kinks & Pratiques</h2>
         <div class="badges">
-          <span class="badge">Dominant actif</span>
-          <span class="badge">Pony play</span>
-          <span class="badge">Puppy play</span>
-          <span class="badge">Majordome</span>
-          <span class="badge">Fétichiste du cou</span>
-          <span class="badge">Foot Slave</span>
-          <span class="badge">Black de compagnie (raceplay)</span>
-          <span class="badge">Bougnoule de compagnie (raceplay)</span>
-          <span class="badge">Garde du corps</span>
+          <span class="badge" data-kink="dominant">Dominant actif</span>
+          <span class="badge" data-kink="pony">Pony play</span>
+          <span class="badge" data-kink="puppy">Puppy play</span>
+          <span class="badge" data-kink="majordome">Majordome</span>
+          <span class="badge" data-kink="cou">Fétichiste du cou</span>
+          <span class="badge" data-kink="foot">Foot Slave</span>
+          <span class="badge" data-kink="black">Black de compagnie (raceplay)</span>
+          <span class="badge" data-kink="bougnoule">Bougnoule de compagnie (raceplay)</span>
+          <span class="badge" data-kink="garde">Garde du corps</span>
         </div>
+
+        <div id="kinkExplanation" class="kink-explanation">
+          <h3 id="kinkTitle"></h3>
+          <p id="kinkDescription"></p>
+        </div>
+
         <p class="about-text">
           Relations D/s basées sur le consentement mutuel et le respect des limites. Particulièrement attiré par la beauté et l'élégance du cou.
         </p>
       </div>
 
-      <!-- Contact WhatsApp -->
       <div class="server-card full">
         <h2>💬 Me contacter</h2>
         <p class="about-text" style="margin-bottom: 15px;">
@@ -619,7 +667,6 @@
         </a>
       </div>
 
-      <!-- Envoi photos du cou -->
       <div class="server-card full">
         <h2>📸 Envoyez vos photos du cou</h2>
         <p class="about-text" style="margin-bottom: 20px;">
@@ -642,7 +689,6 @@
         <input type="file" id="neckPhotoInput" accept="image/*" capture="environment" style="display: none;">
       </div>
 
-      <!-- Générateur -->
       <div class="server-card full">
         <h2>🎖️ Générateur de macaron d'appartenance</h2>
         <form id="generatorForm">
@@ -739,40 +785,101 @@
     let currentRoles = [];
     let currentNeckPhotoAngle = '';
 
-    // Gestion des checkboxes de rôles
-    document.querySelectorAll('.role-checkbox').forEach(label => {
-      label.addEventListener('click', function(e) {
-        if (e.target.tagName !== 'INPUT') {
-          const checkbox = this.querySelector('input[type="checkbox"]');
-          checkbox.checked = !checkbox.checked;
-        }
-        this.classList.toggle('checked', this.querySelector('input[type="checkbox"]').checked);
-        document.getElementById('roleError').classList.remove('show');
+    const kinkDefinitions = {
+      dominant: {
+        title: "Dominant actif",
+        description: "Rôle de leader dans une relation D/s (Domination/soumission). Le dominant guide, décide et prend en charge la relation tout en respectant les limites établies avec son partenaire soumis."
+      },
+      pony: {
+        title: "Pony Play",
+        description: "Pratique où le soumis incarne un poney. Cela peut inclure le port d'équipement (harnais, mors), l'entraînement, et diverses activités équestres adaptées au contexte BDSM."
+      },
+      puppy: {
+        title: "Puppy Play",
+        description: "Jeu de rôle où le soumis adopte le comportement d'un chiot. Cela inclut des aspects ludiques, affectueux et de dressage, avec parfois l'utilisation d'accessoires comme colliers ou oreilles."
+      },
+      majordome: {
+        title: "Majordome",
+        description: "Rôle de service domestique raffiné. Le soumis assure diverses tâches avec élégance et professionnalisme : entretien, organisation, service à table, et autres responsabilités domestiques."
+      },
+      cou: {
+        title: "Fétichiste du cou",
+        description: "Attirance particulière pour le cou, sa forme, ses lignes, sa courbure. Appréciation esthétique de cette partie du corps, de sa grâce et de son élégance."
+      },
+      foot: {
+        title: "Foot Slave",
+        description: "Rôle de soumission centré sur les pieds du dominant. Cela peut inclure massage, adoration, soin des pieds, et autres formes de service dédiées à cette partie du corps."
+      },
+      black: {
+        title: "Black de compagnie (raceplay)",
+        description: "Jeu de rôle consensuel explorant des dynamiques de pouvoir liées à l'identité afro-descendante dans un contexte BDSM. Cette pratique implique un cadre de service et de soumission basé sur des stéréotypes raciaux retournés de manière érotique, nécessitant une communication claire, des limites strictes et un respect absolu entre partenaires consentants."
+      },
+      bougnoule: {
+        title: "Bougnoule de compagnie (raceplay)",
+        description: "Jeu de rôle consensuel explorant des dynamiques de pouvoir liées aux origines maghrébines/arabes dans un contexte BDSM. Cette pratique implique un cadre de service et de soumission basé sur des stéréotypes raciaux retournés de manière érotique, nécessitant une communication claire, des limites strictes et un respect absolu entre partenaires consentants."
+      },
+      garde: {
+        title: "Garde du corps",
+        description: "Rôle de protection et de service. Le soumis assure la sécurité physique et émotionnelle du dominant, fait preuve de vigilance et se tient prêt à intervenir si nécessaire."
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', function() {
+      const kinkBadges = document.querySelectorAll('.badge[data-kink]');
+      const explanationDiv = document.getElementById('kinkExplanation');
+      const titleEl = document.getElementById('kinkTitle');
+      const descEl = document.getElementById('kinkDescription');
+      
+      kinkBadges.forEach(function(badge) {
+        badge.addEventListener('click', function() {
+          const kinkKey = this.getAttribute('data-kink');
+          const kinkData = kinkDefinitions[kinkKey];
+          const wasActive = this.classList.contains('active');
+          
+          kinkBadges.forEach(function(b) {
+            b.classList.remove('active');
+          });
+          
+          if (wasActive) {
+            explanationDiv.classList.remove('show');
+          } else {
+            this.classList.add('active');
+            titleEl.textContent = kinkData.title;
+            descEl.textContent = kinkData.description;
+            explanationDiv.classList.add('show');
+          }
+        });
+      });
+
+      document.querySelectorAll('.role-checkbox').forEach(function(label) {
+        label.addEventListener('click', function(e) {
+          if (e.target.tagName !== 'INPUT') {
+            const checkbox = this.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+          }
+          this.classList.toggle('checked', this.querySelector('input[type="checkbox"]').checked);
+          document.getElementById('roleError').classList.remove('show');
+        });
       });
     });
 
-    // Gestion de la capture de photos du cou
     function captureNeckPhoto(angle) {
       currentNeckPhotoAngle = angle;
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
       if (isMobile && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        // Sur mobile, ouvrir directement l'appareil photo
         const input = document.getElementById('neckPhotoInput');
         input.click();
       } else {
-        // Sur PC, proposer d'envoyer via WhatsApp
         sendNeckPhotoViaWhatsApp(angle);
       }
     }
 
-    // Écouteur pour la sélection de fichier
     document.getElementById('neckPhotoInput').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file && file.type.startsWith('image/')) {
         handleNeckPhotoShare(file, currentNeckPhotoAngle);
       }
-      // Réinitialiser l'input pour permettre de reprendre la même photo
       e.target.value = '';
     });
 
@@ -780,30 +887,27 @@
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
       if (isMobile && navigator.share) {
-        // Utiliser l'API Web Share pour partager la photo
-        const fileName = `Cou_${angle}_${new Date().getTime()}.jpg`;
+        const fileName = 'Cou_' + angle + '_' + new Date().getTime() + '.jpg';
         const shareFile = new File([file], fileName, { type: file.type });
         
         navigator.share({
           files: [shareFile],
-          title: `Photo du cou - ${angle}`,
-          text: `Photo du cou (${angle}) pour Astro Master`
-        }).then(() => {
+          title: 'Photo du cou - ' + angle,
+          text: 'Photo du cou (' + angle + ') pour Astro Master'
+        }).then(function() {
           console.log('Photo partagée avec succès');
-        }).catch((error) => {
+        }).catch(function(error) {
           console.log('Partage annulé ou erreur:', error);
-          // Si le partage échoue, proposer WhatsApp
           sendNeckPhotoViaWhatsApp(angle);
         });
       } else {
-        // Sur PC ou si Web Share API non disponible, rediriger vers WhatsApp
         sendNeckPhotoViaWhatsApp(angle);
       }
     }
 
     function sendNeckPhotoViaWhatsApp(angle) {
-      const message = `Bonjour Astro Master, je souhaite vous envoyer une photo de mon cou (${angle})`;
-      const whatsappUrl = `https://wa.me/33783204184?text=${encodeURIComponent(message)}`;
+      const message = 'Bonjour Astro Master, je souhaite vous envoyer une photo de mon cou (' + angle + ')';
+      const whatsappUrl = 'https://wa.me/33783204184?text=' + encodeURIComponent(message);
       window.open(whatsappUrl, '_blank');
     }
 
@@ -840,9 +944,8 @@
       const prenomInput = document.getElementById('prenom').value.trim();
       const nomInput = document.getElementById('nom').value.trim();
       
-      // Récupérer tous les rôles cochés
       const selectedRoles = Array.from(document.querySelectorAll('input[name="role"]:checked'))
-        .map(checkbox => checkbox.value);
+        .map(function(checkbox) { return checkbox.value; });
 
       if (!validateName(prenomInput)) {
         document.getElementById('prenomError').classList.add('show');
@@ -867,25 +970,48 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = 'Génération en cours...<span class="loading"></span>';
 
-      setTimeout(() => {
+      setTimeout(function() {
         const rolesText = currentRoles.length === 1 
           ? currentRoles[0] 
           : currentRoles.slice(0, -1).join(', ') + ' et ' + currentRoles[currentRoles.length - 1];
 
-        currentContractText = `CONTRAT D'APPARTENANCE
+        // Générer des engagements personnalisés selon les rôles
+        let engagements = '• Servir avec dévouement et respect\n';
+        engagements += '• Honorer les règles établies d\'un commun accord\n';
+        engagements += '• Maintenir une communication claire et honnête\n';
+        engagements += '• Respecter les limites convenues\n';
 
-Je soussigné(e) ${currentPrenom} ${currentNom}, reconnais officiellement mon rôle en tant que ${rolesText} d'Astro Master.
+        // Engagements spécifiques selon les rôles
+        if (currentRoles.includes('Majordome')) {
+          engagements += '• Assurer un service domestique impeccable et raffiné\n';
+          engagements += '• Maintenir l\'ordre et l\'organisation du foyer\n';
+        }
+        if (currentRoles.includes('Poney') || currentRoles.includes('Puppy')) {
+          engagements += '• Me conformer aux entraînements et exercices demandés\n';
+          engagements += '• Porter l\'équipement approprié avec fierté\n';
+        }
+        if (currentRoles.includes('Esclave du cou')) {
+          engagements += '• Prendre soin de mon cou et le présenter avec élégance\n';
+          engagements += '• Accepter l\'attention portée à cette partie de mon corps\n';
+        }
+        if (currentRoles.includes('Foot Slave')) {
+          engagements += '• Assurer le soin et l\'adoration des pieds de mon Maître\n';
+          engagements += '• Effectuer massages et entretien avec dévotion\n';
+        }
+        if (currentRoles.includes('Black de compagnie') || currentRoles.includes('Bougnoule de compagnie')) {
+          engagements += '• Accepter le cadre du raceplay avec ses codes spécifiques\n';
+          engagements += '• Communiquer clairement sur mes limites dans ce contexte\n';
+        }
+        if (currentRoles.includes('Garde du corps/Agent de sécurité')) {
+          engagements += '• Assurer la sécurité et la protection de mon Maître\n';
+          engagements += '• Rester vigilant et disponible en toutes circonstances\n';
+        }
+        if (currentRoles.includes('Larbin')) {
+          engagements += '• Effectuer toutes les tâches demandées avec diligence\n';
+          engagements += '• Me tenir à disposition pour tout service requis\n';
+        }
 
-Je m'engage à :
-• Servir avec dévouement et respect
-• Honorer les règles établies d'un commun accord
-• Maintenir une communication claire et honnête
-• Respecter les limites convenues
-
-Ce contrat est basé sur le consentement mutuel, le respect et la confiance.
-
-Signé : ${currentPrenom} ${currentNom}
-Date : ${new Date().toLocaleDateString('fr-FR')}`;
+        currentContractText = 'CONTRAT D\'APPARTENANCE\n\nJe soussigné(e) ' + currentPrenom + ' ' + currentNom + ', reconnais officiellement mon rôle en tant que ' + rolesText + ' d\'Astro Master.\n\nJe m\'engage à :\n' + engagements + '\nCe contrat est basé sur le consentement mutuel, le respect et la confiance.\n\nSigné : ' + currentPrenom + ' ' + currentNom + '\nDate : ' + new Date().toLocaleDateString('fr-FR');
 
         document.getElementById('contract').textContent = currentContractText;
 
@@ -896,7 +1022,7 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Générer le macaron';
 
-        setTimeout(() => {
+        setTimeout(function() {
           document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
       }, 800);
@@ -931,7 +1057,6 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
       ctx.textAlign = 'center';
       ctx.fillText('ASTRO MASTER', 125, 70);
 
-      // Affichage des rôles
       ctx.fillStyle = '#00ff88';
       if (currentRoles.length === 1) {
         ctx.font = 'bold 22px Inter, sans-serif';
@@ -941,10 +1066,9 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
         }
         ctx.fillText(roleText, 125, 125);
       } else {
-        // Plusieurs rôles : afficher sur plusieurs lignes
         ctx.font = 'bold 16px Inter, sans-serif';
         let yPos = 105;
-        currentRoles.forEach((role, index) => {
+        currentRoles.forEach(function(role, index) {
           const roleText = role.toUpperCase();
           if (roleText.length > 25) {
             ctx.font = 'bold 13px Inter, sans-serif';
@@ -965,7 +1089,7 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
 
     function downloadPDF() {
       try {
-        const { jsPDF } = window.jspdf;
+        const jsPDF = window.jspdf.jsPDF;
         const doc = new jsPDF();
 
         doc.setFontSize(20);
@@ -978,10 +1102,10 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
         const lines = currentContractText.split('\n');
         let yPos = 40;
         
-        lines.forEach(line => {
+        lines.forEach(function(line) {
           if (line.trim()) {
             const splitLines = doc.splitTextToSize(line, 170);
-            splitLines.forEach(splitLine => {
+            splitLines.forEach(function(splitLine) {
               doc.text(splitLine, 20, yPos);
               yPos += 7;
             });
@@ -995,20 +1119,17 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
         doc.addImage(imgData, 'JPEG', 70, yPos + 10, 70, 70);
 
         const pdfBlob = doc.output('blob');
-        const fileName = `Contrat_${currentPrenom}_${currentNom}.pdf`;
+        const fileName = 'Contrat_' + currentPrenom + '_' + currentNom + '.pdf';
         
-        // Vérifier si l'API Web Share est disponible et supporte les fichiers
         if (navigator.share && navigator.canShare) {
           const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
           
-          // Vérifier si on peut partager ce type de fichier
           if (navigator.canShare({ files: [file] })) {
             navigator.share({
               files: [file],
               title: 'Contrat d\'appartenance',
               text: 'Contrat généré par Astro Master'
-            }).catch(err => {
-              // Si le partage échoue ou est annulé, télécharger normalement
+            }).catch(function(err) {
               if (err.name !== 'AbortError') {
                 console.log('Erreur de partage:', err);
               }
@@ -1018,7 +1139,6 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
           }
         }
         
-        // Téléchargement standard si Web Share non disponible
         fallbackDownload(pdfBlob, fileName);
       } catch (error) {
         console.error('Erreur lors de la génération du PDF:', error);
@@ -1029,22 +1149,18 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
     function downloadJPEG() {
       try {
         const canvas = document.getElementById('logo');
-        const fileName = `Macaron_${currentPrenom}_${currentNom}.jpg`;
+        const fileName = 'Macaron_' + currentPrenom + '_' + currentNom + '.jpg';
         
-        // Conversion du canvas en blob
         canvas.toBlob(function(blob) {
-          // Vérifier si l'API Web Share est disponible et supporte les fichiers
           if (navigator.share && navigator.canShare) {
             const file = new File([blob], fileName, { type: 'image/jpeg' });
             
-            // Vérifier si on peut partager ce type de fichier
             if (navigator.canShare({ files: [file] })) {
               navigator.share({
                 files: [file],
                 title: 'Macaron d\'appartenance',
                 text: 'Macaron généré par Astro Master'
-              }).catch(err => {
-                // Si le partage échoue ou est annulé, télécharger normalement
+              }).catch(function(err) {
                 if (err.name !== 'AbortError') {
                   console.log('Erreur de partage:', err);
                 }
@@ -1054,7 +1170,6 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
             }
           }
           
-          // Téléchargement standard si Web Share non disponible
           fallbackDownload(blob, fileName);
         }, 'image/jpeg', 1.0);
       } catch (error) {
@@ -1072,8 +1187,9 @@ Date : ${new Date().toLocaleDateString('fr-FR')}`;
       link.click();
       document.body.removeChild(link);
       
-      // Libérer l'URL après un court délai
-      setTimeout(() => URL.revokeObjectURL(url), 100);
+      setTimeout(function() {
+        URL.revokeObjectURL(url);
+      }, 100);
     }
   </script>
 </body>
