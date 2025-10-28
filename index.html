@@ -644,6 +644,17 @@
           <span class="badge" data-kink="black">Black de compagnie (raceplay)</span>
           <span class="badge" data-kink="bougnoule">Bougnoule de compagnie (raceplay)</span>
           <span class="badge" data-kink="garde">Garde du corps</span>
+          <span class="badge" data-kink="bear">Bear de compagnie</span>
+          <span class="badge" data-kink="gorge">Gorge profonde</span>
+        </div>
+
+        <div style="margin-top: 20px; padding: 15px; background: rgba(255,0,0,0.1); border-left: 4px solid #ff0000; border-radius: 8px;">
+          <h3 style="color: #ff4444; font-size: 16px; margin-bottom: 10px; font-weight: 600;">⚠️ Limites non négociables</h3>
+          <p style="color: #ffaaaa; font-size: 14px; line-height: 1.6;">
+            • Drogues<br>
+            • Alcool<br>
+            • Pratiques anales
+          </p>
         </div>
 
         <div id="kinkExplanation" class="kink-explanation">
@@ -686,7 +697,6 @@
             <div>Profil Droit</div>
           </div>
         </div>
-        <input type="file" id="neckPhotoInput" accept="image/*" capture="environment" style="display: none;">
       </div>
 
       <div class="server-card full">
@@ -743,6 +753,10 @@
                 <input type="checkbox" name="role" value="Garde du corps/Agent de sécurité">
                 <span>Garde du corps/Agent de sécurité</span>
               </label>
+              <label class="role-checkbox">
+                <input type="checkbox" name="role" value="Bear de compagnie">
+                <span>Bear de compagnie</span>
+              </label>
             </div>
             <div class="error-message" id="roleError">Veuillez sélectionner au moins un rôle</div>
           </div>
@@ -760,6 +774,8 @@
         </div>
       </div>
     </div>
+
+    <input type="file" id="neckPhotoInput" accept="image/*" capture="environment" style="display: none;">
 
     <footer>
       <div class="contact-info">
@@ -821,6 +837,14 @@
       garde: {
         title: "Garde du corps",
         description: "Rôle de protection et de service. Le soumis assure la sécurité physique et émotionnelle du dominant, fait preuve de vigilance et se tient prêt à intervenir si nécessaire."
+      },
+      bear: {
+        title: "Bear de compagnie",
+        description: "Jeu de rôle consensuel explorant des dynamiques basées sur l'archétype du 'bear' (homme poilu, corpulent, masculin). Cette pratique implique un cadre de service et de soumission, avec une appréciation particulière des caractéristiques physiques associées à cette identité."
+      },
+      gorge: {
+        title: "Gorge profonde",
+        description: "Pratique où le dominant apprécie recevoir une fellation profonde. Cela nécessite une confiance mutuelle, une communication claire sur les limites et le confort du partenaire soumis."
       }
     };
 
@@ -975,13 +999,11 @@
           ? currentRoles[0] 
           : currentRoles.slice(0, -1).join(', ') + ' et ' + currentRoles[currentRoles.length - 1];
 
-        // Générer des engagements personnalisés selon les rôles
         let engagements = '• Servir avec dévouement et respect\n';
         engagements += '• Honorer les règles établies d\'un commun accord\n';
         engagements += '• Maintenir une communication claire et honnête\n';
         engagements += '• Respecter les limites convenues\n';
 
-        // Engagements spécifiques selon les rôles
         if (currentRoles.includes('Majordome')) {
           engagements += '• Assurer un service domestique impeccable et raffiné\n';
           engagements += '• Maintenir l\'ordre et l\'organisation du foyer\n';
@@ -1005,6 +1027,10 @@
         if (currentRoles.includes('Garde du corps/Agent de sécurité')) {
           engagements += '• Assurer la sécurité et la protection de mon Maître\n';
           engagements += '• Rester vigilant et disponible en toutes circonstances\n';
+        }
+        if (currentRoles.includes('Bear de compagnie')) {
+          engagements += '• Embrasser mon identité bear dans le cadre de la relation\n';
+          engagements += '• Accepter l\'appréciation de mes caractéristiques physiques\n';
         }
         if (currentRoles.includes('Larbin')) {
           engagements += '• Effectuer toutes les tâches demandées avec diligence\n';
