@@ -135,6 +135,37 @@
     }
   }
 
+  .lang-toggle {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, rgba(0,180,255,0.2) 0%, rgba(0,255,0,0.2) 100%);
+    border: 1px solid rgba(0,180,255,0.4);
+    padding: 10px 20px;
+    border-radius: 25px;
+    color: #00b4ff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lang-toggle:hover {
+    background: linear-gradient(135deg, rgba(0,180,255,0.3) 0%, rgba(0,255,0,0.3) 100%);
+    border-color: rgba(0,180,255,0.6);
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    .lang-toggle {
+      padding: 8px 15px;
+      font-size: 12px;
+    }
+  }
+
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -607,50 +638,54 @@
 <body>
   <div class="container">
     <header>
+      <button class="lang-toggle" onclick="toggleLanguage()">
+        <span id="langFlag">🇬🇧</span>
+        <span id="langText">English</span>
+      </button>
       <h1>ASTRO MASTER</h1>
-      <p class="tagline">Dominant • Technologie • Astronomie • Fétichiste du cou</p>
+      <p class="tagline" data-fr="Dominant • Technologie • Astronomie • Fétichiste du cou" data-en="Dominant • Technology • Astronomy • Neck Fetishist">Dominant • Technologie • Astronomie • Fétichiste du cou</p>
     </header>
 
     <div class="grid">
       <div class="server-card">
-        <h2>👤 À propos</h2>
-        <p class="about-text">
+        <h2><span data-fr="👤 À propos" data-en="👤 About">👤 À propos</span></h2>
+        <p class="about-text" data-fr="Passionné par la technologie et l'immensité de l'univers, je recherche des relations basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Passionate about technology and the vastness of the universe, I seek relationships based on trust, mutual respect and clarity of roles.">
           Passionné par la technologie et l'immensité de l'univers, je recherche des relations basées sur la confiance, le respect mutuel et la clarté des rôles.
         </p>
       </div>
 
       <div class="server-card">
-        <h2>⚡ Centres d'intérêt</h2>
+        <h2><span data-fr="⚡ Centres d'intérêt" data-en="⚡ Interests">⚡ Centres d'intérêt</span></h2>
         <div class="badges">
-          <span class="badge">Informatique</span>
-          <span class="badge">Serveurs</span>
-          <span class="badge">Astronomie</span>
-          <span class="badge">Astrophysique</span>
+          <span class="badge" data-fr="Informatique" data-en="Computer Science">Informatique</span>
+          <span class="badge" data-fr="Serveurs" data-en="Servers">Serveurs</span>
+          <span class="badge" data-fr="Astronomie" data-en="Astronomy">Astronomie</span>
+          <span class="badge" data-fr="Astrophysique" data-en="Astrophysics">Astrophysique</span>
         </div>
-        <p class="about-text">
+        <p class="about-text" data-fr="Passionné de systèmes informatiques avec une fascination pour l'observation des étoiles et l'exploration spatiale." data-en="Passionate about computer systems with a fascination for stargazing and space exploration.">
           Passionné de systèmes informatiques avec une fascination pour l'observation des étoiles et l'exploration spatiale.
         </p>
       </div>
 
       <div class="server-card full">
-        <h2>🔥 Kinks & Pratiques</h2>
+        <h2><span data-fr="🔥 Kinks & Pratiques" data-en="🔥 Kinks & Practices">🔥 Kinks & Pratiques</span></h2>
         <div class="badges">
-          <span class="badge" data-kink="dominant">Dominant actif</span>
-          <span class="badge" data-kink="pony">Pony play</span>
-          <span class="badge" data-kink="puppy">Puppy play</span>
-          <span class="badge" data-kink="majordome">Majordome</span>
-          <span class="badge" data-kink="cou">Fétichiste du cou</span>
-          <span class="badge" data-kink="foot">Foot Slave</span>
-          <span class="badge" data-kink="black">Black de compagnie (raceplay)</span>
-          <span class="badge" data-kink="bougnoule">Bougnoule de compagnie (raceplay)</span>
-          <span class="badge" data-kink="garde">Garde du corps</span>
-          <span class="badge" data-kink="bear">Bear de compagnie</span>
-          <span class="badge" data-kink="gorge">Gorge profonde</span>
+          <span class="badge" data-kink="dominant" data-fr="Dominant actif" data-en="Active Dominant">Dominant actif</span>
+          <span class="badge" data-kink="pony" data-fr="Pony play" data-en="Pony play">Pony play</span>
+          <span class="badge" data-kink="puppy" data-fr="Puppy play" data-en="Puppy play">Puppy play</span>
+          <span class="badge" data-kink="majordome" data-fr="Majordome" data-en="Butler">Majordome</span>
+          <span class="badge" data-kink="cou" data-fr="Fétichiste du cou" data-en="Neck Fetishist">Fétichiste du cou</span>
+          <span class="badge" data-kink="foot" data-fr="Foot Slave" data-en="Foot Slave">Foot Slave</span>
+          <span class="badge" data-kink="black" data-fr="Black de compagnie (raceplay)" data-en="Black pet (raceplay)">Black de compagnie (raceplay)</span>
+          <span class="badge" data-kink="bougnoule" data-fr="Bougnoule de compagnie (raceplay)" data-en="Arab pet (raceplay)">Bougnoule de compagnie (raceplay)</span>
+          <span class="badge" data-kink="garde" data-fr="Garde du corps" data-en="Bodyguard">Garde du corps</span>
+          <span class="badge" data-kink="bear" data-fr="Bear de compagnie" data-en="Bear pet">Bear de compagnie</span>
+          <span class="badge" data-kink="gorge" data-fr="Gorge profonde" data-en="Deep throat">Gorge profonde</span>
         </div>
 
         <div style="margin-top: 20px; padding: 15px; background: rgba(255,0,0,0.1); border-left: 4px solid #ff0000; border-radius: 8px;">
-          <h3 style="color: #ff4444; font-size: 16px; margin-bottom: 10px; font-weight: 600;">⚠️ Limites non négociables</h3>
-          <p style="color: #ffaaaa; font-size: 14px; line-height: 1.6;">
+          <h3 style="color: #ff4444; font-size: 16px; margin-bottom: 10px; font-weight: 600;" data-fr="⚠️ Limites non négociables" data-en="⚠️ Non-negotiable Limits">⚠️ Limites non négociables</h3>
+          <p style="color: #ffaaaa; font-size: 14px; line-height: 1.6;" data-fr="• Drogues<br>• Alcool<br>• Pratiques anales" data-en="• Drugs<br>• Alcohol<br>• Anal practices">
             • Drogues<br>
             • Alcool<br>
             • Pratiques anales
@@ -662,114 +697,114 @@
           <p id="kinkDescription"></p>
         </div>
 
-        <p class="about-text">
+        <p class="about-text" data-fr="Relations D/s basées sur le consentement mutuel et le respect des limites. Particulièrement attiré par la beauté et l'élégance du cou." data-en="D/s relationships based on mutual consent and respect for boundaries. Particularly attracted to the beauty and elegance of the neck.">
           Relations D/s basées sur le consentement mutuel et le respect des limites. Particulièrement attiré par la beauté et l'élégance du cou.
         </p>
       </div>
 
       <div class="server-card full">
-        <h2>💬 Me contacter</h2>
-        <p class="about-text" style="margin-bottom: 15px;">
+        <h2><span data-fr="💬 Me contacter" data-en="💬 Contact Me">💬 Me contacter</span></h2>
+        <p class="about-text" style="margin-bottom: 15px;" data-fr="Pour toute question ou discussion, contactez-moi directement sur WhatsApp." data-en="For any questions or discussions, contact me directly on WhatsApp.">
           Pour toute question ou discussion, contactez-moi directement sur WhatsApp.
         </p>
         <a href="https://wa.me/33783204184" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
           <span>📱</span>
-          Ouvrir WhatsApp
+          <span data-fr="Ouvrir WhatsApp" data-en="Open WhatsApp">Ouvrir WhatsApp</span>
         </a>
       </div>
 
       <div class="server-card full">
-        <h2>📸 Envoyez vos photos du cou</h2>
-        <p class="about-text" style="margin-bottom: 20px;">
+        <h2><span data-fr="📸 Envoyez vos photos du cou" data-en="📸 Send your neck photos">📸 Envoyez vos photos du cou</span></h2>
+        <p class="about-text" style="margin-bottom: 20px;" data-fr="Je serais ravi de recevoir vos photos du cou sous différents angles (face, profil gauche, profil droit). Cliquez sur les zones ci-dessous pour prendre et m'envoyer vos photos." data-en="I would be delighted to receive your neck photos from different angles (front, left profile, right profile). Click on the areas below to take and send me your photos.">
           Je serais ravi de recevoir vos photos du cou sous différents angles (face, profil gauche, profil droit). Cliquez sur les zones ci-dessous pour prendre et m'envoyer vos photos.
         </p>
         <div class="photo-grid">
           <div class="photo-upload-btn" onclick="captureNeckPhoto('face')" role="button" tabindex="0" aria-label="Prendre photo du cou de face">
             <span>📷</span>
-            <div>Face</div>
+            <div data-fr="Face" data-en="Front">Face</div>
           </div>
           <div class="photo-upload-btn" onclick="captureNeckPhoto('profil gauche')" role="button" tabindex="0" aria-label="Prendre photo du cou profil gauche">
             <span>📷</span>
-            <div>Profil Gauche</div>
+            <div data-fr="Profil Gauche" data-en="Left Profile">Profil Gauche</div>
           </div>
           <div class="photo-upload-btn" onclick="captureNeckPhoto('profil droit')" role="button" tabindex="0" aria-label="Prendre photo du cou profil droit">
             <span>📷</span>
-            <div>Profil Droit</div>
+            <div data-fr="Profil Droit" data-en="Right Profile">Profil Droit</div>
           </div>
         </div>
       </div>
 
       <div class="server-card full">
-        <h2>🎖️ Générateur de macaron d'appartenance</h2>
+        <h2><span data-fr="🎖️ Générateur de macaron d'appartenance" data-en="🎖️ Membership Badge Generator">🎖️ Générateur de macaron d'appartenance</span></h2>
         <form id="generatorForm">
           <div class="form-group">
-            <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" placeholder="Entrez votre prénom" required maxlength="50" autocomplete="given-name">
-            <div class="error-message" id="prenomError">Le prénom ne doit contenir que des lettres, espaces et tirets</div>
+            <label for="prenom" data-fr="Prénom" data-en="First Name">Prénom</label>
+            <input type="text" id="prenom" data-placeholder-fr="Entrez votre prénom" data-placeholder-en="Enter your first name" placeholder="Entrez votre prénom" required maxlength="50" autocomplete="given-name">
+            <div class="error-message" id="prenomError" data-fr="Le prénom ne doit contenir que des lettres, espaces et tirets" data-en="First name must contain only letters, spaces and hyphens">Le prénom ne doit contenir que des lettres, espaces et tirets</div>
           </div>
 
           <div class="form-group">
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" placeholder="Entrez votre nom" required maxlength="50" autocomplete="family-name">
-            <div class="error-message" id="nomError">Le nom ne doit contenir que des lettres, espaces et tirets</div>
+            <label for="nom" data-fr="Nom" data-en="Last Name">Nom</label>
+            <input type="text" id="nom" data-placeholder-fr="Entrez votre nom" data-placeholder-en="Enter your last name" placeholder="Entrez votre nom" required maxlength="50" autocomplete="family-name">
+            <div class="error-message" id="nomError" data-fr="Le nom ne doit contenir que des lettres, espaces et tirets" data-en="Last name must contain only letters, spaces and hyphens">Le nom ne doit contenir que des lettres, espaces et tirets</div>
           </div>
 
           <div class="form-group">
-            <label>Rôle(s) - Sélectionnez un ou plusieurs rôles</label>
+            <label data-fr="Rôle(s) - Sélectionnez un ou plusieurs rôles" data-en="Role(s) - Select one or more roles">Rôle(s) - Sélectionnez un ou plusieurs rôles</label>
             <div class="roles-container">
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Majordome">
-                <span>Majordome</span>
+                <input type="checkbox" name="role" value="Majordome" data-value-en="Butler">
+                <span data-fr="Majordome" data-en="Butler">Majordome</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Poney">
-                <span>Poney</span>
+                <input type="checkbox" name="role" value="Poney" data-value-en="Pony">
+                <span data-fr="Poney" data-en="Pony">Poney</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Puppy">
-                <span>Puppy</span>
+                <input type="checkbox" name="role" value="Puppy" data-value-en="Puppy">
+                <span data-fr="Puppy" data-en="Puppy">Puppy</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Larbin">
-                <span>Larbin</span>
+                <input type="checkbox" name="role" value="Larbin" data-value-en="Lackey">
+                <span data-fr="Larbin" data-en="Lackey">Larbin</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Esclave du cou">
-                <span>Esclave du cou</span>
+                <input type="checkbox" name="role" value="Esclave du cou" data-value-en="Neck Slave">
+                <span data-fr="Esclave du cou" data-en="Neck Slave">Esclave du cou</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Foot Slave">
-                <span>Foot Slave</span>
+                <input type="checkbox" name="role" value="Foot Slave" data-value-en="Foot Slave">
+                <span data-fr="Foot Slave" data-en="Foot Slave">Foot Slave</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Black de compagnie">
-                <span>Black de compagnie</span>
+                <input type="checkbox" name="role" value="Black de compagnie" data-value-en="Black pet">
+                <span data-fr="Black de compagnie" data-en="Black pet">Black de compagnie</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Bougnoule de compagnie">
-                <span>Bougnoule de compagnie</span>
+                <input type="checkbox" name="role" value="Bougnoule de compagnie" data-value-en="Arab pet">
+                <span data-fr="Bougnoule de compagnie" data-en="Arab pet">Bougnoule de compagnie</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Garde du corps/Agent de sécurité">
-                <span>Garde du corps/Agent de sécurité</span>
+                <input type="checkbox" name="role" value="Garde du corps/Agent de sécurité" data-value-en="Bodyguard/Security Agent">
+                <span data-fr="Garde du corps/Agent de sécurité" data-en="Bodyguard/Security Agent">Garde du corps/Agent de sécurité</span>
               </label>
               <label class="role-checkbox">
-                <input type="checkbox" name="role" value="Bear de compagnie">
-                <span>Bear de compagnie</span>
+                <input type="checkbox" name="role" value="Bear de compagnie" data-value-en="Bear pet">
+                <span data-fr="Bear de compagnie" data-en="Bear pet">Bear de compagnie</span>
               </label>
             </div>
-            <div class="error-message" id="roleError">Veuillez sélectionner au moins un rôle</div>
+            <div class="error-message" id="roleError" data-fr="Veuillez sélectionner au moins un rôle" data-en="Please select at least one role">Veuillez sélectionner au moins un rôle</div>
           </div>
 
-          <button type="submit" id="submitBtn">Générer le macaron</button>
+          <button type="submit" id="submitBtn" data-fr="Générer le macaron" data-en="Generate Badge">Générer le macaron</button>
         </form>
 
         <div id="result">
           <div id="contract"></div>
           <canvas id="logo" width="250" height="250"></canvas>
           <div class="download-buttons">
-            <button onclick="downloadPDF()">📄 Télécharger PDF</button>
-            <button onclick="downloadJPEG()">🖼️ Télécharger JPEG</button>
+            <button onclick="downloadPDF()"><span data-fr="📄 Télécharger PDF" data-en="📄 Download PDF">📄 Télécharger PDF</span></button>
+            <button onclick="downloadJPEG()"><span data-fr="🖼️ Télécharger JPEG" data-en="🖼️ Download JPEG">🖼️ Télécharger JPEG</span></button>
           </div>
         </div>
       </div>
@@ -788,7 +823,7 @@
           <a href="tel:+33783204184">+33 7 83 20 41 84</a>
         </div>
       </div>
-      <div class="copyright">
+      <div class="copyright" data-fr="© 2025 Astro Master • Tous droits réservés" data-en="© 2025 Astro Master • All rights reserved">
         © 2025 Astro Master • Tous droits réservés
       </div>
     </footer>
@@ -800,53 +835,153 @@
     let currentNom = '';
     let currentRoles = [];
     let currentNeckPhotoAngle = '';
+    let currentLang = 'fr';
 
     const kinkDefinitions = {
       dominant: {
-        title: "Dominant actif",
-        description: "Rôle de leader dans une relation D/s (Domination/soumission). Le dominant guide, décide et prend en charge la relation tout en respectant les limites établies avec son partenaire soumis."
+        fr: {
+          title: "Dominant actif",
+          description: "Rôle de leader dans une relation D/s (Domination/soumission). Le dominant guide, décide et prend en charge la relation tout en respectant les limites établies avec son partenaire soumis."
+        },
+        en: {
+          title: "Active Dominant",
+          description: "Leadership role in a D/s (Dominance/submission) relationship. The dominant guides, decides and manages the relationship while respecting the limits established with their submissive partner."
+        }
       },
       pony: {
-        title: "Pony Play",
-        description: "Pratique où le soumis incarne un poney. Cela peut inclure le port d'équipement (harnais, mors), l'entraînement, et diverses activités équestres adaptées au contexte BDSM."
+        fr: {
+          title: "Pony Play",
+          description: "Pratique où le soumis incarne un poney. Cela peut inclure le port d'équipement (harnais, mors), l'entraînement, et diverses activités équestres adaptées au contexte BDSM."
+        },
+        en: {
+          title: "Pony Play",
+          description: "Practice where the submissive embodies a pony. This may include wearing equipment (harness, bit), training, and various equestrian activities adapted to the BDSM context."
+        }
       },
       puppy: {
-        title: "Puppy Play",
-        description: "Jeu de rôle où le soumis adopte le comportement d'un chiot. Cela inclut des aspects ludiques, affectueux et de dressage, avec parfois l'utilisation d'accessoires comme colliers ou oreilles."
+        fr: {
+          title: "Puppy Play",
+          description: "Jeu de rôle où le soumis adopte le comportement d'un chiot. Cela inclut des aspects ludiques, affectueux et de dressage, avec parfois l'utilisation d'accessoires comme colliers ou oreilles."
+        },
+        en: {
+          title: "Puppy Play",
+          description: "Role-play where the submissive adopts the behavior of a puppy. This includes playful, affectionate and training aspects, sometimes using accessories such as collars or ears."
+        }
       },
       majordome: {
-        title: "Majordome",
-        description: "Rôle de service domestique raffiné. Le soumis assure diverses tâches avec élégance et professionnalisme : entretien, organisation, service à table, et autres responsabilités domestiques."
+        fr: {
+          title: "Majordome",
+          description: "Rôle de service domestique raffiné. Le soumis assure diverses tâches avec élégance et professionnalisme : entretien, organisation, service à table, et autres responsabilités domestiques."
+        },
+        en: {
+          title: "Butler",
+          description: "Refined domestic service role. The submissive performs various tasks with elegance and professionalism: maintenance, organization, table service, and other domestic responsibilities."
+        }
       },
       cou: {
-        title: "Fétichiste du cou",
-        description: "Attirance particulière pour le cou, sa forme, ses lignes, sa courbure. Appréciation esthétique de cette partie du corps, de sa grâce et de son élégance."
+        fr: {
+          title: "Fétichiste du cou",
+          description: "Attirance particulière pour le cou, sa forme, ses lignes, sa courbure. Appréciation esthétique de cette partie du corps, de sa grâce et de son élégance."
+        },
+        en: {
+          title: "Neck Fetishist",
+          description: "Particular attraction to the neck, its shape, lines, and curvature. Aesthetic appreciation of this body part, its grace and elegance."
+        }
       },
       foot: {
-        title: "Foot Slave",
-        description: "Rôle de soumission centré sur les pieds du dominant. Cela peut inclure massage, adoration, soin des pieds, et autres formes de service dédiées à cette partie du corps."
+        fr: {
+          title: "Foot Slave",
+          description: "Rôle de soumission centré sur les pieds du dominant. Cela peut inclure massage, adoration, soin des pieds, et autres formes de service dédiées à cette partie du corps."
+        },
+        en: {
+          title: "Foot Slave",
+          description: "Submission role centered on the dominant's feet. This may include massage, worship, foot care, and other forms of service dedicated to this body part."
+        }
       },
       black: {
-        title: "Black de compagnie (raceplay)",
-        description: "Jeu de rôle consensuel explorant des dynamiques de pouvoir liées à l'identité afro-descendante dans un contexte BDSM. Cette pratique implique un cadre de service et de soumission basé sur des stéréotypes raciaux retournés de manière érotique, nécessitant une communication claire, des limites strictes et un respect absolu entre partenaires consentants."
+        fr: {
+          title: "Black de compagnie (raceplay)",
+          description: "Jeu de rôle consensuel explorant des dynamiques de pouvoir liées à l'identité afro-descendante dans un contexte BDSM. Cette pratique implique un cadre de service et de soumission basé sur des stéréotypes raciaux retournés de manière érotique, nécessitant une communication claire, des limites strictes et un respect absolu entre partenaires consentants."
+        },
+        en: {
+          title: "Black pet (raceplay)",
+          description: "Consensual role-play exploring power dynamics related to African-descended identity in a BDSM context. This practice involves a framework of service and submission based on racial stereotypes turned in an erotic way, requiring clear communication, strict limits and absolute respect between consenting partners."
+        }
       },
       bougnoule: {
-        title: "Bougnoule de compagnie (raceplay)",
-        description: "Jeu de rôle consensuel explorant des dynamiques de pouvoir liées aux origines maghrébines/arabes dans un contexte BDSM. Cette pratique implique un cadre de service et de soumission basé sur des stéréotypes raciaux retournés de manière érotique, nécessitant une communication claire, des limites strictes et un respect absolu entre partenaires consentants."
+        fr: {
+          title: "Bougnoule de compagnie (raceplay)",
+          description: "Jeu de rôle consensuel explorant des dynamiques de pouvoir liées aux origines maghrébines/arabes dans un contexte BDSM. Cette pratique implique un cadre de service et de soumission basé sur des stéréotypes raciaux retournés de manière érotique, nécessitant une communication claire, des limites strictes et un respect absolu entre partenaires consentants."
+        },
+        en: {
+          title: "Arab pet (raceplay)",
+          description: "Consensual role-play exploring power dynamics related to North African/Arab origins in a BDSM context. This practice involves a framework of service and submission based on racial stereotypes turned in an erotic way, requiring clear communication, strict limits and absolute respect between consenting partners."
+        }
       },
       garde: {
-        title: "Garde du corps",
-        description: "Rôle de protection et de service. Le soumis assure la sécurité physique et émotionnelle du dominant, fait preuve de vigilance et se tient prêt à intervenir si nécessaire."
+        fr: {
+          title: "Garde du corps",
+          description: "Rôle de protection et de service. Le soumis assure la sécurité physique et émotionnelle du dominant, fait preuve de vigilance et se tient prêt à intervenir si nécessaire."
+        },
+        en: {
+          title: "Bodyguard",
+          description: "Protection and service role. The submissive ensures the physical and emotional security of the dominant, shows vigilance and stands ready to intervene if necessary."
+        }
       },
       bear: {
-        title: "Bear de compagnie",
-        description: "Jeu de rôle consensuel explorant des dynamiques basées sur l'archétype du 'bear' (homme poilu, corpulent, masculin). Cette pratique implique un cadre de service et de soumission, avec une appréciation particulière des caractéristiques physiques associées à cette identité."
+        fr: {
+          title: "Bear de compagnie",
+          description: "Jeu de rôle consensuel explorant des dynamiques basées sur l'archétype du 'bear' (homme poilu, corpulent, masculin). Cette pratique implique un cadre de service et de soumission, avec une appréciation particulière des caractéristiques physiques associées à cette identité."
+        },
+        en: {
+          title: "Bear pet",
+          description: "Consensual role-play exploring dynamics based on the 'bear' archetype (hairy, corpulent, masculine man). This practice involves a framework of service and submission, with particular appreciation of the physical characteristics associated with this identity."
+        }
       },
       gorge: {
-        title: "Gorge profonde",
-        description: "Pratique où le dominant apprécie recevoir une fellation profonde. Cela nécessite une confiance mutuelle, une communication claire sur les limites et le confort du partenaire soumis."
+        fr: {
+          title: "Gorge profonde",
+          description: "Pratique où le dominant apprécie recevoir une fellation profonde. Cela nécessite une confiance mutuelle, une communication claire sur les limites et le confort du partenaire soumis."
+        },
+        en: {
+          title: "Deep throat",
+          description: "Practice where the dominant enjoys receiving deep fellatio. This requires mutual trust, clear communication about limits and the comfort of the submissive partner."
+        }
       }
     };
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      
+      document.getElementById('langFlag').textContent = currentLang === 'fr' ? '🇬🇧' : '🇫🇷';
+      document.getElementById('langText').textContent = currentLang === 'fr' ? 'English' : 'Français';
+      
+      document.querySelectorAll('[data-fr]').forEach(function(el) {
+        const text = currentLang === 'fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+        if (el.tagName === 'P' || el.tagName === 'H3' || el.tagName === 'DIV' || el.tagName === 'SPAN' || el.tagName === 'LABEL' || el.tagName === 'BUTTON') {
+          if (el.innerHTML.includes('<br>')) {
+            el.innerHTML = text;
+          } else {
+            el.textContent = text;
+          }
+        }
+      });
+      
+      document.querySelectorAll('[data-placeholder-fr]').forEach(function(el) {
+        el.placeholder = currentLang === 'fr' ? el.getAttribute('data-placeholder-fr') : el.getAttribute('data-placeholder-en');
+      });
+      
+      const kinkExplanation = document.getElementById('kinkExplanation');
+      if (kinkExplanation.classList.contains('show')) {
+        const activeKink = document.querySelector('.badge.active');
+        if (activeKink) {
+          const kinkKey = activeKink.getAttribute('data-kink');
+          const kinkData = kinkDefinitions[kinkKey][currentLang];
+          document.getElementById('kinkTitle').textContent = kinkData.title;
+          document.getElementById('kinkDescription').textContent = kinkData.description;
+        }
+      }
+    }
 
     window.addEventListener('DOMContentLoaded', function() {
       const kinkBadges = document.querySelectorAll('.badge[data-kink]');
@@ -857,7 +992,7 @@
       kinkBadges.forEach(function(badge) {
         badge.addEventListener('click', function() {
           const kinkKey = this.getAttribute('data-kink');
-          const kinkData = kinkDefinitions[kinkKey];
+          const kinkData = kinkDefinitions[kinkKey][currentLang];
           const wasActive = this.classList.contains('active');
           
           kinkBadges.forEach(function(b) {
@@ -930,7 +1065,9 @@
     }
 
     function sendNeckPhotoViaWhatsApp(angle) {
-      const message = 'Bonjour Astro Master, je souhaite vous envoyer une photo de mon cou (' + angle + ')';
+      const message = currentLang === 'fr' 
+        ? 'Bonjour Astro Master, je souhaite vous envoyer une photo de mon cou (' + angle + ')'
+        : 'Hello Astro Master, I would like to send you a photo of my neck (' + angle + ')';
       const whatsappUrl = 'https://wa.me/33783204184?text=' + encodeURIComponent(message);
       window.open(whatsappUrl, '_blank');
     }
@@ -969,7 +1106,12 @@
       const nomInput = document.getElementById('nom').value.trim();
       
       const selectedRoles = Array.from(document.querySelectorAll('input[name="role"]:checked'))
-        .map(function(checkbox) { return checkbox.value; });
+        .map(function(checkbox) { 
+          if (currentLang === 'en') {
+            return checkbox.getAttribute('data-value-en') || checkbox.value;
+          }
+          return checkbox.value;
+        });
 
       if (!validateName(prenomInput)) {
         document.getElementById('prenomError').classList.add('show');
@@ -992,9 +1134,26 @@
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Génération en cours...<span class="loading"></span>';
+      const btnText = currentLang === 'fr' ? 'Génération en cours...' : 'Generating...';
+      submitBtn.innerHTML = btnText + '<span class="loading"></span>';
 
       setTimeout(function() {
+        generateContract();
+        generateLogo();
+
+        document.getElementById('result').classList.add('show');
+        
+        submitBtn.disabled = false;
+        submitBtn.querySelector('span').textContent = currentLang === 'fr' ? 'Générer le macaron' : 'Generate Badge';
+
+        setTimeout(function() {
+          document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }, 800);
+    });
+
+    function generateContract() {
+      if (currentLang === 'fr') {
         const rolesText = currentRoles.length === 1 
           ? currentRoles[0] 
           : currentRoles.slice(0, -1).join(', ') + ' et ' + currentRoles[currentRoles.length - 1];
@@ -1038,21 +1197,54 @@
         }
 
         currentContractText = 'CONTRAT D\'APPARTENANCE\n\nJe soussigné(e) ' + currentPrenom + ' ' + currentNom + ', reconnais officiellement mon rôle en tant que ' + rolesText + ' d\'Astro Master.\n\nJe m\'engage à :\n' + engagements + '\nCe contrat est basé sur le consentement mutuel, le respect et la confiance.\n\nSigné : ' + currentPrenom + ' ' + currentNom + '\nDate : ' + new Date().toLocaleDateString('fr-FR');
+      } else {
+        const rolesText = currentRoles.length === 1 
+          ? currentRoles[0] 
+          : currentRoles.slice(0, -1).join(', ') + ' and ' + currentRoles[currentRoles.length - 1];
 
-        document.getElementById('contract').textContent = currentContractText;
+        let engagements = '• Serve with dedication and respect\n';
+        engagements += '• Honor mutually agreed upon rules\n';
+        engagements += '• Maintain clear and honest communication\n';
+        engagements += '• Respect agreed limits\n';
 
-        generateLogo();
+        if (currentRoles.includes('Butler')) {
+          engagements += '• Ensure impeccable and refined domestic service\n';
+          engagements += '• Maintain order and organization of the household\n';
+        }
+        if (currentRoles.includes('Pony') || currentRoles.includes('Puppy')) {
+          engagements += '• Comply with requested training and exercises\n';
+          engagements += '• Wear appropriate equipment with pride\n';
+        }
+        if (currentRoles.includes('Neck Slave')) {
+          engagements += '• Take care of my neck and present it elegantly\n';
+          engagements += '• Accept attention paid to this part of my body\n';
+        }
+        if (currentRoles.includes('Foot Slave')) {
+          engagements += '• Ensure care and worship of my Master\'s feet\n';
+          engagements += '• Perform massages and maintenance with devotion\n';
+        }
+        if (currentRoles.includes('Black pet') || currentRoles.includes('Arab pet')) {
+          engagements += '• Accept the raceplay framework with its specific codes\n';
+          engagements += '• Clearly communicate my limits in this context\n';
+        }
+        if (currentRoles.includes('Bodyguard/Security Agent')) {
+          engagements += '• Ensure the safety and protection of my Master\n';
+          engagements += '• Remain vigilant and available at all times\n';
+        }
+        if (currentRoles.includes('Bear pet')) {
+          engagements += '• Embrace my bear identity within the relationship\n';
+          engagements += '• Accept appreciation of my physical characteristics\n';
+        }
+        if (currentRoles.includes('Lackey')) {
+          engagements += '• Perform all requested tasks with diligence\n';
+          engagements += '• Be available for any required service\n';
+        }
 
-        document.getElementById('result').classList.add('show');
-        
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Générer le macaron';
+        currentContractText = 'MEMBERSHIP CONTRACT\n\nI, the undersigned ' + currentPrenom + ' ' + currentNom + ', officially acknowledge my role as ' + rolesText + ' of Astro Master.\n\nI commit to:\n' + engagements + '\nThis contract is based on mutual consent, respect and trust.\n\nSigned: ' + currentPrenom + ' ' + currentNom + '\nDate: ' + new Date().toLocaleDateString('en-US');
+      }
 
-        setTimeout(function() {
-          document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
-      }, 800);
-    });
+      document.getElementById('contract').textContent = currentContractText;
+    }
 
     function generateLogo() {
       const canvas = document.getElementById('logo');
@@ -1110,7 +1302,7 @@
 
       ctx.fillStyle = '#888';
       ctx.font = '12px Inter, sans-serif';
-      ctx.fillText(new Date().toLocaleDateString('fr-FR'), 125, yOffset + 25);
+      ctx.fillText(new Date().toLocaleDateString(currentLang === 'fr' ? 'fr-FR' : 'en-US'), 125, yOffset + 25);
     }
 
     function downloadPDF() {
@@ -1120,7 +1312,8 @@
 
         doc.setFontSize(20);
         doc.setFont(undefined, 'bold');
-        doc.text('CONTRAT D\'APPARTENANCE', 105, 20, { align: 'center' });
+        const title = currentLang === 'fr' ? 'CONTRAT D\'APPARTENANCE' : 'MEMBERSHIP CONTRACT';
+        doc.text(title, 105, 20, { align: 'center' });
 
         doc.setFontSize(12);
         doc.setFont(undefined, 'normal');
@@ -1145,16 +1338,19 @@
         doc.addImage(imgData, 'JPEG', 70, yPos + 10, 70, 70);
 
         const pdfBlob = doc.output('blob');
-        const fileName = 'Contrat_' + currentPrenom + '_' + currentNom + '.pdf';
+        const fileName = (currentLang === 'fr' ? 'Contrat_' : 'Contract_') + currentPrenom + '_' + currentNom + '.pdf';
         
         if (navigator.share && navigator.canShare) {
           const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
           
           if (navigator.canShare({ files: [file] })) {
+            const shareTitle = currentLang === 'fr' ? 'Contrat d\'appartenance' : 'Membership Contract';
+            const shareText = currentLang === 'fr' ? 'Contrat généré par Astro Master' : 'Contract generated by Astro Master';
+            
             navigator.share({
               files: [file],
-              title: 'Contrat d\'appartenance',
-              text: 'Contrat généré par Astro Master'
+              title: shareTitle,
+              text: shareText
             }).catch(function(err) {
               if (err.name !== 'AbortError') {
                 console.log('Erreur de partage:', err);
@@ -1168,24 +1364,30 @@
         fallbackDownload(pdfBlob, fileName);
       } catch (error) {
         console.error('Erreur lors de la génération du PDF:', error);
-        alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
+        const errorMsg = currentLang === 'fr' 
+          ? 'Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.'
+          : 'An error occurred while generating the PDF. Please try again.';
+        alert(errorMsg);
       }
     }
 
     function downloadJPEG() {
       try {
         const canvas = document.getElementById('logo');
-        const fileName = 'Macaron_' + currentPrenom + '_' + currentNom + '.jpg';
+        const fileName = (currentLang === 'fr' ? 'Macaron_' : 'Badge_') + currentPrenom + '_' + currentNom + '.jpg';
         
         canvas.toBlob(function(blob) {
           if (navigator.share && navigator.canShare) {
             const file = new File([blob], fileName, { type: 'image/jpeg' });
             
             if (navigator.canShare({ files: [file] })) {
+              const shareTitle = currentLang === 'fr' ? 'Macaron d\'appartenance' : 'Membership Badge';
+              const shareText = currentLang === 'fr' ? 'Macaron généré par Astro Master' : 'Badge generated by Astro Master';
+              
               navigator.share({
                 files: [file],
-                title: 'Macaron d\'appartenance',
-                text: 'Macaron généré par Astro Master'
+                title: shareTitle,
+                text: shareText
               }).catch(function(err) {
                 if (err.name !== 'AbortError') {
                   console.log('Erreur de partage:', err);
@@ -1200,7 +1402,10 @@
         }, 'image/jpeg', 1.0);
       } catch (error) {
         console.error('Erreur lors du téléchargement JPEG:', error);
-        alert('Une erreur est survenue lors du téléchargement. Veuillez réessayer.');
+        const errorMsg = currentLang === 'fr' 
+          ? 'Une erreur est survenue lors du téléchargement. Veuillez réessayer.'
+          : 'An error occurred during download. Please try again.';
+        alert(errorMsg);
       }
     }
 
