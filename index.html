@@ -295,6 +295,24 @@
     box-shadow: 0 0 15px rgba(0,180,255,0.4);
   }
 
+  .interest-badge {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .interest-badge:hover {
+    transform: none;
+  }
+
+  .kink-hint {
+    color: #00ff88;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    font-style: italic;
+    opacity: 0.9;
+  }
+
   .kink-explanation {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -659,10 +677,10 @@
       <div class="server-card">
         <h2><span data-fr="⚡ Centres d'intérêt" data-en="⚡ Interests">⚡ Centres d'intérêt</span></h2>
         <div class="badges">
-          <span class="badge" data-fr="Informatique" data-en="Computer Science">Informatique</span>
-          <span class="badge" data-fr="Serveurs" data-en="Servers">Serveurs</span>
-          <span class="badge" data-fr="Astronomie" data-en="Astronomy">Astronomie</span>
-          <span class="badge" data-fr="Astrophysique" data-en="Astrophysics">Astrophysique</span>
+          <span class="badge interest-badge" data-fr="Informatique" data-en="Computer Science">Informatique</span>
+          <span class="badge interest-badge" data-fr="Serveurs" data-en="Servers">Serveurs</span>
+          <span class="badge interest-badge" data-fr="Astronomie" data-en="Astronomy">Astronomie</span>
+          <span class="badge interest-badge" data-fr="Astrophysique" data-en="Astrophysics">Astrophysique</span>
         </div>
         <p class="about-text" data-fr="Passionné de systèmes informatiques avec une fascination pour l'observation des étoiles et l'exploration spatiale." data-en="Passionate about computer systems with a fascination for stargazing and space exploration.">
           Passionné de systèmes informatiques avec une fascination pour l'observation des étoiles et l'exploration spatiale.
@@ -671,6 +689,7 @@
 
       <div class="server-card full">
         <h2><span data-fr="🔥 Kinks & Pratiques" data-en="🔥 Kinks & Practices">🔥 Kinks & Pratiques</span></h2>
+        <p class="kink-hint" data-fr="💡 Cliquez sur un badge pour en savoir plus" data-en="💡 Click on a badge to learn more">💡 Cliquez sur un badge pour en savoir plus</p>
         <div class="badges">
           <span class="badge" data-kink="dominant" data-fr="Dominant actif" data-en="Active Dominant">Dominant actif</span>
           <span class="badge" data-kink="pony" data-fr="Pony play" data-en="Pony play">Pony play</span>
