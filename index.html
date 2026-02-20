@@ -310,7 +310,7 @@
   .role-checkbox span { color: #c0c0c0; font-size: 14px; font-weight: 500; }
   .role-checkbox.checked span { color: #00ff88; font-weight: 600; }
 
-  button, .dating-btn {
+  button, .dating-btn, .exhib-btn {
     width: 100%;
     background: linear-gradient(135deg, #00b4ff 0%, #0088cc 100%);
     border: none;
@@ -331,7 +331,7 @@
     text-decoration: none;
   }
 
-  button:hover, .dating-btn:hover { background: linear-gradient(135deg, #0088cc 0%, #00b4ff 100%); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,180,255,0.6); }
+  button:hover, .dating-btn:hover, .exhib-btn:hover { background: linear-gradient(135deg, #0088cc 0%, #00b4ff 100%); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,180,255,0.6); }
 
   .dating-btn {
     background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
@@ -340,6 +340,14 @@
   }
 
   .dating-btn:hover { background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%); }
+
+  .exhib-btn {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+    margin-top: 15px;
+  }
+
+  .exhib-btn:hover { background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%); }
 
   .whatsapp-btn {
     background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
@@ -431,6 +439,16 @@
         </a>
       </div>
 
+      <div class="server-card full">
+        <h2><span data-fr="📸 Site d'exhibition du cou" data-en="📸 Neck exhibition site">📸 Site d'exhibition du cou</span></h2>
+        <p class="about-text" data-fr="Pour ceux et celles qui souhaitent partager ou admirer, j'ai également mis en place une galerie dédiée exclusivement à la beauté et l'exhibition des cous." data-en="For those who wish to share or admire, I have also set up a gallery dedicated exclusively to the beauty and exhibition of necks.">
+          Pour ceux et celles qui souhaitent partager ou admirer, j'ai également mis en place une galerie dédiée exclusivement à la beauté et l'exhibition des cous.
+        </p>
+        <a href="https://mes-cous.ydns.eu/" class="exhib-btn" target="_blank">
+          <span>👀</span>
+          <span data-fr="Visiter la galerie" data-en="Visit the gallery">Visiter la galerie</span>
+        </a>
+      </div>
       <div class="server-card">
         <h2><span data-fr="👤 À propos" data-en="👤 About">👤 À propos</span></h2>
         <p class="about-text" data-fr="Passionné par la technologie et l'immensité de l'univers, je recherche des relations basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Passionate about technology and the vastness of the universe, I seek relationships based on trust, mutual respect and clarity of roles.">
