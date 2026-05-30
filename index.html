@@ -398,20 +398,6 @@
   .contact-info { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 20px; }
   .contact-item a { color: #00b4ff; text-decoration: none; }
 
-  .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-top: 20px; }
-  .photo-upload-btn {
-    background: rgba(0,0,0,0.5);
-    border: 2px dashed rgba(0,180,255,0.4);
-    border-radius: 12px;
-    padding: 40px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #a0a0a0;
-  }
-  .photo-upload-btn span { font-size: 40px; display: block; margin-bottom: 10px; }
-  .photo-upload-btn:hover { border-color: rgba(0,180,255,0.7); background: rgba(0,180,255,0.1); }
-
   .error-message { color: #ff4444; font-size: 13px; margin-top: 5px; display: none; }
   .error-message.show { display: block; }
 </style>
@@ -502,15 +488,6 @@
         <p class="about-text" style="margin-top: 20px;" data-fr="Relations D/s basées sur le consentement mutuel et le respect des limites. Particulièrement attiré par la beauté et l'élégance du cou." data-en="D/s relationships based on mutual consent and respect for boundaries. Particularly attracted to the beauty and elegance of the neck.">
           Relations D/s basées sur le consentement mutuel et le respect des limites. Particulièrement attiré par la beauté et l'élégance du cou.
         </p>
-      </div>
-
-      <div class="server-card full">
-        <h2><span data-fr="📸 Envoyez vos photos du cou" data-en="📸 Send your neck photos">📸 Envoyez vos photos du cou</span></h2>
-        <div class="photo-grid">
-          <div class="photo-upload-btn" onclick="captureNeckPhoto('face')"><span>📷</span> <div data-fr="Face" data-en="Front">Face</div></div>
-          <div class="photo-upload-btn" onclick="captureNeckPhoto('profil gauche')"><span>📷</span> <div data-fr="Profil Gauche" data-en="Left Profile">Profil Gauche</div></div>
-          <div class="photo-upload-btn" onclick="captureNeckPhoto('profil droit')"><span>📷</span> <div data-fr="Profil Droit" data-en="Right Profile">Profil Droit</div></div>
-        </div>
       </div>
 
       <div class="server-card full">
@@ -628,11 +605,6 @@
         document.getElementById('kinkExplanation').classList.add('show');
       });
     });
-
-    function captureNeckPhoto(angle) {
-      const msg = currentLang === 'fr' ? `Bonjour Astro Master, voici une photo de mon cou (${angle})` : `Hello Astro Master, here is my neck photo (${angle})`;
-      window.open(`https://wa.me/33783204184?text=${encodeURIComponent(msg)}`, '_blank');
-    }
 
     document.getElementById('generatorForm').addEventListener('submit', function(e) {
       e.preventDefault();
