@@ -718,6 +718,27 @@
       });
     });
 
+    // Helper syntax function to render curved arched string text on a circular 2D context
+    function drawTextAlongArc(ctx, str, centerX, centerY, radius, startAngle) {
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      // Average approximate character radian width layout step calculation
+      const anglePerChar = 0.11; 
+      // Center the whole string layout around the top center position
+      const totalAngle = str.length * anglePerChar;
+      let currentAngle = startAngle - (totalAngle / 2) + (anglePerChar / 2);
+
+      for (let i = 0; i < str.length; i++) {
+        ctx.save();
+        ctx.rotate(currentAngle);
+        ctx.translate(0, -radius);
+        ctx.fillText(str[i], 0, 0);
+        ctx.restore();
+        currentAngle += anglePerChar;
+      }
+      ctx.restore();
+    }
+
     document.getElementById('generatorForm').addEventListener('submit', function(e) {
       e.preventDefault();
       currentPrenom = document.getElementById('prenom').value;
@@ -757,22 +778,24 @@
       ctx.fillStyle = '#0a0a0a'; ctx.beginPath(); ctx.arc(125,125,115,0,Math.PI*2); ctx.fill();
       ctx.strokeStyle = '#00b4ff'; ctx.lineWidth = 5; ctx.stroke();
       
-      // Inscription obligatoire fixe en deux mots bien séparés
-      ctx.fillStyle = '#00ff88'; ctx.font = 'bold 13px Inter'; ctx.textAlign = 'center';
-      ctx.fillText("J'APPARTIENT A ASTRO MASTER", 125, 55);
+      // Render text arched along circle topology on top zone area
+      ctx.fillStyle = '#00ff88'; ctx.font = 'bold 14px Inter'; ctx.textAlign = 'center';
+      drawTextAlongArc(ctx, "J'APPARTIENS À ASTRO MASTER", 125, 125, 88, 0);
       
       ctx.fillStyle = '#fff';
       let fontSize = 14;
       if (currentRoles.length > 2) fontSize = 11;
       ctx.font = `bold ${fontSize}px Inter`;
       
+      // Center standard lists rendering layout positions below arc area
+      const offsetStart = 115;
       currentRoles.forEach((role, idx) => {
-        ctx.fillText(role.toUpperCase(), 125, 95 + (idx * (fontSize + 4)));
+        ctx.fillText(role.toUpperCase(), 125, offsetStart + (idx * (fontSize + 5)));
       });
       
       ctx.fillStyle = '#aaa';
       ctx.font = '13px Inter';
-      const yPos = 115 + (currentRoles.length * (fontSize + 4));
+      const yPos = offsetStart + 20 + (currentRoles.length * (fontSize + 5));
       
       if (identityOption === 'both') {
         ctx.fillText(`${currentPrenom} ${currentNom}`, 125, yPos);
