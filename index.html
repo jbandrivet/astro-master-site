@@ -334,9 +334,10 @@
   .role-checkbox span { color: #c0c0c0; font-size: 14px; font-weight: 500; }
   .role-checkbox.checked span { color: #00ff88; font-weight: 600; }
 
-  .method-container { display: flex; gap: 20px; margin-top: 10px; }
+  .method-container { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
   .method-radio {
     flex: 1;
+    min-width: 150px;
     display: flex;
     align-items: center;
     padding: 14px 18px;
@@ -564,6 +565,24 @@
           </div>
 
           <div class="form-group">
+            <label data-fr="Affichage de l'identité sur le macaron graphique" data-en="Identity display on the visual badge">Affichage de l'identité sur le macaron graphique</label>
+            <div class="method-container">
+              <label class="method-radio checked">
+                <input type="radio" name="nameDisplayOption" value="both" checked>
+                <span data-fr="Prénom + Nom" data-en="First Name + Last Name">Prénom + Nom</span>
+              </label>
+              <label class="method-radio">
+                <input type="radio" name="nameDisplayOption" value="firstname">
+                <span data-fr="Prénom uniquement" data-en="First Name only">Prénom uniquement</span>
+              </label>
+              <label class="method-radio">
+                <input type="radio" name="nameDisplayOption" value="none">
+                <span data-fr="Rien (Anonyme)" data-en="None (Anonymous)">Rien (Anonyme)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label data-fr="Rôle(s) - Sélectionnez un ou plusieurs rôles" data-en="Role(s) - Select one or more roles">Rôle(s) - Sélectionnez un ou plusieurs rôles</label>
             <div class="roles-container">
               <label class="role-checkbox"><input type="checkbox" name="role" value="Majordome" data-value-en="Butler"><span data-fr="Majordome" data-en="Butler">Majordome</span></label>
@@ -687,9 +706,12 @@
       });
     });
 
-    document.querySelectorAll('.method-radio input').forEach(input => {
+    document.querySelectorAll('.method-radio input[type="radio"]').forEach(input => {
       input.addEventListener('change', function() {
-        document.querySelectorAll('.method-radio').forEach(r => r.classList.remove('checked'));
+        const groupName = this.getAttribute('name');
+        document.querySelectorAll(`.method-radio input[name="${groupName}"]`).forEach(r => {
+          r.parentElement.classList.remove('checked');
+        });
         if(this.checked) {
           this.parentElement.classList.add('checked');
         }
@@ -708,6 +730,8 @@
       const selectedMethod = document.querySelector('input[name="sendMethod"]:checked');
       if (!selectedMethod) { document.getElementById('methodError').classList.add('show'); return; }
       document.getElementById('methodError').classList.remove('show');
+
+      const identityOption = document.querySelector('input[name="nameDisplayOption"]:checked').value;
 
       let engs = currentLang === 'fr' ? '• Servir avec dévouement et respect\n• Honorer les règles établies et le fétiche du Maître\n' : '• Serve with dedication and respect\n• Honor established rules and the Master\'s fetish\n';
       
@@ -732,8 +756,10 @@
       ctx.clearRect(0,0,250,250);
       ctx.fillStyle = '#0a0a0a'; ctx.beginPath(); ctx.arc(125,125,115,0,Math.PI*2); ctx.fill();
       ctx.strokeStyle = '#00b4ff'; ctx.lineWidth = 5; ctx.stroke();
-      ctx.fillStyle = '#00ff88'; ctx.font = 'bold 18px Inter'; ctx.textAlign = 'center';
-      ctx.fillText('ASTRO MASTER', 125, 60);
+      
+      // Inscription obligatoire fixe en deux mots bien séparés
+      ctx.fillStyle = '#00ff88'; ctx.font = 'bold 13px Inter'; ctx.textAlign = 'center';
+      ctx.fillText("J'APPARTIENT A ASTRO MASTER", 125, 55);
       
       ctx.fillStyle = '#fff';
       let fontSize = 14;
@@ -741,13 +767,18 @@
       ctx.font = `bold ${fontSize}px Inter`;
       
       currentRoles.forEach((role, idx) => {
-        ctx.fillText(role.toUpperCase(), 125, 100 + (idx * (fontSize + 4)));
+        ctx.fillText(role.toUpperCase(), 125, 95 + (idx * (fontSize + 4)));
       });
       
       ctx.fillStyle = '#aaa';
       ctx.font = '13px Inter';
-      const yPos = 110 + (currentRoles.length * (fontSize + 4));
-      ctx.fillText(`${currentPrenom} ${currentNom}`, 125, yPos);
+      const yPos = 115 + (currentRoles.length * (fontSize + 4));
+      
+      if (identityOption === 'both') {
+        ctx.fillText(`${currentPrenom} ${currentNom}`, 125, yPos);
+      } else if (identityOption === 'firstname') {
+        ctx.fillText(`${currentPrenom}`, 125, yPos);
+      }
       
       document.getElementById('result').classList.add('show');
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
