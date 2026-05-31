@@ -334,6 +334,24 @@
   .role-checkbox span { color: #c0c0c0; font-size: 14px; font-weight: 500; }
   .role-checkbox.checked span { color: #00ff88; font-weight: 600; }
 
+  .method-container { display: flex; gap: 20px; margin-top: 10px; }
+  .method-radio {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(0,180,255,0.3);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .method-radio:hover { border-color: rgba(0,180,255,0.5); background: rgba(0,180,255,0.05); }
+  .method-radio input[type="radio"] { width: 18px; height: 18px; margin-right: 10px; cursor: pointer; accent-color: #00b4ff; }
+  .method-radio.checked { border-color: #00ff88; background: rgba(0,255,136,0.1); }
+  .method-radio span { color: #c0c0c0; font-size: 14px; font-weight: 600; }
+  .method-radio.checked span { color: #00ff88; }
+
   button, .dating-btn, .exhib-btn {
     width: 100%;
     background: linear-gradient(135deg, #00b4ff 0%, #0088cc 100%);
@@ -563,7 +581,22 @@
             <div class="error-message" id="roleError" data-fr="Veuillez sélectionner au moins un rôle" data-en="Please select at least one role">Veuillez sélectionner au moins un rôle</div>
           </div>
 
-          <button type="submit" id="submitBtn" data-fr="Générer le macaron" data-en="Generate Badge">Générer le macaron</button>
+          <div class="form-group">
+            <label data-fr="Méthode d'envoi obligatoire à Astro Master" data-en="Mandatory sending method to Astro Master">Méthode d'envoi obligatoire à Astro Master</label>
+            <div class="method-container">
+              <label class="method-radio">
+                <input type="radio" name="sendMethod" value="whatsapp" required>
+                <span data-fr="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</span>
+              </label>
+              <label class="method-radio">
+                <input type="radio" name="sendMethod" value="email" required>
+                <span data-fr="📧 Email" data-en="📧 Email">📧 Email</span>
+              </label>
+            </div>
+            <div class="error-message" id="methodError" data-fr="Veuillez sélectionner une méthode d'envoi" data-en="Please select a sending method">Veuillez sélectionner une méthode d'envoi</div>
+          </div>
+
+          <button type="submit" id="submitBtn" data-fr="Générer le macaron & Envoyer" data-en="Generate Badge & Send">Générer le macaron & Envoyer</button>
         </form>
 
         <div id="result">
@@ -574,7 +607,7 @@
             <button onclick="downloadJPEG()"><span data-fr="🖼️ Télécharger JPEG" data-en="🖼️ Download JPEG">🖼️ Télécharger JPEG</span></button>
           </div>
           <div class="send-section">
-            <h4 data-fr="Envoyer mon contrat à Astro Master" data-en="Send my contract to Astro Master">Envoyer mon contrat à Astro Master</h4>
+            <h4 data-fr="Renvoyer mon contrat à Astro Master" data-en="Resend my contract to Astro Master">Renvoyer mon contrat à Astro Master</h4>
             <div class="action-buttons">
               <button onclick="sendToAstroWhatsApp()" class="whatsapp-btn"><span>📱</span> <span data-fr="Via WhatsApp" data-en="Via WhatsApp">Via WhatsApp</span></button>
               <button onclick="sendToAstroEmail()" class="mail-btn"><span>📧</span> <span data-fr="Via Email" data-en="Via Email">Via Email</span></button>
@@ -654,6 +687,15 @@
       });
     });
 
+    document.querySelectorAll('.method-radio input').forEach(input => {
+      input.addEventListener('change', function() {
+        document.querySelectorAll('.method-radio').forEach(r => r.classList.remove('checked'));
+        if(this.checked) {
+          this.parentElement.classList.add('checked');
+        }
+      });
+    });
+
     document.getElementById('generatorForm').addEventListener('submit', function(e) {
       e.preventDefault();
       currentPrenom = document.getElementById('prenom').value;
@@ -662,6 +704,10 @@
       
       if (currentRoles.length === 0) { document.getElementById('roleError').classList.add('show'); return; }
       document.getElementById('roleError').classList.remove('show');
+
+      const selectedMethod = document.querySelector('input[name="sendMethod"]:checked');
+      if (!selectedMethod) { document.getElementById('methodError').classList.add('show'); return; }
+      document.getElementById('methodError').classList.remove('show');
 
       let engs = currentLang === 'fr' ? '• Servir avec dévouement et respect\n• Honorer les règles établies et le fétiche du Maître\n' : '• Serve with dedication and respect\n• Honor established rules and the Master\'s fetish\n';
       
@@ -705,6 +751,13 @@
       
       document.getElementById('result').classList.add('show');
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+
+      // Trigger automatic transfer according to the required chosen method
+      if (selectedMethod.value === 'whatsapp') {
+        sendToAstroWhatsApp();
+      } else if (selectedMethod.value === 'email') {
+        sendToAstroEmail();
+      }
     });
 
     function sendToAstroWhatsApp() {
