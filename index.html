@@ -718,13 +718,10 @@
       });
     });
 
-    // Helper syntax function to render curved arched string text on a circular 2D context
     function drawTextAlongArc(ctx, str, centerX, centerY, radius, startAngle) {
       ctx.save();
       ctx.translate(centerX, centerY);
-      // Average approximate character radian width layout step calculation
       const anglePerChar = 0.11; 
-      // Center the whole string layout around the top center position
       const totalAngle = str.length * anglePerChar;
       let currentAngle = startAngle - (totalAngle / 2) + (anglePerChar / 2);
 
@@ -778,7 +775,6 @@
       ctx.fillStyle = '#0a0a0a'; ctx.beginPath(); ctx.arc(125,125,115,0,Math.PI*2); ctx.fill();
       ctx.strokeStyle = '#00b4ff'; ctx.lineWidth = 5; ctx.stroke();
       
-      // Render text arched along circle topology on top zone area
       ctx.fillStyle = '#00ff88'; ctx.font = 'bold 14px Inter'; ctx.textAlign = 'center';
       drawTextAlongArc(ctx, "J'APPARTIENS À ASTRO MASTER", 125, 125, 88, 0);
       
@@ -787,7 +783,6 @@
       if (currentRoles.length > 2) fontSize = 11;
       ctx.font = `bold ${fontSize}px Inter`;
       
-      // Center standard lists rendering layout positions below arc area
       const offsetStart = 115;
       currentRoles.forEach((role, idx) => {
         ctx.fillText(role.toUpperCase(), 125, offsetStart + (idx * (fontSize + 5)));
