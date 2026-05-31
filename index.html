@@ -510,7 +510,7 @@
         <h3 class="section-subtitle" data-fr="Mes fantasmes & Rôles recherchés" data-en="My Fantasies & Desired Roles">Mes fantasmes & Rôles recherchés</h3>
         <div class="badges">
           <span class="badge" data-kink="gorge" style="border-color: #00b4ff; font-weight:700;" data-fr="🔥 Gorge profonde (Pratique sexuelle exclusive)" data-en="🔥 Deep Throat (Exclusive Sexual Practice)">🔥 Gorge profonde (Pratique sexuelle exclusive)</span>
-          <span class="badge" data-kink="pony" data-fr="Pony play" data-en="Pony play">Pony play</span>
+          <span class="badge" data-kink="pony" data-fr="Pony play (Endurance & Charge)" data-en="Pony play (Endurance & Load)">Pony play (Endurance & Charge)</span>
           <span class="badge" data-kink="puppy" data-fr="Puppy play" data-en="Puppy play">Puppy play</span>
           <span class="badge" data-kink="mollusque" data-fr="Mollusque (limace/escargot)" data-en="Mollusk (snail/slug)">Mollusque (limace/escargot)</span>
           <span class="badge" data-kink="insecte" data-fr="Insecte (ramper au sol)" data-en="Insect (crawl on ground)">Insecte (ramper au sol)</span>
@@ -635,7 +635,7 @@
 
     const roleDuties = {
       "Majordome": { fr: "• Assurer un service domestique raffiné et élégant\n• Maintenir l'ordre du foyer", en: "• Ensure refined and elegant domestic service\n• Maintain household order" },
-      "Poney": { fr: "• Me conformer aux entraînements équestres demandés\n• Porter l'équipement approprié", en: "• Comply with requested equestrian training\n• Wear appropriate equipment" },
+      "Poney": { fr: "• Me conformer aux entraînements équestres demandés et porter l'équipement approprié\n• Développer la force et l'endurance nécessaires pour porter confortablement le Maître (environ 55 kg) sur de longues durées", en: "• Comply with requested equestrian training and wear appropriate equipment\n• Develop the necessary strength and endurance to comfortably carry the Master (approx. 55 kg) for extended periods" },
       "Puppy": { fr: "• Adopter le comportement joueur et fidèle d'un chiot\n• Suivre le dressage imposé", en: "• Adopt the playful and loyal behavior of a puppy\n• Follow imposed training" },
       "Larbin": { fr: "• Effectuer toutes les tâches ingrates demandées\n• Rester disponible en permanence", en: "• Perform all requested menial tasks\n• Remain available at all times" },
       "Esclave du cou": { fr: "• Prendre soin de mon cou et le présenter avec élégance\n• Accepter l'attention absolue du Maître sur cette zone", en: "• Take care of my neck and present it with elegance\n• Accept the Master's absolute attention on this area" },
@@ -651,7 +651,7 @@
       cou: { fr: { title: "Fétichiste du cou (Orientation principale)", description: "Ma fascination et mon obsession absolue. Tout s'articule autour de la grâce, de la nudité et de la mise en valeur du cou de mes partenaires soumis. C'est l'épicentre esthétique de mes relations." }, en: { title: "Neck Fetishist (Primary Orientation)", description: "My ultimate obsession and fascination. Everything revolves around the grace, bareness, and presentation of my submissive partners' necks. It is the aesthetic epicenter of my dynamics." } },
       dominant: { fr: { title: "Dominant actif", description: "Mon mode d'expression naturel : assurer un leadership clair, protecteur, bienveillant et structurant dans la relation D/s." }, en: { title: "Active Dominant", description: "My natural mode of being: providing clear, protective, caring, and structured leadership within the D/s relationship." } },
       gorge: { fr: { title: "Gorge profonde (Pratique sexuelle exclusive)", description: "Ma seule et unique pratique sexuelle acceptée et recherchée. Un moment d'abandon physique total et de contrôle axé sur la gorge, excluant absolument tout autre rapport sexuel." }, en: { title: "Deep Throat (Exclusive Sexual Practice)", description: "My one and only accepted and desired sexual practice. A moment of total physical surrender and control focused on the throat, strictly excluding any other sexual intercourse." } },
-      pony: { fr: { title: "Pony Play", description: "Fantasme axé sur le dressage équestre et l'équipement, où le soumis incarne l'élégance d'un poney." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear, where the submissive embodies the elegance of a pony." } },
+      pony: { fr: { title: "Pony Play", description: "Fantasme axé sur le dressage équestre et l'équipement. Une importance capitale est accordée à l'endurance et à la capacité physique du poney pour porter le Maître (environ 55 kg) sur de longues durées de jeu." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear. Crucial importance is placed on the pony's endurance and physical capacity to carry the Master (around 55 kg) for extended periods of play." } },
       puppy: { fr: { title: "Puppy Play", description: "Jeu de rôle ludique et fidèle axé sur le dressage et l'affection d'un chiot." }, en: { title: "Puppy Play", description: "Playful and loyal roleplay focused on training and the affection of a puppy." } },
       mollusque: { fr: { title: "Mollusque de compagnie", description: "Fantasme de soumission absolue et de régression primitive où le partenaire incarne une limace ou un escargot, soumis à l'obligation stricte de ramper lentement au sol." }, en: { title: "Pet Mollusk", description: "Absolute submission and primal regression fantasy where the partner embodies a slug or snail, strictly bound to crawl slowly on the ground." } },
       insecte: { fr: { title: "Insecte", description: "Fantasme basé sur la dépersonnalisation et l'infériorité, exigeant du soumis qu'il adopte la posture d'un insecte et rampe exclusivement sur le sol." }, en: { title: "Insect", description: "Depersonalization and inferiority fantasy, requiring the submissive to adopt the posture of an insect and crawl exclusively on the ground." } },
@@ -752,7 +752,6 @@
       document.getElementById('result').classList.add('show');
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
 
-      // Trigger automatic transfer according to the required chosen method
       if (selectedMethod.value === 'whatsapp') {
         sendToAstroWhatsApp();
       } else if (selectedMethod.value === 'email') {
