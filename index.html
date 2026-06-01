@@ -76,7 +76,7 @@
 
   header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
     padding: 50px 20px 40px 20px;
     background: linear-gradient(135deg, rgba(0,180,255,0.05) 0%, rgba(0,255,0,0.05) 100%);
     border-radius: 20px;
@@ -101,6 +101,30 @@
   @keyframes blink {
     0%, 49%, 100% { opacity: 1; }
     50%, 99% { opacity: 0.2; }
+  }
+
+  .scroll-hint {
+    margin-top: 20px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #00b4ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+  }
+
+  .scroll-hint span {
+    animation: bounce 2s infinite;
+    font-size: 16px;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+    60% { transform: translateY(-3px); }
   }
 
   h1 {
@@ -157,7 +181,14 @@
     margin-bottom: 40px;
   }
 
-  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+  /* Version Mobile : On force l'affichage côte à côte des cartes principales pour économiser de la hauteur */
+  @media (max-width: 768px) { 
+    .grid { grid-template-columns: 1fr 1fr; gap: 15px; } 
+    .server-card { padding: 15px; }
+    .server-card h2 { font-size: 16px; margin-bottom: 10px; }
+    .server-card .about-text { font-size: 12px; line-height: 1.5; }
+    .dating-btn, .exhib-btn { padding: 10px; font-size: 12px; }
+  }
 
   .server-card {
     background: linear-gradient(180deg, rgba(25,25,25,0.98) 0%, rgba(15,15,15,0.98) 100%);
@@ -205,6 +236,12 @@
   }
 
   .server-card.full { grid-column: 1 / -1; }
+  
+  /* Sur mobile, on garde les cartes de liens côte à côte, mais les blocs descriptifs reprennent toute la largeur */
+  @media (max-width: 768px) {
+    .server-card.mobile-half { grid-column: span 1; }
+    .server-card.mobile-full { grid-column: 1 / -1; }
+  }
 
   h2 {
     font-size: 24px;
@@ -454,38 +491,46 @@
       </button>
       <h1>ASTRO MASTER</h1>
       <p class="tagline" data-fr="Dominant actif • Fétichiste du cou • Technologie" data-en="Active Dominant • Neck Fetishist • Technology">Dominant actif • Fétichiste du cou • Technologie</p>
+      
+      <!-- L'indicateur visuel pour forcer le scroll sur téléphone -->
+      <div class="scroll-hint" data-fr="Faites défiler pour voir la suite" data-en="Scroll down to see more">
+        Faites défiler pour voir la suite
+        <span>▼</span>
+      </div>
     </header>
 
     <div class="grid">
-      <div class="server-card full">
-        <h2><span data-fr="🌐 Site de rencontre gratuit" data-en="🌐 Free dating site">🌐 Site de rencontre gratuit</span></h2>
-        <p class="about-text" data-fr="J'ai créé mon propre site de rencontre BDSM gratuit, hébergé sur mes serveurs. Un espace sécurisé pour se connecter et échanger sans frais." data-en="I created my own free BDSM dating site, hosted on my servers. A secure space to connect and exchange without fees.">
-          J'ai créé mon propre site de rencontre BDSM gratuit, hébergé sur mes serveurs. Un espace sécurisé pour se connecter et échanger sans frais.
+      <!-- Changement des classes en mobile-half pour que les deux blocs tiennent côte à côte sur mobile -->
+      <div class="server-card mobile-half">
+        <h2><span data-fr="🌐 Site de rencontre" data-en="🌐 Dating Site">🌐 Site de rencontre</span></h2>
+        <p class="about-text" data-fr="Mon site de rencontre BDSM gratuit, hébergé sur mes serveurs." data-en="My free BDSM dating site, hosted on my servers.">
+          Mon site de rencontre BDSM gratuit, hébergé sur mes serveurs.
         </p>
         <a href="https://astro-master.duckdns.org/" class="dating-btn" target="_blank">
           <span>🔗</span>
-          <span data-fr="Accéder au site gratuit" data-en="Access the free site">Accéder au site gratuit</span>
+          <span data-fr="Accéder" data-en="Access">Accéder</span>
         </a>
       </div>
 
-      <div class="server-card full">
-        <h2><span data-fr="📸 Mon site des cous dédié" data-en="📸 My Dedicated Neck Exhibition Gallery">📸 Mon site des cous dédié</span></h2>
-        <p class="about-text" data-fr="En tant que fétichiste du cou, j'ai mis en place une galerie dédiée exclusivement à la beauté, l'élégance et l'exhibition des cous. C'est l'espace idéal pour soumettre vos clichés et honorer ce fétiche." data-en="As a neck fetishist, I have set up a gallery dedicated exclusively to the beauty, elegance, and exhibition of necks. It is the perfect space to submit your pictures and honor this fetish.">
-          En tant que fétichiste du cou, j'ai mis en place une galerie dédiée exclusivement à la beauté, l'élégance et l'exhibition des cous. C'est l'espace idéal pour soumettre vos clichés et honorer ce fétiche.
+      <div class="server-card mobile-half">
+        <h2><span data-fr="📸 Site des cous" data-en="📸 Necks Site">📸 Site des cous</span></h2>
+        <p class="about-text" data-fr="Ma galerie dédiée exclusivement à l'exhibition des cous." data-en="My gallery dedicated exclusively to the exhibition of necks.">
+          Ma galerie dédiée exclusivement à l'exhibition des cous.
         </p>
         <a href="https://mes-cous.ydns.eu/" class="exhib-btn" target="_blank">
           <span>👀</span>
-          <span data-fr="Visiter la galerie et poster votre cou" data-en="Visit the gallery and post your neck">Visiter la galerie et poster votre cou</span>
+          <span data-fr="Visiter" data-en="Visit">Visiter</span>
         </a>
       </div>
-      <div class="server-card">
+      
+      <div class="server-card mobile-full">
         <h2><span data-fr="👤 À propos" data-en="👤 About">👤 À propos</span></h2>
         <p class="about-text" data-fr="Passionné par la technologie, l'immensité de l'univers et principalement guidé par mon fétichisme du cou. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Passionate about technology, the vastness of the universe, and primarily guided by my neck fetishism. I seek intense relationships based on trust, mutual respect, and clarity of roles.">
           Passionné par la technologie, l'immensité de l'univers et principalement guidé par mon fétichisme du cou. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles.
         </p>
       </div>
 
-      <div class="server-card">
+      <div class="server-card mobile-full">
         <h2><span data-fr="⚡ Centres d'intérêt" data-en="⚡ Interests">⚡ Centres d'intérêt</span></h2>
         <div class="badges">
           <span class="badge interest-badge" data-fr="Informatique" data-en="IT">Informatique</span>
@@ -498,7 +543,7 @@
         </p>
       </div>
 
-      <div class="server-card full">
+      <div class="server-card mobile-full">
         <h2><span data-fr="🔥 Kinks & Pratiques" data-en="🔥 Kinks & Practices">🔥 Kinks & Pratiques</span></h2>
         <p class="kink-hint" data-fr="💡 Cliquez sur un badge pour en savoir plus" data-en="💡 Click on a badge to learn more">💡 Cliquez sur un badge pour en savoir plus</p>
         
@@ -542,7 +587,7 @@
         </p>
       </div>
 
-      <div class="server-card full">
+      <div class="server-card mobile-full">
         <h2><span data-fr="🎖️ Générateur de macaron d'appartenance" data-en="🎖️ Membership Badge Generator">🎖️ Générateur de macaron d'appartenance</span></h2>
         
         <div class="recommendation-box">
@@ -567,7 +612,7 @@
           <div class="form-group">
             <label data-fr="Affichage de l'identité sur le macaron graphique" data-en="Identity display on the visual badge">Affichage de l'identité sur le macaron graphique</label>
             <div class="method-container">
-              <label class="method-radio">
+              <label class="method-radio checked">
                 <input type="radio" name="nameDisplayOption" value="both" checked>
                 <span data-fr="Prénom + Nom" data-en="First Name + Last Name">Prénom + Nom</span>
               </label>
