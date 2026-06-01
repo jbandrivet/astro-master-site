@@ -77,7 +77,7 @@
   header {
     text-align: center;
     margin-bottom: 40px;
-    padding: 50px 20px 40px 20px;
+    padding: 60px 20px 40px 20px;
     background: linear-gradient(135deg, rgba(0,180,255,0.05) 0%, rgba(0,255,0,0.05) 100%);
     border-radius: 20px;
     border: 1px solid rgba(0,180,255,0.3);
@@ -85,6 +85,10 @@
       0 0 40px rgba(0,180,255,0.2),
       inset 0 1px 0 rgba(255,255,255,0.1);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   header::before {
@@ -104,7 +108,7 @@
   }
 
   .scroll-hint {
-    margin-top: 20px;
+    margin-top: 25px;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -134,6 +138,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    margin-top: 15px;
     margin-bottom: 10px;
     text-shadow: 0 0 40px rgba(0,180,255,0.5);
   }
@@ -149,9 +154,10 @@
   }
 
   .lang-toggle {
-    position: absolute;
-    top: 15px;
-    left: 15px;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 10px;
     background: linear-gradient(135deg, rgba(0,180,255,0.2) 0%, rgba(0,255,0,0.2) 100%);
     border: 1px solid rgba(0,180,255,0.4);
     padding: 6px 12px;
@@ -181,7 +187,6 @@
     margin-bottom: 40px;
   }
 
-  /* Version Mobile : On force l'affichage côte à côte des cartes principales pour économiser de la hauteur */
   @media (max-width: 768px) { 
     .grid { grid-template-columns: 1fr 1fr; gap: 15px; } 
     .server-card { padding: 15px; }
@@ -237,7 +242,6 @@
 
   .server-card.full { grid-column: 1 / -1; }
   
-  /* Sur mobile, on garde les cartes de liens côte à côte, mais les blocs descriptifs reprennent toute la largeur */
   @media (max-width: 768px) {
     .server-card.mobile-half { grid-column: span 1; }
     .server-card.mobile-full { grid-column: 1 / -1; }
@@ -492,7 +496,6 @@
       <h1>ASTRO MASTER</h1>
       <p class="tagline" data-fr="Dominant actif • Fétichiste du cou • Technologie" data-en="Active Dominant • Neck Fetishist • Technology">Dominant actif • Fétichiste du cou • Technologie</p>
       
-      <!-- L'indicateur visuel pour forcer le scroll sur téléphone -->
       <div class="scroll-hint" data-fr="Faites défiler pour voir la suite" data-en="Scroll down to see more">
         Faites défiler pour voir la suite
         <span>▼</span>
@@ -500,7 +503,6 @@
     </header>
 
     <div class="grid">
-      <!-- Changement des classes en mobile-half pour que les deux blocs tiennent côte à côte sur mobile -->
       <div class="server-card mobile-half">
         <h2><span data-fr="🌐 Site de rencontre" data-en="🌐 Dating Site">🌐 Site de rencontre</span></h2>
         <p class="about-text" data-fr="Mon site de rencontre BDSM gratuit, hébergé sur mes serveurs." data-en="My free BDSM dating site, hosted on my servers.">
@@ -525,8 +527,8 @@
       
       <div class="server-card mobile-full">
         <h2><span data-fr="👤 À propos" data-en="👤 About">👤 À propos</span></h2>
-        <p class="about-text" data-fr="Passionné par la technologie, l'immensité de l'univers et principalement guidé par mon fétichisme du cou. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Passionate about technology, the vastness of the universe, and primarily guided by my neck fetishism. I seek intense relationships based on trust, mutual respect, and clarity of roles.">
-          Passionné par la technologie, l'immensité de l'univers et principalement guidé par mon fétichisme du cou. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles.
+        <p class="about-text" data-fr="Autiste, passionné par la technologie, l'immensité de l'univers et principalement guidé par mon fétichisme du cou. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Autistic, passionate about technology, the vastness of the universe, and primarily guided by my neck fetishism. I seek intense relationships based on trust, mutual respect, and clarity of roles.">
+          Autiste, passionné par la technologie, l'immensité de l'univers et principalement guidé par mon fétichisme du cou. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles.
         </p>
       </div>
 
@@ -667,8 +669,7 @@
           <div id="contract"></div>
           <canvas id="logo" width="250" height="250"></canvas>
           <div class="download-buttons">
-            <button onclick="downloadPDF()"><span data-fr="📄 Télécharger PDF" data-en="📄 Download PDF">📄 Télécharger PDF</span></button>
-            <button onclick="downloadJPEG()"><span data-fr="🖼️ Télécharger JPEG" data-en="🖼️ Download JPEG">🖼️ Télécharger JPEG</span></button>
+            <button onclick="downloadBothAssets()"><span data-fr="📄 Télécharger Tout (Contrat + Macaron)" data-en="📄 Download All (Contract + Badge)">📄 Télécharger Tout (Contrat + Macaron)</span></button>
           </div>
           <div class="send-section">
             <h4 data-fr="Renvoyer mon contrat à Astro Master" data-en="Resend my contract to Astro Master">Renvoyer mon contrat à Astro Master</h4>
@@ -699,13 +700,13 @@
 
     const roleDuties = {
       "Majordome": { fr: "• Assurer un service domestique raffiné et élégant\n• Maintenir l'ordre du foyer", en: "• Ensure refined and elegant domestic service\n• Maintain household order" },
-      "Poney": { fr: "• Me conformer aux entraînements équestres demandés et porter l'équipement approprié\n• Développer la force et l'endurance nécessaires pour porter confortablement le Maître (environ 55 kg) sur de longues durées", en: "• Comply with requested equestrian training and wear appropriate equipment\n• Develop the necessary strength and endurance to comfortably carry the Master (approx. 55 kg) for extended periods" },
+      "Poney": { fr: "• Me conformer aux entraînements équestres demandés et porter l'équipement approprié\n• Développer la force et l'endurance nécessaires pour porter confortablement le Maître (environ 55 kg) sur de longues durées\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver la condition physique exigée", en: "• Comply with requested equestrian training and wear appropriate equipment\n• Develop the necessary strength and endurance to comfortably carry the Master (approx. 55 kg) for extended periods\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain the required physical conditioning" },
       "Puppy": { fr: "• Adopter le comportement joueur et fidèle d'un chiot\n• Suivre le dressage imposé", en: "• Adopt the playful and loyal behavior of a puppy\n• Follow imposed training" },
       "Larbin": { fr: "• Effectuer toutes les tâches ingrates demandées\n• Rester disponible en permanence", en: "• Perform all requested menial tasks\n• Remain available at all times" },
       "Esclave du cou": { fr: "• Prendre soin de mon cou et le présenter avec élégance\n• Accepter l'attention absolue du Maître sur cette zone", en: "• Take care of my neck and present it with elegance\n• Accept the Master's absolute attention on this area" },
       "Foot Slave": { fr: "• Assurer le massage et le soin des pieds de mon Maître\n• Adorer ses pieds avec dévotion", en: "• Ensure massage and foot care for my Master\n• Worship his feet with devotion" },
       "Raceplay": { fr: "• Accepter les dynamiques de jeux de rôles ethniques\n• Communiquer mes limites dans ce contexte", en: "• Accept ethnic roleplay dynamics\n• Communicate my limits in this context" },
-      "Garde du corps": { fr: "• Veiller avec une vigilance absolue à la sécurité physique et émotionnelle du Maître\n• Conserver en permanence une posture rigide au garde-à-vous, avec les mains jointes fermement dans le dos dès que je suis en présence du Maître", en: "• Watch over the physical and emotional security of the Master with absolute vigilance\n• Permanently maintain a rigid standing attention posture, keeping my hands bound behind my back whenever in the Master's presence" },
+      "Garde du corps": { fr: "• Veiller avec une vigilance absolue à la sécurité physique et émotionnelle du Maître\n• Conserver en permanence une posture rigide au garde-à-vous, avec les mains jointes fermement dans le dos dès que je suis en présence du Maître\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver l'excellence et la discipline physique requises", en: "• Watch over the physical and emotional security of the Master with absolute vigilance\n• Permanently maintain a rigid standing attention posture, keeping my hands bound behind my back whenever in the Master's presence\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain physical excellence and the strict required discipline" },
       "Bear de compagnie": { fr: "• Embrasser mon identité bear dans la relation\n• Accepter l'appréciation de ma pilosité et carrure", en: "• Embrace my bear identity within the relationship\n• Accept appreciation of my body hair and build" },
       "Mollusque": { fr: "• Me comporter en mollusque de compagnie (limace ou escargot)\n• Ramper exclusivement au sol selon la volonté du Maître", en: "• Behave as a pet mollusk (snail or slug)\n• Crawl exclusively on the ground according to the Master's will" },
       "Insecte": { fr: "• Adopter la posture et la condition d'un insecte\n• Demeurer et ramper au sol en signe de soumission", en: "• Adopt the posture and condition of an insect\n• Remain and crawl on the ground as a sign of submission" }
@@ -715,14 +716,14 @@
       cou: { fr: { title: "Fétichiste du cou (Orientation principale)", description: "Ma fascination et mon obsession absolue. Tout s'articule autour de la grâce, de la nudité et de la mise en valeur du cou de mes partenaires soumis. C'est l'épicentre esthétique de mes relations." }, en: { title: "Neck Fetishist (Primary Orientation)", description: "My ultimate obsession and fascination. Everything revolves around the grace, bareness, and presentation of my submissive partners' necks. It is the aesthetic epicenter of my dynamics." } },
       dominant: { fr: { title: "Dominant actif", description: "Mon mode d'expression naturel : assurer un leadership clair, protecteur, bienveillant et structurant dans la relation D/s." }, en: { title: "Active Dominant", description: "My natural mode of being: providing clear, protective, caring, and structured leadership within the D/s relationship." } },
       gorge: { fr: { title: "Gorge profonde (Pratique sexuelle exclusive)", description: "Ma seule et unique pratique sexuelle acceptée et recherchée. Un moment d'abandon physique total et de contrôle axé sur la gorge, excluant absolument tout autre rapport sexuel." }, en: { title: "Deep Throat (Exclusive Sexual Practice)", description: "My one and only accepted and desired sexual practice. A moment of total physical surrender and control focused on the throat, strictly excluding any other sexual intercourse." } },
-      pony: { fr: { title: "Pony Play", description: "Fantasme axé sur le dressage équestre et l'équipement. Une importance capitale est accordée à l'endurance et à la capacité physique du poney pour porter le Maître (environ 55 kg) sur de longues durées de jeu." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear. Crucial importance is placed on the pony's endurance and physical capacity to carry the Master (around 55 kg) for extended periods of play." } },
+      pony: { fr: { title: "Pony Play", description: "Fantasme axé sur le dressage équestre et l'équipement. Une importance capitale est accordée à l'endurance et à la capacité physique du poney pour porter le Maître (environ 55 kg) sur de longues durées. Un devoir strict de 20 pompes et 20 squats par jour est imposé." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear. Crucial importance is placed on the pony's endurance and physical capacity to carry the Master (around 55 kg) for extended periods of play. A strict daily routine of 20 push-ups and 20 squats is required." } },
       puppy: { fr: { title: "Puppy Play", description: "Jeu de rôle ludique et fidèle axé sur le dressage et l'affection d'un chiot." }, en: { title: "Puppy Play", description: "Playful and loyal roleplay focused on training and the affection of a puppy." } },
       mollusque: { fr: { title: "Mollusque de compagnie", description: "Fantasme de soumission absolue et de régression primitive où le partenaire incarne une limace ou un escargot, soumis à l'obligation stricte de ramper lentement au sol." }, en: { title: "Pet Mollusk", description: "Absolute submission and primal regression fantasy where the partner embodies a slug or snail, strictly bound to crawl slowly on the ground." } },
       insecte: { fr: { title: "Insecte", description: "Fantasme basé sur la dépersonnalisation et l'infériorité, exigeant du soumis qu'il adopte la posture d'un insecte et rampe exclusivement sur le sol." }, en: { title: "Insect", description: "Depersonalization and inferiority fantasy, requiring the submissive to adopt the posture of an insect and crawl exclusively on the ground." } },
       majordome: { fr: { title: "Majordome", description: "Fantasme de service domestique haut de gamme, codifié et raffiné au sein du foyer." }, en: { title: "Butler", description: "High-end, codified, and refined domestic service fantasy within the household." } },
       foot: { fr: { title: "Foot Slave", description: "Dévotion exclusive axée sur le soin, le massage et l'adoration des pieds du Maître." }, en: { title: "Foot Slave", description: "Exclusive devotion centered on the care, massage, and adoration of the Master's feet." } },
       raceplay: { fr: { title: "Raceplay", description: "Jeu de rôle consensuel et encadré explorant des dynamiques et stéréotypes spécifiques." }, en: { title: "Raceplay", description: "Consensual and framed roleplay exploring specific dynamics and stereotypes." } },
-      garde: { fr: { title: "Garde du corps / Sécurité", description: "Fantasme basé sur la protection et la discipline stricte. Le soumis adopte un comportement rigide et formel de garde, se tenant constamment au garde-à-vous, les mains jointes derrière le dos." }, en: { title: "Bodyguard / Security", description: "Fantasy based on protection and strict discipline. The submissive adopts a rigid and formal guard behavior, constantly standing at attention with hands linked behind the back." } },
+      garde: { fr: { title: "Garde du corps / Sécurité", description: "Fantasme basé sur la protection et la discipline stricte. Le soumis se tient constamment au garde-à-vous, mains jointes derrière le dos, et maintient son excellence physique par un rituel de 20 pompes et 20 squats par jour." }, en: { title: "Bodyguard / Security", description: "Fantasy based on protection and strict discipline. The submissive constantly stands at attention with hands linked behind the back, and maintains physical excellence through a mandatory daily routine of 20 push-ups and 20 squats." } },
       bear: { fr: { title: "Bear de compagnie", description: "Dynamique de soumission valorisant l'archétype bear, la pilosité et la stature chaleureuse." }, en: { title: "Bear pet", description: "Submission dynamic valuing the bear archetype, body hair, and a warm build." } }
     };
 
@@ -731,8 +732,6 @@
       const label = document.getElementById('copyrightLabel');
       if (currentLang === 'fr') {
         label.textContent = `© ${year} Astro Master • Tous droits réservés`;
-        label.setAttribute('data-fr', `© \${year} Astro Master • Tous droits réservés`);
-        label.setAttribute('data-en', `© \${year} Astro Master • All rights reserved`);
       } else {
         label.textContent = `© ${year} Astro Master • All rights reserved`;
       }
@@ -879,19 +878,19 @@
       window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=Nouveau Contrat d'Appartenance&body=" + encodeURIComponent(currentContractText));
     }
 
-    function downloadPDF() {
+    function downloadBothAssets() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.text(doc.splitTextToSize(currentContractText, 180), 15, 20);
       doc.addImage(document.getElementById('logo').toDataURL('image/jpeg'), 'JPEG', 70, 150, 70, 70);
       doc.save('contrat_astro.pdf');
-    }
 
-    function downloadJPEG() {
-      const link = document.createElement('a');
-      link.download = 'macaron_astro.jpg';
-      link.href = document.getElementById('logo').toDataURL('image/jpeg');
-      link.click();
+      setTimeout(() => {
+        const link = document.createElement('a');
+        link.download = 'macaron_astro.jpg';
+        link.href = document.getElementById('logo').toDataURL('image/jpeg');
+        link.click();
+      }, 300);
     }
 
     document.querySelectorAll('.role-checkbox input').forEach(input => {
