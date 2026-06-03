@@ -375,6 +375,11 @@
   .role-checkbox span { color: #c0c0c0; font-size: 14px; font-weight: 500; }
   .role-checkbox.checked span { color: #00ff88; font-weight: 600; }
 
+  /* Style spécial pour verrouiller l'esclave du cou */
+  .role-checkbox.locked-checkbox { border-color: #00b4ff; background: rgba(0,180,255,0.15); cursor: not-allowed; }
+  .role-checkbox.locked-checkbox span { color: #00ff88; font-weight: 600; }
+  .role-checkbox.locked-checkbox input { accent-color: #00ff88; cursor: not-allowed; }
+
   .method-container { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
   .method-radio {
     flex: 1;
@@ -593,7 +598,7 @@
         <h2><span data-fr="🎖️ Générateur de macaron d'appartenance" data-en="🎖️ Membership Badge Generator">🎖️ Générateur de macaron d'appartenance</span></h2>
         
         <div class="recommendation-box">
-          📢 <span data-fr="Note importante : En raison de mon orientation principale, il est" data-en="Important note: Due to my main orientation, it is">Note importante : En raison de mon orientation principale, il est</span> 
+          📢 <span data-fr="Si vous souhaitez m'appartenir, vous pouvez générer un macaron d'appartenance et un contrat ci-dessous. En raison de mon orientation principale, il est recommandé" data-en="If you wish to belong to me, you can generate a membership badge and a contract below. Due to my main orientation, it is recommended">Si vous souhaitez m'appartenir, vous pouvez générer un macaron d'appartenance et un contrat ci-dessous. En raison de mon orientation principale, il est recommandé</span> 
           <strong><span data-fr="fortement recommandé" data-en="highly recommended">fortement recommandé</span></strong> 
           <span data-fr="de soumettre d'abord une photo de votre cou sur mon" data-en="to first submit a photo of your neck on my">de soumettre d'abord une photo de votre cou sur mon</span> 
           <a href="https://mes-cous.ydns.eu/" target="_blank" data-fr="site des cous dédié" data-en="dedicated neck site">site des cous dédié</a>.
@@ -630,21 +635,24 @@
           </div>
 
           <div class="form-group">
-            <label data-fr="Rôle(s) - Sélectionnez un ou plusieurs rôles" data-en="Role(s) - Select one or more roles">Rôle(s) - Sélectionnez un ou plusieurs rôles</label>
+            <label data-fr="Rôle(s) - Esclave du cou obligatoire (cumulable)" data-en="Role(s) - Neck Slave mandatory (cumulative)">Rôle(s) - Esclave du cou obligatoire (cumulable)</label>
             <div class="roles-container">
+              <!-- Rôle esclave du cou forcé et obligatoire -->
+              <label class="role-checkbox checked locked-checkbox">
+                <input type="checkbox" name="role" value="Esclave du cou" checked onclick="return false;">
+                <span data-fr="Esclave du cou (Obligatoire)" data-en="Neck Slave (Mandatory)">Esclave du cou (Obligatoire)</span>
+              </label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Majordome" data-value-en="Butler"><span data-fr="Majordome" data-en="Butler">Majordome</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Poney" data-value-en="Pony"><span data-fr="Poney" data-en="Pony">Poney</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Puppy" data-value-en="Puppy"><span data-fr="Puppy" data-en="Puppy">Puppy</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Mollusque" data-value-en="Mollusk"><span data-fr="Mollusque (limace/escargot)" data-en="Mollusk (snail/slug)">Mollusque (limace/escargot)</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Insecte" data-value-en="Insect"><span data-fr="Insecte" data-en="Insect">Insecte</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Larbin" data-value-en="Lackey"><span data-fr="Larbin" data-en="Lackey">Larbin</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Esclave du cou" data-value-en="Neck Slave"><span data-fr="Esclave du cou" data-en="Neck Slave">Esclave du cou</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Foot Slave" data-value-en="Foot Slave"><span data-fr="Foot Slave" data-en="Foot Slave">Foot Slave</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Raceplay" data-value-en="Raceplay"><span data-fr="Raceplay" data-en="Raceplay">Raceplay</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Garde du corps" data-value-en="Bodyguard"><span data-fr="Garde du corps" data-en="Bodyguard">Garde du corps</span></label>
               <label class="role-checkbox"><input type="checkbox" name="role" value="Bear de compagnie" data-value-en="Bear pet"><span data-fr="Bear de compagnie" data-en="Bear pet">Bear de compagnie</span></label>
             </div>
-            <div class="error-message" id="roleError" data-fr="Veuillez sélectionner au moins un rôle" data-en="Please select at least one role">Veuillez sélectionner au moins un rôle</div>
           </div>
 
           <div class="form-group">
@@ -703,23 +711,23 @@
       "Poney": { fr: "• Me conformer aux entraînements équestres demandés et porter l'équipement approprié\n• Développer la force et l'endurance nécessaires pour porter confortablement le Maître (environ 55 kg) sur de longues durées\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver la condition physique exigée", en: "• Comply with requested equestrian training and wear appropriate equipment\n• Develop the necessary strength and endurance to comfortably carry the Master (approx. 55 kg) for extended periods\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain the required physical conditioning" },
       "Puppy": { fr: "• Adopter le comportement joueur et fidèle d'un chiot\n• Suivre le dressage imposé", en: "• Adopt the playful and loyal behavior of a puppy\n• Follow imposed training" },
       "Larbin": { fr: "• Effectuer toutes les tâches ingrates demandées\n• Rester disponible en permanence", en: "• Perform all requested menial tasks\n• Remain available at all times" },
-      "Esclave du cou": { fr: "• Prendre soin de mon cou et le présenter avec élégance\n• Accepter l'attention absolue du Maître sur cette zone", en: "• Take care of my neck and present it with elegance\n• Accept the Master's absolute attention on this area" },
+      "Esclave du cou": { fr: "• Prendre soin de mon cou et le présenter avec élégance\n• Accepter l'attention absolue du Maître sur cette zone (Rôle applicable en réel comme en virtuel)", en: "• Take care of my neck and present it with elegance\n• Accept the Master's absolute attention on this area (Role applicable both in real life and virtually)" },
       "Foot Slave": { fr: "• Assurer le massage et le soin des pieds de mon Maître\n• Adorer ses pieds avec dévotion", en: "• Ensure massage and foot care for my Master\n• Worship his feet with devotion" },
       "Raceplay": { fr: "• Accepter les dynamiques de jeux de rôles ethniques\n• Communiquer mes limites dans ce contexte", en: "• Accept ethnic roleplay dynamics\n• Communicate my limits in this context" },
       "Garde du corps": { fr: "• Veiller avec une vigilance absolue à la sécurité physique et émotionnelle du Maître\n• Conserver en permanence une posture rigide au garde-à-vous, avec les mains jointes fermement dans le dos dès que je suis en présence du Maître\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver l'excellence et la discipline physique requises", en: "• Watch over the physical and emotional security of the Master with absolute vigilance\n• Permanently maintain a rigid standing attention posture, keeping my hands bound behind my back whenever in the Master's presence\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain physical excellence and the strict required discipline" },
       "Bear de compagnie": { fr: "• Embrasser mon identité bear dans la relation\n• Accepter l'appréciation de ma pilosité et carrure", en: "• Embrace my bear identity within the relationship\n• Accept appreciation of my body hair and build" },
-      "Mollusque": { fr: "• Me comporter en mollusque de compagnie (limace ou escargot)\n• Ramper exclusivement au sol selon la volonté du Maître", en: "• Behave as a pet mollusk (snail or slug)\n• Crawl exclusively on the ground according to the Master's will" },
-      "Insecte": { fr: "• Adopter la posture et la condition d'un insecte\n• Demeurer et ramper au sol en signe de soumission", en: "• Adopt the posture and condition of an insect\n• Remain and crawl on the ground as a sign of submission" }
+      "Mollusque": { fr: "• Me comporter en mollusque de compagnie (limace ou escargot)\n• Ramper exclusivement au sol selon la volonté du Maître\n• Accepter de servir de source d'alimentation pour le soumis si le Maître le demande", en: "• Behave as a pet mollusk (snail or slug)\n• Crawl exclusively on the ground according to the Master's will\n• Accept to serve as a source of food for the submissive if requested by the Master" },
+      "Insecte": { fr: "• Adopter la posture et la condition d'un insecte\n• Demeurer et ramper au sol en signe de soumission\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver la condition exigée\n• Accepter de servir de source d'alimentation pour le soumis si le Maître le demande", en: "• Adopt the posture and condition of an insect\n• Remain and crawl on the ground as a sign of submission\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain required conditioning\n• Accept to serve as a source of food for the submissive if requested by the Master" }
     };
 
     const kinkDefinitions = {
-      cou: { fr: { title: "Fétichiste du cou (Orientation principale)", description: "Ma fascination et mon obsession absolue. Tout s'articule autour de la grâce, de la nudité et de la mise en valeur du cou de mes partenaires soumis. C'est l'épicentre esthétique de mes relations." }, en: { title: "Neck Fetishist (Primary Orientation)", description: "My ultimate obsession and fascination. Everything revolves around the grace, bareness, and presentation of my submissive partners' necks. It is the aesthetic epicenter of my dynamics." } },
+      cou: { fr: { title: "Fétichiste du cou (Orientation principale)", description: "Ma fascination et mon obsession absolue. Tout s'articule autour de la grâce, de la nudité et de la mise en valeur du cou de mes partenaires soumis (en réel comme en virtuel). C'est l'épicentre esthétique de mes relations et le seul rôle obligatoire pour m'appartenir." }, en: { title: "Neck Fetishist (Primary Orientation)", description: "My ultimate obsession and fascination. Everything revolves around the grace, bareness, and presentation of my submissive partners' necks (both in real life and virtually). It is the aesthetic epicenter of my dynamics and the only mandatory role to belong to me." } },
       dominant: { fr: { title: "Dominant actif", description: "Mon mode d'expression naturel : assurer un leadership clair, protecteur, bienveillant et structurant dans la relation D/s." }, en: { title: "Active Dominant", description: "My natural mode of being: providing clear, protective, caring, and structured leadership within the D/s relationship." } },
       gorge: { fr: { title: "Gorge profonde (Pratique sexuelle exclusive)", description: "Ma seule et unique pratique sexuelle acceptée et recherchée. Un moment d'abandon physique total et de contrôle axé sur la gorge, excluant absolument tout autre rapport sexuel." }, en: { title: "Deep Throat (Exclusive Sexual Practice)", description: "My one and only accepted and desired sexual practice. A moment of total physical surrender and control focused on the throat, strictly excluding any other sexual intercourse." } },
       pony: { fr: { title: "Pony Play", description: "Fantasme axé sur le dressage équestre et l'équipement. Une importance capitale est accordée à l'endurance et à la capacité physique du poney pour porter le Maître (environ 55 kg) sur de longues durées. Un devoir strict de 20 pompes et 20 squats par jour est imposé." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear. Crucial importance is placed on the pony's endurance and physical capacity to carry the Master (around 55 kg) for extended periods of play. A strict daily routine of 20 push-ups and 20 squats is required." } },
       puppy: { fr: { title: "Puppy Play", description: "Jeu de rôle ludique et fidèle axé sur le dressage et l'affection d'un chiot." }, en: { title: "Puppy Play", description: "Playful and loyal roleplay focused on training and the affection of a puppy." } },
-      mollusque: { fr: { title: "Mollusque de compagnie", description: "Fantasme de soumission absolue et de régression primitive où le partenaire incarne une limace ou un escargot, soumis à l'obligation stricte de ramper lentement au sol." }, en: { title: "Pet Mollusk", description: "Absolute submission and primal regression fantasy where the partner embodies a slug or snail, strictly bound to crawl slowly on the ground." } },
-      insecte: { fr: { title: "Insecte", description: "Fantasme basé sur la dépersonnalisation et l'infériorité, exigeant du soumis qu'il adopte la posture d'un insecte et rampe exclusivement sur le sol." }, en: { title: "Insect", description: "Depersonalization and inferiority fantasy, requiring the submissive to adopt the posture of an insect and crawl exclusively on the ground." } },
+      mollusque: { fr: { title: "Mollusque de compagnie", description: "Fantasme de soumission absolue et de régression primitive où le partenaire incarne une limace ou un escargot, contraint de ramper lentement au sol. Ce rôle inclut la possibilité de servir de source d'alimentation pour le soumis selon le bon plaisir du Maître." }, en: { title: "Pet Mollusk", description: "Absolute submission and primal regression fantasy where the partner embodies a slug or snail, bound to crawl slowly on the ground. This role includes the possibility of serving as a food source for the submissive according to the Master's pleasure." } },
+      insecte: { fr: { title: "Insecte", description: "Fantasme basé sur la dépersonnalisation et l'infériorité, exigeant du soumis qu'il rampe exclusivement sur le sol. Ce rôle impose 20 pompes et 20 squats quotidiens et inclut la possibilité de devenir une source d'alimentation pour le soumis." }, en: { title: "Insect", description: "Depersonalization and inferiority fantasy, requiring the submissive to crawl exclusively on the ground. This role mandates 20 push-ups and 20 squats daily and includes the possibility of becoming a food source for the submissive." } },
       majordome: { fr: { title: "Majordome", description: "Fantasme de service domestique haut de gamme, codifié et raffiné au sein du foyer." }, en: { title: "Butler", description: "High-end, codified, and refined domestic service fantasy within the household." } },
       foot: { fr: { title: "Foot Slave", description: "Dévotion exclusive axée sur le soin, le massage et l'adoration des pieds du Maître." }, en: { title: "Foot Slave", description: "Exclusive devotion centered on the care, massage, and adoration of the Master's feet." } },
       raceplay: { fr: { title: "Raceplay", description: "Jeu de rôle consensuel et encadré explorant des dynamiques et stéréotypes spécifiques." }, en: { title: "Raceplay", description: "Consensual and framed roleplay exploring specific dynamics and stereotypes." } },
@@ -801,10 +809,12 @@
       e.preventDefault();
       currentPrenom = document.getElementById('prenom').value;
       currentNom = document.getElementById('nom').value;
-      currentRoles = Array.from(document.querySelectorAll('input[name="role"]:checked')).map(cb => cb.value);
       
-      if (currentRoles.length === 0) { document.getElementById('roleError').classList.add('show'); return; }
-      document.getElementById('roleError').classList.remove('show');
+      // On s'assure qu'Esclave du cou est toujours inclus dans la liste
+      currentRoles = Array.from(document.querySelectorAll('input[name="role"]:checked')).map(cb => cb.value);
+      if (!currentRoles.includes("Esclave du cou")) {
+        currentRoles.unshift("Esclave du cou");
+      }
 
       const selectedMethod = document.querySelector('input[name="sendMethod"]:checked');
       if (!selectedMethod) { document.getElementById('methodError').classList.add('show'); return; }
@@ -822,7 +832,10 @@
       });
 
       let renderedRolesFr = currentRoles.map(r => r === "Mollusque" ? "Mollusque" : r);
-      let renderedRolesEn = Array.from(document.querySelectorAll('input[name="role"]:checked')).map(cb => cb.parentElement.querySelector('span').getAttribute('data-en'));
+      let renderedRolesEn = currentRoles.map(r => {
+        const checkbox = document.querySelector(`input[value="${r}"]`);
+        return checkbox ? checkbox.parentElement.querySelector('span').getAttribute('data-en') : r;
+      });
 
       currentContractText = currentLang === 'fr' 
         ? `CONTRAT D'APPARTENANCE\n\nJe soussigné(e) ${currentPrenom} ${currentNom}, reconnais officiellement mes rôles de ${renderedRolesFr.join(', ')} auprès d'Astro Master.\n\nJe m'engage à :\n${engs}\nCe contrat est basé sur la confiance mutuelle et le respect absolu de notre dynamique.\nSigné le ${new Date().toLocaleDateString('fr-FR')}`
@@ -894,7 +907,11 @@
     }
 
     document.querySelectorAll('.role-checkbox input').forEach(input => {
-      input.addEventListener('change', function() { this.parentElement.classList.toggle('checked', this.checked); });
+      input.addEventListener('change', function() { 
+        if (!this.onclick) {
+          this.parentElement.classList.toggle('checked', this.checked); 
+        }
+      });
     });
 
     updateCopyrightText();
