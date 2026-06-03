@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Astro Master – Profil & Générateur</title>
+<title>Astro Master – Mainframe Infrastructure</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   * {
@@ -13,572 +13,405 @@
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background: #000;
-    color: #e8e8e8;
+    font-family: 'Courier New', Courier, monospace;
+    background: #08080c;
+    color: #33ff33;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    padding: 20px;
   }
 
+  /* Fond style matrice de Data Center / Console terminal */
   body::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image:
-      radial-gradient(circle at 5% 8%, rgba(0,255,0,0.6) 2px, transparent 2px),
-      radial-gradient(circle at 5% 18%, rgba(0,255,0,0.6) 2px, transparent 2px),
-      radial-gradient(circle at 5% 28%, rgba(0,180,255,0.6) 2px, transparent 2px),
-      radial-gradient(circle at 5% 38%, rgba(0,255,0,0.6) 2px, transparent 2px),
-      radial-gradient(circle at 5% 48%, rgba(0,255,0,0.6) 2px, transparent 2px),
-      radial-gradient(circle at 5% 58%, rgba(0,180,255,0.6) 2px, transparent 2px),
-      radial-gradient(circle at 5% 68%, rgba(0,255,0,0.6) 2px, transparent 2px),
-      radial-gradient(circle at 5% 78%, rgba(0,180,255,0.6) 2px, transparent 2px),
-      radial-gradient(circle at 5% 88%, rgba(0,255,0,0.6) 2px, transparent 2px),
-      repeating-linear-gradient(90deg, transparent 0px, transparent 3px, rgba(255,255,255,0.02) 3px, rgba(255,255,255,0.02) 4px),
-      repeating-linear-gradient(0deg, 
-        #0a0a0a 0px, 
-        #1a1a1a 100px,
-        #252525 100px,
-        #252525 103px,
-        #0f0f0f 103px,
-        #0f0f0f 106px
-      ),
-      linear-gradient(135deg, #0d0d0d 25%, transparent 25%),
-      linear-gradient(225deg, #0d0d0d 25%, transparent 25%),
-      linear-gradient(45deg, #0d0d0d 25%, transparent 25%),
-      linear-gradient(315deg, #0d0d0d 25%, #1a1a1a 25%);
-    background-size: 
-      100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
-      5px 100%,
-      100% 106px,
-      20px 20px, 20px 20px, 20px 20px, 20px 20px;
-    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 10px 0, 10px 10px, 0 10px;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+      linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)),
+      repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0, 40, 0, 0.1) 2px, rgba(0, 40, 0, 0.1) 4px);
+    background-size: 100% 4px, 6px 100%, 100% 4px;
     z-index: 0;
-    animation: ledPulse 4s ease-in-out infinite;
-  }
-
-  @keyframes ledPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.95; }
+    pointer-events: none;
   }
 
   .container {
     position: relative;
     z-index: 1;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 40px 20px;
+    background: rgba(10, 10, 15, 0.9);
+    border: 3px solid #222;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0, 255, 0, 0.05);
   }
 
+  /* Panneau de contrôle d'en-tête de la baie */
   header {
+    background: #111;
+    border: 2px solid #333;
+    border-bottom: 4px solid #00ff88;
+    padding: 20px;
+    margin-bottom: 30px;
     text-align: center;
-    margin-bottom: 40px;
-    padding: 60px 20px 40px 20px;
-    background: linear-gradient(135deg, rgba(0,180,255,0.05) 0%, rgba(0,255,0,0.05) 100%);
-    border-radius: 20px;
-    border: 1px solid rgba(0,180,255,0.3);
-    box-shadow: 
-      0 0 40px rgba(0,180,255,0.2),
-      inset 0 1px 0 rgba(255,255,255,0.1);
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
   }
 
-  header::before {
-    content: '●';
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    color: #00ff00;
-    font-size: 20px;
-    text-shadow: 0 0 20px #00ff00;
-    animation: blink 2s ease-in-out infinite;
+  header h1 {
+    font-size: 32px;
+    letter-spacing: 4px;
+    color: #00ff88;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    font-weight: bold;
+    margin-top: 10px;
   }
 
-  @keyframes blink {
-    0%, 49%, 100% { opacity: 1; }
-    50%, 99% { opacity: 0.2; }
+  .tagline {
+    font-size: 13px;
+    color: #888;
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
   }
 
   .scroll-hint {
-    margin-top: 25px;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    margin-top: 15px;
+    font-size: 11px;
     color: #00b4ff;
+    letter-spacing: 1px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
-    font-weight: 600;
+    gap: 3px;
   }
-
-  .scroll-hint span {
-    animation: bounce 2s infinite;
-    font-size: 16px;
-  }
+  .scroll-hint span { animation: bounce 2s infinite; }
 
   @keyframes bounce {
     0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-6px); }
-    60% { transform: translateY(-3px); }
-  }
-
-  h1 {
-    font-size: 48px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #00b4ff 0%, #00ff88 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    text-shadow: 0 0 40px rgba(0,180,255,0.5);
-  }
-
-  @media (max-width: 768px) { h1 { font-size: 32px; } }
-
-  .tagline {
-    font-size: 18px;
-    color: #a0a0a0;
-    font-weight: 300;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    40% { transform: translateY(-5px); }
+    60% { transform: translateY(-2px); }
   }
 
   .lang-toggle {
-    position: relative;
-    top: 0;
-    left: 0;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, rgba(0,180,255,0.2) 0%, rgba(0,255,0,0.2) 100%);
-    border: 1px solid rgba(0,180,255,0.4);
-    padding: 6px 12px;
-    border-radius: 20px;
-    color: #00b4ff;
+    background: #222;
+    border: 1px solid #444;
+    color: #00ff88;
+    padding: 4px 10px;
     font-size: 11px;
-    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    width: auto;
-    z-index: 100;
-  }
-
-  .lang-toggle:hover {
-    background: linear-gradient(135deg, rgba(0,180,255,0.3) 0%, rgba(0,255,0,0.3) 100%);
-    border-color: rgba(0,180,255,0.6);
-    transform: scale(1.05);
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-bottom: 40px;
-  }
-
-  @media (max-width: 768px) { 
-    .grid { grid-template-columns: 1fr 1fr; gap: 15px; } 
-    .server-card { padding: 15px; }
-    .server-card h2 { font-size: 16px; margin-bottom: 10px; }
-    .server-card .about-text { font-size: 12px; line-height: 1.5; }
-    .dating-btn, .exhib-btn { padding: 10px; font-size: 12px; }
-  }
-
-  .server-card {
-    background: linear-gradient(180deg, rgba(25,25,25,0.98) 0%, rgba(15,15,15,0.98) 100%);
-    border: 2px solid rgba(60,60,60,0.8);
-    border-left: 4px solid rgba(0,180,255,0.4);
-    border-radius: 3px;
-    padding: 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.9);
-    position: relative;
-    transition: all 0.3s ease;
-  }
-
-  .server-card::before {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 15px;
-    bottom: 15px;
-    width: 3px;
-    background: repeating-linear-gradient(0deg, rgba(0,180,255,0.3) 0px, rgba(0,180,255,0.3) 8px, transparent 8px, transparent 12px);
-  }
-
-  .server-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 30px rgba(0,0,0,0.95);
-    border-left-color: rgba(0,180,255,0.7);
-  }
-
-  .server-card::after {
-    content: '';
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 8px;
-    height: 8px;
-    background: #00ff00;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00ff00;
-    animation: pulse 3s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
-  }
-
-  .server-card.full { grid-column: 1 / -1; }
-  
-  @media (max-width: 768px) {
-    .server-card.mobile-half { grid-column: span 1; }
-    .server-card.mobile-full { grid-column: 1 / -1; }
-  }
-
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #00b4ff;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  h2::before {
-    content: '';
-    width: 4px;
-    height: 24px;
-    background: linear-gradient(180deg, #00b4ff 0%, #00ff88 100%);
-    border-radius: 2px;
-  }
-
-  h3.section-subtitle {
-    font-size: 16px;
-    color: #00ff88;
-    margin: 15px 0 10px 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-
-  .badge {
-    background: rgba(0,180,255,0.15);
-    border: 1px solid rgba(0,180,255,0.4);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #00b4ff;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    position: relative;
-  }
-
-  .badge:hover { background: rgba(0,180,255,0.25); border-color: rgba(0,180,255,0.6); transform: scale(1.05); }
-  .badge.active { background: rgba(0,180,255,0.35); border-color: rgba(0,180,255,0.9); box-shadow: 0 0 15px rgba(0,180,255,0.4); }
-
-  .interest-badge { cursor: default; pointer-events: none; }
-
-  .kink-hint { color: #00ff88; font-size: 13px; font-weight: 500; margin-bottom: 15px; font-style: italic; opacity: 0.9; }
-
-  .kink-explanation {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    padding: 15px 20px;
-    background: rgba(0,0,0,0.5);
-    border-left: 3px solid #00b4ff;
-    border-radius: 8px;
-    display: none;
-  }
-
-  .kink-explanation.show { display: block; animation: slideDown 0.3s ease; }
-
-  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-  .kink-explanation h3 { color: #00ff88; font-size: 16px; margin-bottom: 8px; font-weight: 600; }
-  .kink-explanation p { color: #c0c0c0; font-size: 14px; line-height: 1.6; }
-
-  .about-text { line-height: 1.8; color: #c0c0c0; font-size: 15px; }
-
-  .intro-generator { font-size: 15px; color: #00ff88; font-weight: 500; margin-bottom: 15px; }
-
-  .recommendation-box {
-    margin-top: 15px;
-    padding: 12px 18px;
-    background: rgba(0, 180, 255, 0.1);
-    border: 1px dashed #00b4ff;
-    border-radius: 8px;
-    color: #00b4ff;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .recommendation-box a {
-    color: #00ff88;
-    text-decoration: underline;
-    font-weight: 600;
-  }
-
-  .form-group { margin-bottom: 20px; }
-
-  label {
-    display: block;
-    margin-bottom: 8px;
-    color: #a0a0a0;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  input, textarea {
-    width: 100%;
-    background: rgba(0,0,0,0.5);
-    border: 1px solid rgba(0,180,255,0.3);
-    padding: 14px 18px;
-    border-radius: 10px;
-    color: #e8e8e8;
-    font-size: 15px;
-    transition: all 0.3s ease;
     font-family: inherit;
   }
 
-  input:focus, textarea:focus { outline: none; border-color: #00b4ff; background: rgba(0,0,0,0.7); box-shadow: 0 0 20px rgba(0,180,255,0.3); }
-
-  .roles-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 10px; }
-
-  .role-checkbox {
+  /* Structure du Rack de Serveurs */
+  .rack-frame {
     display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    background: rgba(0,0,0,0.5);
-    border: 2px solid rgba(0,180,255,0.3);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    flex-direction: column;
+    gap: 20px;
+    background: #050507;
+    border-left: 10px solid #222;
+    border-right: 10px solid #222;
+    padding: 15px 10px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.9);
   }
 
-  .role-checkbox:hover { border-color: rgba(0,180,255,0.5); background: rgba(0,180,255,0.1); }
-  .role-checkbox input[type="checkbox"] { width: 20px; height: 20px; margin-right: 10px; cursor: pointer; accent-color: #00b4ff; }
-  .role-checkbox.checked { border-color: #00b4ff; background: rgba(0,180,255,0.2); }
-  .role-checkbox span { color: #c0c0c0; font-size: 14px; font-weight: 500; }
-  .role-checkbox.checked span { color: #00ff88; font-weight: 600; }
-  
-  .role-checkbox.mandatory-role { border-color: rgba(0, 255, 136, 0.4); }
-
-  .method-container { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
-  .method-radio {
-    flex: 1;
-    min-width: 150px;
-    display: flex;
-    align-items: center;
-    padding: 14px 18px;
-    background: rgba(0,0,0,0.5);
-    border: 2px solid rgba(0,180,255,0.3);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  /* Style générique d'un serveur rackable */
+  .rack-unit {
+    background: #121216;
+    border: 2px solid #3c3c44;
+    border-top-color: #555;
+    position: relative;
+    padding: 20px 25px 20px 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1);
   }
-  .method-radio:hover { border-color: rgba(0,180,255,0.5); background: rgba(0,180,255,0.05); }
-  .method-radio input[type="radio"] { width: 18px; height: 18px; margin-right: 10px; cursor: pointer; accent-color: #00b4ff; }
-  .method-radio.checked { border-color: #00ff88; background: rgba(0,255,136,0.1); }
-  .method-radio span { color: #c0c0c0; font-size: 14px; font-weight: 600; }
-  .method-radio.checked span { color: #00ff88; }
 
-  button, .dating-btn, .exhib-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #00b4ff 0%, #0088cc 100%);
-    border: none;
-    padding: 16px;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  /* Poignées de montage du serveur en rack */
+  .rack-unit::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 25px;
+    background: #1c1c22;
+    border-right: 2px solid #333;
+    background-image: 
+      radial-gradient(circle, #555 3px, transparent 3px),
+      radial-gradient(circle, #555 3px, transparent 3px);
+    background-position: center 20%, center 80%;
+    background-size: 20px 20px;
+    background-repeating: no-repeat;
+  }
+
+  /* Grille de ventilation du serveur */
+  .rack-unit::after {
+    content: '';
+    position: absolute;
+    right: 40px; top: 8px;
+    width: 80px; height: 6px;
+    background: repeating-linear-gradient(90deg, #000 0px, #000 3px, #222 3px, #222 6px);
+    opacity: 0.7;
+  }
+
+  /* Unités de hauteur de rack */
+  .u1 { min-height: 80px; }
+  .u2 { min-height: 140px; }
+  .u4 { min-height: 260px; }
+
+  /* Grid d'affichage des serveurs modulaires */
+  .server-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  @media (max-width: 768px) {
+    .server-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .rack-unit { padding: 15px 15px 15px 30px; }
+    .rack-unit::before { width: 18px; }
+    .rack-unit::after { display: none; }
+    .rack-unit h2 { font-size: 13px !important; }
+    .about-text { font-size: 11px !important; }
+  }
+
+  .rack-unit h2 {
+    font-size: 18px;
+    color: #00ff88;
+    margin-bottom: 12px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 5px 20px rgba(0,180,255,0.4);
     display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* Indicateurs LED de statut */
+  .led {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #00ff00;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00ff00;
+  }
+  .led.blink { animation: ledBlink 1.5s infinite; }
+  .led.blue { background-color: #00b4ff; box-shadow: 0 0 8px #00b4ff; }
+  .led.purple { background-color: #9b59b6; box-shadow: 0 0 8px #9b59b6; }
+  .led.red { background-color: #ff0044; box-shadow: 0 0 8px #ff0044; }
+
+  @keyframes ledBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .about-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #a0b0a0;
+  }
+
+  /* Boutons d'interconnexion réseau */
+  .eth-btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #1a1a24;
+    border: 1px solid #00ff88;
+    color: #00ff88;
+    font-family: inherit;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
     text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+  }
+  .eth-btn:hover {
+    background: #00ff88;
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
   }
 
-  button:hover, .dating-btn:hover, .exhib-btn:hover { background: linear-gradient(135deg, #0088cc 0%, #00b4ff 100%); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,180,255,0.6); }
+  .eth-btn.purple { border-color: #9b59b6; color: #9b59b6; }
+  .eth-btn.purple:hover { background: #9b59b6; color: #000; box-shadow: 0 0 15px rgba(155, 89, 182, 0.4); }
 
-  .dating-btn {
-    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
-    box-shadow: 0 5px 20px rgba(155, 89, 182, 0.4);
-    margin-top: 15px;
+  .eth-btn.red { border-color: #ff0044; color: #ff0044; }
+  .eth-btn.red:hover { background: #ff0044; color: #000; box-shadow: 0 0 15px rgba(255, 0, 68, 0.4); }
+
+  /* Structure des formulaires et badges d'infrastructure */
+  .section-subtitle {
+    font-size: 13px;
+    color: #00b4ff;
+    margin: 15px 0 10px 0;
+    text-transform: uppercase;
+    border-bottom: 1px solid #222;
+    padding-bottom: 4px;
   }
 
-  .dating-btn:hover { background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%); }
-
-  .exhib-btn {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
-    margin-top: 15px;
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+  .badge {
+    background: #151520;
+    border: 1px solid #333;
+    padding: 6px 12px;
+    font-size: 11px;
+    color: #00b4ff;
+    cursor: pointer;
   }
+  .badge:hover { border-color: #00b4ff; background: rgba(0,180,255,0.05); }
+  .badge.active { background: #00b4ff; color: #000; font-weight: bold; box-shadow: 0 0 10px rgba(0,180,255,0.3); }
+  .interest-badge { cursor: default; pointer-events: none; border-color: #444; color: #888; }
 
-  .exhib-btn:hover { background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%); }
-
-  .whatsapp-btn {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-    box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
-  }
-
-  .mail-btn { background: linear-gradient(135deg, #555 0%, #333 100%); box-shadow: 0 5px 20px rgba(0,0,0,0.4); }
-
-  #result {
-    margin-top: 30px;
-    padding: 25px;
-    background: rgba(0,0,0,0.6);
-    border: 1px solid rgba(0,255,0,0.3);
-    border-radius: 12px;
+  .kink-explanation {
+    margin: 15px 0;
+    padding: 12px;
+    background: #09090d;
+    border: 1px solid #00b4ff;
     display: none;
   }
+  .kink-explanation.show { display: block; }
+  .kink-explanation h3 { color: #00ff88; font-size: 13px; margin-bottom: 5px; }
 
-  #result.show { display: block; animation: slideIn 0.5s ease; }
-  @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-  #contract {
-    white-space: pre-line;
-    line-height: 1.8;
-    color: #d0d0d0;
-    font-size: 14px;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    border-left: 3px solid #00b4ff;
+  .recommendation-box {
+    margin: 15px 0;
+    padding: 12px;
+    border: 1px dashed #ff0044;
+    background: rgba(255,0,68,0.03);
+    font-size: 12px;
+    color: #ffaaaa;
   }
+  .recommendation-box a { color: #00ff88; text-decoration: underline; }
 
-  .send-section { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(0,180,255,0.2); }
-  .send-section h4 { color: #00ff88; font-size: 14px; margin-bottom: 15px; text-transform: uppercase; text-align: center; }
-
-  canvas {
-    display: block;
-    margin: 20px auto;
-    border-radius: 50%;
-    box-shadow: 0 0 40px rgba(0,180,255,0.5);
-    border: 3px solid rgba(0,180,255,0.5);
+  .form-group { margin-bottom: 15px; }
+  label { display: block; margin-bottom: 6px; font-size: 12px; color: #888; text-transform: uppercase; }
+  input[type="text"] {
+    width: 100%;
+    background: #000;
+    border: 1px solid #333;
+    padding: 10px;
+    color: #33ff33;
+    font-family: inherit;
   }
+  input[type="text"]:focus { outline: none; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.2); }
 
-  .download-buttons, .action-buttons { display: flex; gap: 15px; margin-top: 20px; }
-  .download-buttons button { flex: 1; background: linear-gradient(135deg, #00ff88 0%, #00b4ff 100%); }
+  .roles-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 5px; }
+  .role-checkbox, .method-radio {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #09090d;
+    border: 1px solid #222;
+    cursor: pointer;
+    font-size: 11px;
+  }
+  .role-checkbox input, .method-radio input { margin-right: 8px; accent-color: #00ff88; }
+  .role-checkbox.checked, .method-radio.checked { border-color: #00ff88; background: rgba(0,255,136,0.02); }
+  .role-checkbox.mandatory-role { border-color: rgba(255, 0, 68, 0.4); }
+  .role-checkbox.mandatory-role.checked { border-color: #00ff88; }
 
-  footer { text-align: center; padding: 40px 20px; margin-top: 60px; border-top: 1px solid rgba(0,180,255,0.2); }
-  .contact-info { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 20px; }
-  .contact-item a { color: #00b4ff; text-decoration: none; }
+  #result { margin-top: 25px; padding: 20px; background: #000; border: 1px solid #00ff88; display: none; }
+  #result.show { display: block; }
+  #contract { white-space: pre-line; font-size: 12px; color: #a0b0a0; margin-bottom: 20px; padding: 12px; background: #07070a; border-left: 2px solid #00ff88; }
 
-  .error-message { color: #ff4444; font-size: 13px; margin-top: 5px; display: none; }
+  canvas { display: block; margin: 20px auto; border: 2px solid #333; background: #000; }
+
+  .error-message { color: #ff0044; font-size: 11px; margin-top: 5px; display: none; }
   .error-message.show { display: block; }
+
+  footer { text-align: center; padding: 30px 0; margin-top: 40px; border-top: 1px dashed #222; font-size: 11px; color: #555; }
+  .contact-info { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 15px; }
+  .contact-info a { color: #888; text-decoration: none; }
+  .contact-info a:hover { color: #00ff88; }
 </style>
 </head>
 <body>
   <div class="container">
     <header>
       <button class="lang-toggle" onclick="toggleLanguage()">
-        <span id="langFlag">🇬🇧</span>
-        <span id="langText">English</span>
+        <span id="langFlag">🇬🇧</span> <span id="langText">English</span>
       </button>
       <h1>ASTRO MASTER</h1>
-      <p class="tagline" data-fr="Dominant actif • Fétichiste du cou • Technologie" data-en="Active Dominant • Neck Fetishist • Technology">Dominant actif • Fétichiste du cou • Technologie</p>
-      
-      <div class="scroll-hint" data-fr="Faites défiler pour voir la suite" data-en="Scroll down to see more">
-        Faites défiler pour voir la suite
-        <span>▼</span>
+      <p class="tagline" data-fr="Baie d'infrastructure • Dominant Actif • Fétichisme du Cou" data-en="Baie d'infrastructure • Active Dominant • Neck Fetishism">Baie d'infrastructure • Dominant Actif • Fétichisme du Cou</p>
+      <div class="scroll-hint" data-fr="Faites défiler le rack" data-en="Scroll down the rack">
+        Faites défiler le rack <span>▼</span>
       </div>
     </header>
 
-    <div class="grid">
-      <div class="server-card mobile-half">
-        <h2><span data-fr="🌐 Site de rencontre" data-en="🌐 Dating Site">🌐 Site de rencontre</span></h2>
-        <p class="about-text" data-fr="Mon site de rencontre BDSM gratuit, hébergé sur mes serveurs." data-en="My free BDSM dating site, hosted on my servers.">
-          Mon site de rencontre BDSM gratuit, hébergé sur mes serveurs.
-        </p>
-        <a href="https://astro-master.duckdns.org/" class="dating-btn" target="_blank">
-          <span>🔗</span>
-          <span data-fr="Accéder" data-en="Access">Accéder</span>
-        </a>
-      </div>
+    <div class="rack-frame">
+      <div class="server-row">
+        <div class="rack-unit u2 mobile-half">
+          <h2><span class="led blink purple"></span><span data-fr="CORE-SYS // LINK 01" data-en="CORE-SYS // LINK 01">CORE-SYS // LINK 01</span></h2>
+          <p class="about-text" data-fr="Mainframe de rencontre BDSM libre hébergé localement." data-en="Free BDSM dating mainframe locally hosted.">
+            Mainframe de rencontre BDSM libre hébergé localement.
+          </p>
+          <a href="https://astro-master.duckdns.org/" class="eth-btn purple" target="_blank">
+            <span data-fr="[ CONNECTER ]" data-en="[ CONNECT ]">[ CONNECTER ]</span>
+          </a>
+        </div>
 
-      <div class="server-card mobile-half">
-        <h2><span data-fr="📸 Site des cous" data-en="📸 Necks Site">📸 Site des cous</span></h2>
-        <p class="about-text" data-fr="Ma galerie dédiée exclusivement à l'exhibition des cous." data-en="My gallery dedicated exclusively to the exhibition of necks.">
-          Ma galerie dédiée exclusivement à l'exhibition des cous.
-        </p>
-        <a href="https://mes-cous.ydns.eu/" class="exhib-btn" target="_blank">
-          <span>👀</span>
-          <span data-fr="Visiter" data-en="Visit">Visiter</span>
-        </a>
+        <div class="rack-unit u2 mobile-half">
+          <h2><span class="led blink red"></span><span data-fr="NECK-GALLERY // 02" data-en="NECK-GALLERY // 02">NECK-GALLERY // 02</span></h2>
+          <p class="about-text" data-fr="Stockage central dédié à l'esthétique des cous." data-en="Central storage space dedicated to neck aesthetics.">
+            Stockage central dédié à l'esthétique des cous.
+          </p>
+          <a href="https://mes-cous.ydns.eu/" class="eth-btn red" target="_blank">
+            <span data-fr="[ INJECTER ]" data-en="[ INJECT ]">[ INJECTER ]</span>
+          </a>
+        </div>
       </div>
       
-      <div class="server-card mobile-full">
-        <h2><span data-fr="👤 À propos" data-en="👤 About">👤 À propos</span></h2>
-        <p class="about-text" data-fr="Autiste, passionné par la technologie, l'immensité de l'univers et principalement guidé par mon fétichisme du cou. J'ai une attirance particulière pour les personnes en surpoids possédant un cou bien arrondi, associées à un bouc circulaire soigneusement taillé ou totalement imberbes. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Autistic, passionate about technology, the vastness of the universe, and primarily guided by my neck fetishism. I am particularly attracted to overweight individuals with a well-rounded neck, combined with a neatly trimmed circle beard or completely clean-shaven. I seek intense relationships based on trust, mutual respect, and clarity of roles.">
-          Autiste, passionné par la technologie, l'immensité de l'univers et principalement guidé par mon fétichisme du cou. J'ai une attirance particulière pour les personnes en surpoids possédant un cou bien arrondi, associées à un bouc circulaire soigneusement taillé ou totalement imberbes. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles.
+      <div class="rack-unit u2 mobile-full">
+        <h2><span class="led blue"></span><span data-fr="NODE-OVERVIEW // SYSTEM STATUS" data-en="NODE-OVERVIEW // SYSTEM STATUS">NODE-OVERVIEW // SYSTEM STATUS</span></h2>
+        <p class="about-text" data-fr="Profil : Autiste, développeur infrastructure, fasciné par la mécanique de l'univers et fondamentalement structuré autour du fétichisme du cou. Recherche connexions basées sur la clarté algorithmique des rôles, la confiance mutuelle et le respect des barrières physiques." data-en="Profile: Autistic, infrastructure developer, fascinated by the universe mechanics and fundamentally structured around neck fetishism. Seeking connections based on algorithmic role clarity, mutual trust and strict perimeter respect.">
+          Profil : Autiste, développeur infrastructure, fasciné par la mécanique de l'univers et fondamentalement structuré autour du fétichisme du cou. Recherche connexions basées sur la clarté algorithmique des rôles, la confiance mutuelle et le respect des barrières physiques.
         </p>
       </div>
 
-      <div class="server-card mobile-full">
-        <h2><span data-fr="⚡ Centres d'intérêt" data-en="⚡ Interests">⚡ Centres d'intérêt</span></h2>
+      <div class="rack-unit u2 mobile-full">
+        <h2><span class="led blue"></span><span data-fr="HARDWARE // CAPABILITIES" data-en="HARDWARE // CAPABILITIES">HARDWARE // CAPABILITIES</span></h2>
         <div class="badges">
-          <span class="badge interest-badge" data-fr="Informatique" data-en="IT">Informatique</span>
-          <span class="badge interest-badge" data-fr="Serveurs" data-en="Servers">Serveurs</span>
-          <span class="badge interest-badge" data-fr="Astronomie" data-en="Astronomy">Astronomie</span>
-          <span class="badge interest-badge" data-fr="Astrophysique" data-en="Astrophysics">Astrophysique</span>
+          <span class="badge interest-badge">SYS_ADMIN</span>
+          <span class="badge interest-badge">SERVERS_RACK</span>
+          <span class="badge interest-badge">ASTRONOMY</span>
+          <span class="badge interest-badge">ASTROPHYSICS</span>
         </div>
-        <p class="about-text" data-fr="Passionné de systèmes informatiques avec une fascination pour l'observation des étoiles et l'exploration spatiale." data-en="Passionate about computer systems with a fascination for stargazing and space exploration.">
-          Passionné de systèmes informatiques avec une fascination pour l'observation des étoiles et l'exploration spatiale.
+        <p class="about-text" data-fr="Administration de serveurs physiques, clusters bare-metal et observation automatisée des corps stellaires deep-space." data-en="Physical server administration, bare-metal clustering and automated deep-space stellar body tracking.">
+          Administration de serveurs physiques, clusters bare-metal et observation automatisée des corps stellaires deep-space.
         </p>
       </div>
 
-      <div class="server-card mobile-full">
-        <h2><span data-fr="🔥 Kinks & Pratiques" data-en="🔥 Kinks & Practices">🔥 Kinks & Pratiques</span></h2>
-        <p class="kink-hint" data-fr="💡 Cliquez sur un badge pour en savoir plus" data-en="💡 Click on a badge to learn more">💡 Cliquez sur un badge pour en savoir plus</p>
+      <div class="rack-unit u4 mobile-full">
+        <h2><span class="led blink"></span><span data-fr="KINKS_REGISTRY // MATRIX" data-en="KINKS_REGISTRY // MATRIX">KINKS_REGISTRY // MATRIX</span></h2>
+        <p class="kink-hint" data-fr="[ Cliquer sur un registre pour inspecter la variable ]" data-en="[ Click on a registry block to inspect data ]">[ Cliquer sur un registre pour inspecter la variable ]</p>
         
-        <h3 class="section-subtitle" data-fr="Ma façon d'être (Orientation principale)" data-en="My Way of Being (Main Orientation)">Ma façon d'être (Orientation principale)</h3>
+        <h3 class="section-subtitle" data-fr="Orientation maitre" data-en="Master Core Orientation">Orientation maitre</h3>
         <div class="badges">
-          <span class="badge" data-kink="cou" style="border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2);" data-fr="✨ Fétichiste du cou (Principal)" data-en="✨ Neck Fetishist (Primary)">✨ Fétichiste du cou (Principal)</span>
-          <span class="badge" data-kink="dominant" data-fr="Dominant actif" data-en="Active Dominant">Dominant actif</span>
+          <span class="badge" data-kink="cou" style="border-color: #00ff88;">✨ Fétichiste du Cou (Axe Principal)</span>
+          <span class="badge" data-kink="dominant">Dominant Actif</span>
         </div>
 
-        <h3 class="section-subtitle" data-fr="Mes fantasmes & Rôles recherchés" data-en="My Fantasies & Desired Roles">Mes fantasmes & Rôles recherchés</h3>
+        <h3 class="section-subtitle" data-fr="Registres comportementaux recherchés" data-en="Behavioral Sub-Registries">Registres comportementaux recherchés</h3>
         <div class="badges">
-          <span class="badge" data-kink="gorge" style="border-color: #00b4ff; font-weight:700;" data-fr="🔥 Gorge profonde (Pratique sexuelle exclusive)" data-en="🔥 Deep Throat (Exclusive Sexual Practice)">🔥 Gorge profonde (Pratique sexuelle exclusive)</span>
-          <span class="badge" data-kink="cou_esclave" style="border-color: #00ff88; font-weight:700;" data-fr="🔒 Esclave du cou (Obligatoire / Réel ou Virtuel)" data-en="🔒 Neck Slave (Mandatory / Real or Virtual)">🔒 Esclave du cou (Obligatoire / Réel ou Virtuel)</span>
-          <span class="badge" data-kink="pony" data-fr="Pony play (Endurance & Exercices)" data-en="Pony play (Endurance & Exercises)">Pony play (Endurance & Exercices)</span>
-          <span class="badge" data-kink="puppy" data-fr="Puppy play" data-en="Puppy play">Puppy play</span>
-          <span class="badge" data-kink="mollusque" data-fr="Mollusque (Nourrissage forcé d'insectes/mollusques)" data-en="Mollusk (Force-feeding of insects/mollusks)">Mollusque (Nourrissage forcé d'insectes/mollusques)</span>
-          <span class="badge" data-kink="insecte" data-fr="Insecte (Nourrissage forcé d'insectes/mollusques)" data-en="Insect (Force-feeding of insects/mollusks)">Insecte (Nourrissage forcé d'insectes/mollusques)</span>
-          <span class="badge" data-kink="majordome" data-fr="Majordome" data-en="Butler">Majordome</span>
-          <span class="badge" data-kink="foot" data-fr="Foot Slave" data-en="Foot Slave">Foot Slave</span>
-          <span class="badge" data-kink="raceplay" data-fr="Raceplay" data-en="Raceplay">Raceplay</span>
-          <span class="badge" data-kink="garde" data-fr="Garde du corps / Sécurité" data-en="Bodyguard / Security">Garde du corps / Sécurité</span>
-          <span class="badge" data-kink="bear" data-fr="Bear de compagnie" data-en="Bear pet">Bear de compagnie</span>
+          <span class="badge" data-kink="gorge" style="border-color: #00b4ff;">🔥 Gorge Profonde (Exclusivité)</span>
+          <span class="badge" data-kink="cou_esclave" style="border-color: #00ff88;">🔒 Esclave du Cou (Prérequis)</span>
+          <span class="badge" data-kink="pony">Pony Play</span>
+          <span class="badge" data-kink="puppy">Puppy Play</span>
+          <span class="badge" data-kink="mollusque">Mollusque de Compagnie</span>
+          <span class="badge" data-kink="insecte">Insecte</span>
+          <span class="badge" data-kink="majordome">Majordome</span>
+          <span class="badge" data-kink="foot">Foot Slave</span>
+          <span class="badge" data-kink="raceplay">Raceplay</span>
+          <span class="badge" data-kink="garde">Garde du Corps / Sécurité</span>
+          <span class="badge" data-kink="bear">Bear de Compagnie</span>
         </div>
 
-        <div style="margin-top: 20px; padding: 15px; background: rgba(255,0,0,0.1); border-left: 4px solid #ff0000; border-radius: 8px;">
-          <h3 style="color: #ff4444; font-size: 16px; margin-bottom: 10px; font-weight: 600;" data-fr="⚠️ Limites non négociables" data-en="⚠️ Non-negotiable Limits">⚠️ Limites non négociables</h3>
-          <p style="color: #ffaaaa; font-size: 14px; line-height: 1.6;" data-fr="• Drogues<br>• Alcool<br>• Pratiques anales<br>• TOUTE PRATIQUE SEXUELLE AUTRE QUE LA GORGE PROFONDE" data-en="• Drugs<br>• Alcohol<br>• Anal practices<br>• ANY SEXUAL PRACTICE OTHER THAN DEEP THROAT">
-            • Drogues<br>
-            • Alcool<br>
+        <div style="margin-top: 15px; padding: 12px; background: rgba(255,0,68,0.08); border: 1px solid #ff0044;">
+          <h3 style="color: #ff0044; font-size: 12px; margin-bottom: 5px; font-weight: bold;" data-fr="[ !! CRITICAL BOUNDARIES - INPUT DENIED !! ]" data-en="[ !! CRITICAL BOUNDARIES - INPUT DENIED !! ]">[ !! CRITICAL BOUNDARIES - INPUT DENIED !! ]</h3>
+          <p style="color: #ffaaaa; font-size: 12px; line-height: 1.5;" data-fr="• Toxiques / Alcool / Drogues<br>• Pratiques anales<br>• TOUT RAPPORT SEXUEL AUTRE QUE LA GORGE PROFONDE" data-en="• Toxics / Alcohol / Drugs<br>• Anal interactions<br>• ANY SEXUAL OUTLET OUTSIDE DEEP THROAT">
+            • Toxiques / Alcool / Drogues<br>
             • Pratiques anales<br>
             • TOUTE PRATIQUE SEXUELLE AUTRE QUE LA GORGE PROFONDE
           </p>
@@ -588,104 +421,89 @@
           <h3 id="kinkTitle"></h3>
           <p id="kinkDescription" class="about-text"></p>
         </div>
-
-        <p class="about-text" style="margin-top: 20px;" data-fr="Relations D/s basées sur le consentement mutuel et le respect des limites. Absolument et principalement obsédé par la grâce, la vulnérabilité et l'élégance du cou." data-en="D/s relationships based on mutual consent and respect for boundaries. Absolutely and primarily obsessed with the grace, vulnerability, and elegance of the neck.">
-          Relations D/s basées sur le consentement mutuel et le respect des limites. Absolument et principalement obsédé par la grâce, la vulnérabilité et l'élégance du cou.
-        </p>
       </div>
 
-      <div class="server-card mobile-full">
-        <h2><span data-fr="🎖️ Générateur d'appartenance" data-en="🎖️ Membership Generator">🎖️ Générateur d'appartenance</span></h2>
+      <div class="rack-unit u4 mobile-full">
+        <h2><span class="led blink blue"></span><span data-fr="MAINFRAME // BADGE & PROMPT GENERATOR" data-en="MAINFRAME // BADGE & PROMPT GENERATOR">MAINFRAME // BADGE & PROMPT GENERATOR</span></h2>
         
         <p class="intro-generator" data-fr="Si vous souhaitez m'appartenir, vous pouvez générer un macaron d'appartenance et un contrat." data-en="If you wish to belong to me, you can generate a membership badge and a contract.">
           Si vous souhaitez m'appartenir, vous pouvez générer un macaron d'appartenance et un contrat.
         </p>
 
         <div class="recommendation-box">
-          📢 <span data-fr="Note importante : En raison de mon orientation principale, il est" data-en="Important note: Due to my main orientation, it is">Note importante : En raison de mon orientation principale, il est</span> 
-          <strong><span data-fr="fortement recommandé" data-en="highly recommended">fortement recommandé</span></strong> 
-          <span data-fr="de soumettre d'abord une photo de votre cou sur mon" data-en="to first submit a photo of your neck on my">de soumettre d'abord une photo de votre cou sur mon</span> 
-          <a href="https://mes-cous.ydns.eu/" target="_blank" data-fr="site des cous dédié" data-en="dedicated neck site">site des cous dédié</a>.
+          CRITICAL ERROR MITIGATION: En raison de mon architecture fétichiste, il est <strong>hautement requis</strong> d'uploader en premier lieu une capture réseau de votre cou sur l'adresse dédiée : <a href="https://mes-cous.ydns.eu/" target="_blank">mes-cous.ydns.eu</a>.
         </div>
-        <br>
 
         <form id="generatorForm">
           <div class="form-group">
-            <label for="prenom" data-fr="Prénom" data-en="First Name">Prénom</label>
-            <input type="text" id="prenom" data-placeholder-fr="Entrez votre prénom" data-placeholder-en="Enter your first name" placeholder="Entrez votre prénom" required maxlength="50">
+            <label for="prenom" data-fr="Prénom (String)" data-en="First Name (String)">Prénom (String)</label>
+            <input type="text" id="prenom" required maxlength="50">
           </div>
 
           <div class="form-group">
-            <label for="nom" data-fr="Nom" data-en="Last Name">Nom</label>
-            <input type="text" id="nom" data-placeholder-fr="Entrez votre nom" data-placeholder-en="Enter your last name" placeholder="Entrez votre nom" required maxlength="50">
+            <label for="nom" data-fr="Nom (String)" data-en="Last Name (String)">Nom (String)</label>
+            <input type="text" id="nom" required maxlength="50">
           </div>
 
           <div class="form-group">
-            <label data-fr="Affichage de l'identité sur le macaron graphique" data-en="Identity display on the visual badge">Affichage de l'identité sur le macaron graphique</label>
+            <label data-fr="Affichage d'identité sur le jeton (Badge)" data-en="Token identity cryptographic layout">Affichage d'identité sur le jeton (Badge)</label>
             <div class="method-container">
               <label class="method-radio checked">
                 <input type="radio" name="nameDisplayOption" value="both" checked>
-                <span data-fr="Prénom + Nom" data-en="First Name + Last Name">Prénom + Nom</span>
+                <span>Prénom + Nom</span>
               </label>
               <label class="method-radio">
                 <input type="radio" name="nameDisplayOption" value="firstname">
-                <span data-fr="Prénom uniquement" data-en="First Name only">Prénom uniquement</span>
+                <span>Prénom unique</span>
               </label>
               <label class="method-radio">
                 <input type="radio" name="nameDisplayOption" value="none">
-                <span data-fr="Rien (Anonyme)" data-en="None (Anonymous)">Rien (Anonyme)</span>
+                <span>Anonymisé (Null)</span>
               </label>
             </div>
           </div>
 
           <div class="form-group">
-            <label data-fr="Rôle(s) - Sélectionnez vos rôles (Seul l'Esclave du cou est obligatoire)" data-en="Role(s) - Select your roles (Only Neck Slave is mandatory)">Rôle(s) - Sélectionnez vos rôles (Seul l'Esclave du cou est obligatoire)</label>
+            <label data-fr="Allocation des privilèges (Rôles)" data-en="Privilege Allocation (Roles)">Allocation des privilèges (Rôles)</label>
             <div class="roles-container">
-              <label class="role-checkbox mandatory-role"><input type="checkbox" name="role" value="Esclave du cou" data-value-en="Neck Slave"><span data-fr="Esclave du cou (Obligatoire)" data-en="Neck Slave (Mandatory)">Esclave du cou (Obligatoire)</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Majordome" data-value-en="Butler"><span data-fr="Majordome" data-en="Butler">Majordome</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Poney" data-value-en="Pony"><span data-fr="Poney" data-en="Pony">Poney</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Puppy" data-value-en="Puppy"><span data-fr="Puppy" data-en="Puppy">Puppy</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Mollusque" data-value-en="Mollusk"><span data-fr="Mollusque (limace/escargot)" data-en="Mollusk (snail/slug)">Mollusque (limace/escargot)</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Insecte" data-value-en="Insect"><span data-fr="Insecte" data-en="Insect">Insecte</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Larbin" data-value-en="Lackey"><span data-fr="Larbin" data-en="Lackey">Larbin</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Foot Slave" data-value-en="Foot Slave"><span data-fr="Foot Slave" data-en="Foot Slave">Foot Slave</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Raceplay" data-value-en="Raceplay"><span data-fr="Raceplay" data-en="Raceplay">Raceplay</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Garde du corps" data-value-en="Bodyguard"><span data-fr="Garde du corps" data-en="Bodyguard">Garde du corps</span></label>
-              <label class="role-checkbox"><input type="checkbox" name="role" value="Bear de compagnie" data-value-en="Bear pet"><span data-fr="Bear de compagnie" data-en="Bear pet">Bear de compagnie</span></label>
+              <label class="role-checkbox mandatory-role"><input type="checkbox" name="role" value="Esclave du cou"><span data-fr="Esclave du Cou (Requis)" data-en="Neck Slave (Mandatory)">Esclave du Cou (Requis)</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Majordome"><span>Majordome</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Poney"><span>Poney</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Puppy"><span>Puppy</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Mollusque"><span>Mollusque</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Insecte"><span>Insecte</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Larbin"><span>Larbin</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Foot Slave"><span>Foot Slave</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Raceplay"><span>Raceplay</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Garde du corps"><span>Garde du Corps</span></label>
+              <label class="role-checkbox"><input type="checkbox" name="role" value="Bear de compagnie"><span>Bear Pet</span></label>
             </div>
-            <div class="error-message" id="roleError" data-fr="Le rôle d'Esclave du cou est obligatoire ! Le reste est optionnel." data-en="The Neck Slave role is mandatory ! The rest is optional.">Le rôle d'Esclave du cou est obligatoire ! Le reste est optionnel.</div>
+            <div class="error-message" id="roleError" data-fr="Erreur : L'architecture requiert impérativement le rôle Esclave du Cou." data-en="Error: System architecture demands the Neck Slave module to be active.">Erreur : L'architecture requiert impérativement le rôle Esclave du Cou.</div>
           </div>
 
           <div class="form-group">
-            <label data-fr="Méthode d'envoi obligatoire à Astro Master" data-en="Mandatory sending method to Astro Master">Méthode d'envoi obligatoire à Astro Master</label>
+            <label data-fr="Canal de transmission réseau obligatoire" data-en="Mandatory network route pipe">Canal de transmission réseau obligatoire</label>
             <div class="method-container">
               <label class="method-radio">
                 <input type="radio" name="sendMethod" value="whatsapp" required>
-                <span data-fr="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</span>
+                <span>📱 WhatsApp Network</span>
               </label>
               <label class="method-radio">
                 <input type="radio" name="sendMethod" value="email" required>
-                <span data-fr="📧 Email" data-en="📧 Email">📧 Email</span>
+                <span>📧 SMTP Email Gateway</span>
               </label>
             </div>
-            <div class="error-message" id="methodError" data-fr="Veuillez sélectionner une méthode d'envoi" data-en="Please select a sending method">Veuillez sélectionner une méthode d'envoi</div>
+            <div class="error-message" id="methodError" data-fr="Sélectionner une route de transmission." data-en="Select an outbound destination router path.">Sélectionner une route de transmission.</div>
           </div>
 
-          <button type="submit" id="submitBtn" data-fr="Générer le macaron & Envoyer" data-en="Generate Badge & Send">Générer le macaron & Envoyer</button>
+          <button type="submit" id="submitBtn" data-fr="EXECUTER GÉNERATION & TRANSMISSION" data-en="EXECUTE GENERATION & OUTBOUND ROUTING">EXECUTER GÉNERATION & TRANSMISSION</button>
         </form>
 
         <div id="result">
           <div id="contract"></div>
           <canvas id="logo" width="250" height="250"></canvas>
           <div class="download-buttons">
-            <button onclick="downloadBothAssets()"><span data-fr="📄 Télécharger Tout (Contrat + Macaron)" data-en="📄 Download All (Contract + Badge)">📄 Télécharger Tout (Contrat + Macaron)</span></button>
-          </div>
-          <div class="send-section">
-            <h4 data-fr="Renvoyer mon contrat à Astro Master" data-en="Resend my contract to Astro Master">Renvoyer mon contrat à Astro Master</h4>
-            <div class="action-buttons">
-              <button onclick="sendToAstroWhatsApp()" class="whatsapp-btn"><span>📱</span> <span data-fr="Via WhatsApp" data-en="Via WhatsApp">Via WhatsApp</span></button>
-              <button onclick="sendToAstroEmail()" class="mail-btn"><span>📧</span> <span data-fr="Via Email" data-en="Via Email">Via Email</span></button>
-            </div>
+            <button onclick="downloadBothAssets()" data-fr="[ TELECHARGER PACK COMPLET (PDF + JPEG) ]" data-en="[ DOWNLOAD TOTAL STORAGE ASSETS (PDF + JPEG) ]">[ TELECHARGER PACK COMPLET (PDF + JPEG) ]</button>
           </div>
         </div>
       </div>
@@ -693,8 +511,8 @@
 
     <footer>
       <div class="contact-info">
-        <div class="contact-item"><span>📧</span> <a href="mailto:jeanbaptisteandrivet@gmail.com">jeanbaptisteandrivet@gmail.com</a></div>
-        <div class="contact-item"><span>📱</span> <a href="tel:+33783204184">+33 7 83 20 41 84</a></div>
+        <div class="contact-item">HOST_GATEWAY: <a href="mailto:jeanbaptisteandrivet@gmail.com">jeanbaptisteandrivet@gmail.com</a></div>
+        <div class="contact-item">COM_PORT: <a href="tel:+33783204184">+33 7 83 20 41 84</a></div>
       </div>
       <div class="copyright" id="copyrightLabel"></div>
     </footer>
@@ -708,42 +526,42 @@
     let currentContractText = '';
 
     const roleDuties = {
-      "Majordome": { fr: "• Assurer un service domestique raffiné et élégant\n• Maintenir l'ordre du foyer", en: "• Ensure refined and elegant domestic service\n• Maintain household order" },
-      "Poney": { fr: "• Me conformer aux entraînements équestres demandés et porter l'équipement approprié\n• Développer la force et l'endurance nécessaires pour porter confortablement le Maître (environ 55 kg) sur de longues durées\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver la condition physique exigée", en: "• Comply with requested equestrian training and wear appropriate equipment\n• Develop the necessary strength and endurance to comfortably carry the Master (approx. 55 kg) for extended periods\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain the required physical conditioning" },
-      "Puppy": { fr: "• Adopter le comportement joueur et fidèle d'un chiot\n• Suivre le dressage imposé", en: "• Adopt the playful and loyal behavior of a puppy\n• Follow imposed training" },
-      "Larbin": { fr: "• Effectuer toutes les tâches ingrates demandées\n• Rester disponible en permanence", en: "• Perform all requested menial tasks\n• Remain available at all times" },
-      "Esclave du cou": { fr: "• Prendre soin de mon cou et le présenter avec élégance, que ce soit de manière virtuelle ou réelle\n• Accepter l'attention absolue du Maître sur cette zone", en: "• Take care of my neck and present it with elegance, whether in a virtual or real setting\n• Accept the Master's absolute attention on this area" },
-      "Foot Slave": { fr: "• Assurer le massage et le soin des pieds de mon Maître\n• Adorer ses pieds avec dévotion", en: "• Ensure massage and foot care for my Master\n• Worship his feet with devotion" },
-      "Raceplay": { fr: "• Accepter les dynamiques de jeux de rôles ethniques\n• Communiquer mes limites dans ce contexte", en: "• Accept ethnic roleplay dynamics\n• Communicate my limits in this context" },
-      "Garde du corps": { fr: "• Veiller avec une vigilance absolue à la sécurité physique et émotionnelle du Maître\n• Conserver en permanence une posture rigide au garde-à-vous, avec les mains jointes fermement dans le dos dès que je suis en présence du Maître\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver l'excellence et la discipline physique requises", en: "• Watch over the physical and emotional security of the Master with absolute vigilance\n• Permanently maintain a rigid standing attention posture, keeping my hands bound behind my back whenever in the Master's presence\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain physical excellence and the strict required discipline" },
-      "Bear de compagnie": { fr: "• Embrasser mon identité bear dans la relation\n• Accepter l'appréciation de ma pilosité et carrure", en: "• Embrace my bear identity within the relationship\n• Accept appreciation of my body hair and build" },
-      "Mollusque": { fr: "• Me comporter en mollusque de compagnie (limace ou escargot)\n• Ramper exclusivement au sol selon la volonté du Maître\n• Accepter la possibilité d'être nourri(e) de force, y compris avec de vrais insectes et mollusques vivants ou préparés, selon les exigences du Maître", en: "• Behave as a pet mollusk (snail or slug)\n• Crawl exclusively on the ground according to the Master's will\n• Accept the possibility of being force-fed, including with real insects and mollusks, whether live or prepared, according to the Master's requirements" },
-      "Insecte": { fr: "• Adopter la posture et la condition d'un insecte\n• Demeurer et ramper au sol en signe de soumission\n• Accepter la possibilité d'être nourri(e) de force, y compris avec de vrais insectes et mollusques selon la volonté et les ordres du Maître", en: "• Adopt the posture and condition of an insect\n• Remain and crawl on the ground as a sign of submission\n• Accept the possibility of being force-fed, including with real insects and mollusks at the Master's will and command" }
+      "Majordome": { fr: "• Assurer un service domestique haut de gamme, codifié et raffiné au sein du foyer\n• Maintenir l'ordre absolu de l'infrastructure physique", en: "• Provide high-end, codified and refined domestic service within the infrastructure\n• Maintain total deployment perimeter cleanliness" },
+      "Poney": { fr: "• Me conformer aux entraînements de traction équestre demandés et porter l'harnachement adéquat\n• Développer la puissance musculaire requise pour soutenir confortablement la charge du Maître (55 kg environ) sur des cycles prolongés\n• Valider un protocole de maintenance physique journalier de 20 pompes et 20 squats", en: "• Comply with requested harness training protocols and load distribution metrics\n• Maintain dynamic lift capacities to smoothly support Master load profile (approx 55 kg) during extensive runs\n• Commit to a physical conditioning schedule consisting of 20 push-ups and 20 squats per 24h cycle" },
+      "Puppy": { fr: "• Adopter une attitude loyale, soumise et joueuse propre à l'archétype canin\n• Suivre sans déviation le dressage imposé par l'autorité supérieure", en: "• Emulate loyal, tracking and playful dog-module baselines\n• Accept system firmware overrides from root command authorities" },
+      "Larbin": { fr: "• Exécuter sans délai toutes les requêtes subalternes et tâches ingrates\n• Rester disponible en continu sans interruption de service", en: "• Fulfill immediate lower-tier scripts and manual utility executions\n• Maintain constant active runtime state with zero idle logs" },
+      "Esclave du cou": { fr: "• Entretenir, valoriser et présenter mon cou de manière élégante et dégagée, dans un environnement réel ou virtuel\n• Accepter la focalisation et le contrôle absolu du Maître sur cette zone cible", en: "• Isolate, clear and showcase my throat interface safely with elegance, across physical node or virtual stream formats\n• Direct absolute Master tracking focus and lock-on protocols toward this designated endpoint" },
+      "Foot Slave": { fr: "• Assurer l'entretien, le soin et le massage minutieux des pieds du Maître\n• Manifester une dévotion exclusive et continue envers cette zone corporelle", en: "• Provide targeted compression maintenance and massage sequences on Master footer components\n• Execute constant ritual devotion sequences on primary lower endpoints" },
+      "Raceplay": { fr: "• Consentir à l'exploration de simulations basées sur des dynamiques et stéréotypes sociétaux ou ethniques\n• Maintenir un canal de communication strict concernant mes variables d'arrêt", en: "• Accept structural baseline exploration involving ethnic or historical role matrices\n• Maintain constant safe-string signal routing to intercept boundary breaks" },
+      "Garde du corps": { fr: "• Protéger avec une rigueur absolue la sécurité physique et la stabilité émotionnelle du Maître\n• Maintenir une posture statique formelle au garde-à-vous, les mains fermement ancrées dans le dos en présence du root\n• Valider un protocole de maintenance physique journalier de 20 pompes et 20 squats", en: "• Shield with absolute priority the physical security perimeter and tactical environment state of root master\n• Maintain strict stationary stand-at-attention alignment, locking hands securely behind dorsal chassis in master presence\n• Execute a maintenance calibration routine of 20 push-ups and 20 squats per uptime cycle" },
+      "Bear de compagnie": { fr: "• Incarner pleinement l'archétype bear (stature massive, pilosité) dans la dynamique relationnelle\n• Accepter la manipulation et la valorisation de mes caractéristiques physiques par le Dominant", en: "• Maximize full deployment of large-chassis bear variables (heavy build, body hair) within the connection\n• Allow structural manipulation and appreciation of these specific build attributes" },
+      "Mollusque": { fr: "• Adopter la condition primitive et la lenteur d'un mollusque (limace/escargot)\n• Ramper exclusivement sur le plan horizontal inférieur (sol) selon les ordres\n• Facultatif (Soumis à validation préalable) : Accepter d'être nourri(e) de force, y compris avec de vrais insectes ou mollusques", en: "• Lower processing states to emulate a crawling mollusk (slug or snail module)\n• Traverse layout terrain exclusively at floor-level vectors via instruction triggers\n• Optional (Requires active pre-consent logic) : Accept manual force-feeding parameters, including genuine insect or biological mollusk inputs" },
+      "Insecte": { fr: "• Intégrer la dépersonnalisation et la posture d'un insecte nuisible ou rampant\n• Demeurer au sol et ramper comme preuve matérielle de soumission\n• Facultatif (Soumis à validation préalable) : Accepter d'être nourri(e) de force avec de vrais insectes ou mollusques", en: "• Submerge identity profiles to align with small insect entities\n• Maintain soil contact vectors and crawl routines as concrete submission metrics\n• Optional (Requires active pre-consent logic) : Accept manual force-feeding actions involving physical real insects or mollusk items" }
     };
 
     const kinkDefinitions = {
-      cou: { fr: { title: "Fétichiste du cou (Orientation principale)", description: "Ma fascination et mon obsession absolue. Tout s'articule autour de la grâce, de la nudité et de la mise en valeur du cou de mes partenaires soumis. J'ai une attirance marquée pour les profils en surpoids avec un cou arrondi et une apparence soit imberbe, soit dotée d'un bouc circulaire net." }, en: { title: "Neck Fetishist (Primary Orientation)", description: "My ultimate obsession and fascination. Everything revolves around the grace, bareness, and presentation of my submissive partners' necks. I am strongly drawn to overweight profiles with a rounded neck and either a clean-shaven appearance or a neat circle beard." } },
-      dominant: { fr: { title: "Dominant actif", description: "Mon mode d'expression naturel : assurer un leadership clair, protecteur, bienveillant et structurant dans la relation D/s." }, en: { title: "Active Dominant", description: "My natural mode of being: providing clear, protective, caring, and structured leadership within the D/s relationship." } },
-      gorge: { fr: { title: "Gorge profonde (Pratique sexuelle exclusive)", description: "Ma seule et unique pratique sexuelle acceptée et recherchée. Un moment d'abandon physique total et de contrôle axé sur la gorge, excluant absolument tout autre rapport sexuel." }, en: { title: "Deep Throat (Exclusive Sexual Practice)", description: "My one and only accepted and desired sexual practice. A moment of total physical surrender and control focused on the throat, strictly excluding any other sexual intercourse." } },
-      cou_esclave: { fr: { title: "Esclave du cou (Seul rôle obligatoire)", description: "Le fondement obligatoire et indispensable de toute interaction avec moi. Ce rôle peut être exercé aussi bien à distance (virtuel) qu'en face-à-face (réel) et demande de vouer une dévotion absolue au fétiche du cou." }, en: { title: "Neck Slave (Only Mandatory Role)", description: "The mandatory foundation of any dynamic with me. This role can be fulfilled remotely (virtual) or in person (real) and requires absolute devotion to the neck fetish." } },
-      pony: { fr: { title: "Pony Play", description: "Fantasme axé sur le dressage équestre et l'équipement. Une importance capitale est accordée à l'endurance pour porter le Maître (environ 55 kg) sur de longues durées. Un rituel quotidien obligatoire de 20 pompes et 20 squats est exigé." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear. Crucial importance is placed on the pony's endurance to carry the Master (around 55 kg) for extended periods of play. A strict daily routine of 20 push-ups and 20 squats is required." } },
-      puppy: { fr: { title: "Puppy Play", description: "Jeu de rôle ludique et fidèle axé sur le dressage et l'affection d'un chiot." }, en: { title: "Puppy Play", description: "Playful and loyal roleplay focused on training and the affection of a puppy." } },
-      mollusque: { fr: { title: "Mollusque de compagnie", description: "Fantasme de soumission absolue et de régression primitive (limace/escargot) au sol. Ce rôle intègre la soumission totale au nourrissage forcé, y compris avec de véritables mollusques ou insectes." }, en: { title: "Pet Mollusk", description: "Absolute submission and primal regression fantasy (slug/snail) on the ground. This role includes total submission to force-feeding, including with real mollusks or insects." } },
-      insecte: { fr: { title: "Insecte", description: "Fantasme basé sur la dépersonnalisation et l'obligation de ramper sur le sol. Ce rôle intègre le consentement absolu au nourrissage forcé avec de vrais insectes ou mollusques selon le bon vouloir du Maître." }, en: { title: "Insect", description: "Depersonalization fantasy requiring the submissive to crawl on the ground. This role includes absolute consent to force-feeding with real insects or mollusks at the Master's will." } },
-      majordome: { fr: { title: "Majordome", description: "Fantasme de service domestique haut de gamme, codifié et raffiné au sein du foyer." }, en: { title: "Butler", description: "High-end, codified, and refined domestic service fantasy within the household." } },
-      foot: { fr: { title: "Foot Slave", description: "Dévotion exclusive axée sur le soin, le massage et l'adoration des pieds du Maître." }, en: { title: "Foot Slave", description: "Exclusive devotion centered on the care, massage, and adoration of the Master's feet." } },
-      raceplay: { fr: { title: "Raceplay", description: "Jeu de rôle consensuel et encadré explorant des dynamiques et stéréotypes spécifiques." }, en: { title: "Raceplay", description: "Consensual and framed roleplay exploring specific dynamics and stereotypes." } },
-      garde: { fr: { title: "Garde du corps / Sécurité", description: "Discipline et protection. Le soumis se tient au garde-à-vous, mains jointes derrière le dos, et maintient son excellence physique par un rituel obligatoire de 20 pompes et 20 squats par jour." }, en: { title: "Bodyguard / Security", description: "Discipline and protection. The submissive stands at attention with hands linked behind the back, and maintains physical excellence through a mandatory daily routine of 20 push-ups and 20 squats." } },
-      bear: { fr: { title: "Bear de compagnie", description: "Dynamique de soumission valorisant l'archétype bear, la pilosité et la stature chaleureuse." }, en: { title: "Bear pet", description: "Submission dynamic valuing the bear archetype, body hair, and a warm build." } }
+      cou: { fr: { title: "Fétichiste du Cou (Axe Principal)", description: "Obsession structurelle absolue. Mon intérêt gravite principalement autour de l'élégance, de la rondeur et de la mise en valeur du cou de mes partenaires soumis. Attirance ciblée sur les morphologies en surpoids avec un cou arrondi et une esthétique imberbe ou ornée d'un bouc circulaire impeccable." }, en: { title: "Neck Fetishist (Primary Axis)", description: "Core architectural priority. Focus locks onto the grace, curvature, and deployment of submissive node necks. Strongly optimized for overweight physiques showing rounded necks combined with clean-shaven or circular beard maps." } },
+      dominant: { fr: { title: "Dominant Actif", description: "Mode d'exécution natif : leadership structuré, protecteur, directif et hautement stabilisant pour la dynamique D/s." }, en: { title: "Active Dominant", description: "Native operating code: provision of clear-text, defensive, highly directive and stabilizing parameter controls for D/s execution loops." } },
+      gorge: { fr: { title: "Gorge Profonde (Pratique Exclusive)", description: "L'unique exutoire physique sexuel accepté. Contrôle respiratoire, abandon musculaire complet de la zone cervicale et soumission totale de la gorge. Tout autre acte d'ordre génital ou anal est désactivé (limite stricte)." }, en: { title: "Deep Throat (Exclusive Matrix)", description: "The single valid sexual transaction path allowed. Deep oral lock, absolute dynamic surrender of cervical control. All other genital or anal subroutines are hardcoded as disabled." } },
+      cou_esclave: { fr: { title: "Esclave du Cou (Module Requis)", description: "Le prérequis logiciel absolu. Ce rôle central de soumission au fétiche s'exécute indifféremment via flux virtuel distant ou au sein de l'espace de déploiement réel." }, en: { title: "Neck Slave (Mandatory Package)", description: "The baseline software prerequisite. This cornerstone role of surrender to the core fetish compiles natively across remote virtual streams or inside local nodes." } },
+      pony: { fr: { title: "Pony Play", description: "Entraînement de traction et de charge. Demande de l'endurance cinétique pour porter le Maître (55 kg environ). Exige l'exécution systématique de 20 pompes et 20 squats quotidiens." }, en: { title: "Pony Play", description: "Equestrian draw and weight compliance fantasy. Requires structural stamina to safely displace Master unit mass (approx 55 kg). Demands strict daily logging of 20 push-ups and 20 squats." } },
+      puppy: { fr: { title: "Puppy Play", description: "Jeu de rôle ludique et fidèle axé sur le dressage et l'affection d'un chiot." }, en: { title: "Puppy Play", description: "Affectionate tracking and obedience exploration mimicking canine behavior logs." } },
+      mollusque: { fr: { title: "Mollusque de Compagnie", description: "Régression primitive exigeant un déplacement rampant à même le sol. Note : L'incorporation facultative de nourrissage forcé (avec insectes/mollusques réels) peut être configurée après accord explicite." }, en: { title: "Pet Mollusk", description: "Primal tier override demanding ground horizontal transit scripts. Note: Optional force-feeding configurations (using true biological insects/mollusks) can be appended if pre-consent validation returns true." } },
+      insecte: { fr: { title: "Insecte", description: "Régression et dépersonnalisation totale au niveau du sol. Note : L'incorporation facultative de nourrissage forcé (avec de vrais insectes ou mollusques) est désactivée par défaut et nécessite une activation manuelle consciente." }, en: { title: "Insect", description: "Chassis depersonalization bound to floor-level coordinates. Note: Optional dynamic force-feeding vectors (including real biological components) are toggled off by default and require manual validation." } },
+      majordome: { fr: { title: "Majordome", description: "Fantasme de service domestique haut de gamme, codifié et raffiné au sein du foyer." }, en: { title: "Butler", description: "High-end, structured domestic utility scripting for spatial environment optimization." } },
+      foot: { fr: { title: "Foot Slave", description: "Dévotion exclusive axée sur le soin, le massage et l'adoration des pieds du Maître." }, en: { title: "Foot Slave", description: "Lower appendage interface optimization via manual friction, cleaning and worship." } },
+      raceplay: { fr: { title: "Raceplay", description: "Jeu de rôle consensuel et encadré explorant des dynamiques et stéréotypes spécifiques." }, en: { title: "Raceplay", description: "Consensual simulation exploring sociological power-imbalance frameworks." } },
+      garde: { fr: { title: "Garde du Corps / Sécurité", description: "Poste de garde rigide caractérisé par le maintien continu du garde-à-vous et des mains croisées dans le dos. Soumis au protocole physique obligatoire de 20 pompes et 20 squats par jour." }, en: { title: "Bodyguard / Security", description: "Rigid static defense role marked by persistent stand-at-attention locks with dorsal hand bounds. Subjugated to mandatory daily 20 push-ups and 20 squats pipelines." } },
+      bear: { fr: { title: "Bear de Compagnie", description: "Dynamique D/s capitalisant sur la stature forte, la pilosité et le gabarit bear du soumis." }, en: { title: "Bear Pet", description: "Heavy-chassis submission matrix highlighting bulky build metrics and body hair tracking." } }
     };
 
     function updateCopyrightText() {
       const year = new Date().getFullYear();
       const label = document.getElementById('copyrightLabel');
       if (currentLang === 'fr') {
-        label.textContent = `© ${year} Astro Master • Tous droits réservés`;
+        label.textContent = `[ INFRASTRUCTURE CORE RACK SECTOR // © ${year} ASTRO MASTER // TOUS DROITS RÉSERVÉS ]`;
       } else {
-        label.textContent = `© ${year} Astro Master • All rights reserved`;
+        label.textContent = `[ INFRASTRUCTURE CORE RACK SECTOR // © ${year} ASTRO MASTER // ALL RIGHTS RESERVED ]`;
       }
     }
 
@@ -756,10 +574,6 @@
         if (el.id === 'copyrightLabel') return;
         const text = currentLang === 'fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
         if (el.innerHTML.includes('<br>')) el.innerHTML = text; else el.textContent = text;
-      });
-
-      document.querySelectorAll('[data-placeholder-fr]').forEach(el => {
-        el.placeholder = currentLang === 'fr' ? el.getAttribute('data-placeholder-fr') : el.getAttribute('data-placeholder-en');
       });
 
       updateCopyrightText();
@@ -841,32 +655,32 @@
       let renderedRolesEn = Array.from(document.querySelectorAll('input[name="role"]:checked')).map(cb => cb.parentElement.querySelector('span').getAttribute('data-en'));
 
       currentContractText = currentLang === 'fr' 
-        ? `CONTRAT D'APPARTENANCE\n\nJe soussigné(e) ${currentPrenom} ${currentNom}, reconnais officiellement mes rôles de ${renderedRolesFr.join(', ')} auprès d'Astro Master.\n\nJe m'engage à :\n${engs}\nCe contrat est basé sur la confiance mutuelle et le respect absolu de notre dynamique.\nSigné le ${new Date().toLocaleDateString('fr-FR')}`
-        : `MEMBERSHIP CONTRACT\n\nI, the undersigned ${currentPrenom} ${currentNom}, officially acknowledge my roles as ${renderedRolesEn.join(', ')} of Astro Master.\n\nI commit to:\n${engs}\nThis contract is based on mutual trust and absolute respect for our dynamic.\nSigned on ${new Date().toLocaleDateString('en-US')}`;
+        ? `CONTRAT D'APPARTENANCE // MAINFRAME BACKUP\n\nJe soussigné(e) ${currentPrenom} ${currentNom}, reconnais officiellement attribuer mes droits système et rôles de ${renderedRolesFr.join(', ')} auprès d'Astro Master.\n\nJe m'engage à :\n${engs}\nCe protocole est basé sur une clarté binaire et un respect total de l'infrastructure.\nSigné le ${new Date().toLocaleDateString('fr-FR')}`
+        : `MEMBERSHIP CONTRACT // MAINFRAME BACKUP\n\nI, the undersigned ${currentPrenom} ${currentNom}, officially sign off system control and register roles as ${renderedRolesEn.join(', ')} to Astro Master.\n\nI commit to:\n${engs}\nThis protocol runs on raw dynamic trust and total framework parameter integration.\nLogged on ${new Date().toLocaleDateString('en-US')}`;
       
       document.getElementById('contract').textContent = currentContractText;
       
       const canvas = document.getElementById('logo');
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0,0,250,250);
-      ctx.fillStyle = '#0a0a0a'; ctx.beginPath(); ctx.arc(125,125,115,0,Math.PI*2); ctx.fill();
-      ctx.strokeStyle = '#00b4ff'; ctx.lineWidth = 5; ctx.stroke();
+      ctx.fillStyle = '#07070a'; ctx.beginPath(); ctx.arc(125,125,115,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#00ff88'; ctx.lineWidth = 4; ctx.stroke();
       
-      ctx.fillStyle = '#00ff88'; ctx.font = 'bold 14px Inter'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#00ff88'; ctx.font = 'bold 13px monospace'; ctx.textAlign = 'center';
       drawTextAlongArc(ctx, "J'APPARTIENS À ASTRO MASTER", 125, 125, 88, 0);
       
       ctx.fillStyle = '#fff';
-      let fontSize = 14;
-      if (currentRoles.length > 2) fontSize = 11;
-      ctx.font = `bold ${fontSize}px Inter`;
+      let fontSize = 13;
+      if (currentRoles.length > 2) fontSize = 10;
+      ctx.font = `bold ${fontSize}px monospace`;
       
       const offsetStart = 115;
       currentRoles.forEach((role, idx) => {
         ctx.fillText(role.toUpperCase(), 125, offsetStart + (idx * (fontSize + 5)));
       });
       
-      ctx.fillStyle = '#aaa';
-      ctx.font = '13px Inter';
+      ctx.fillStyle = '#888';
+      ctx.font = '12px monospace';
       const yPos = offsetStart + 20 + (currentRoles.length * (fontSize + 5));
       
       if (identityOption === 'both') {
@@ -886,12 +700,12 @@
     });
 
     function sendToAstroWhatsApp() {
-      const msg = `Bonjour Astro Master, j'ai généré mon contrat pour les rôles : ${currentRoles.join(', ')}. Signé : ${currentPrenom} ${currentNom}`;
+      const msg = `LOG ENTRY: Nouveau contrat d'appartenance soumis par ${currentPrenom} ${currentNom} pour les modules : ${currentRoles.join(', ')}`;
       window.open("https://wa.me/33783204184?text=" + encodeURIComponent(msg), '_blank');
     }
 
     function sendToAstroEmail() {
-      window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=Nouveau Contrat d'Appartenance&body=" + encodeURIComponent(currentContractText));
+      window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=INFRASTRUCTURE_STACK_SUBMISSION&body=" + encodeURIComponent(currentContractText));
     }
 
     function downloadBothAssets() {
@@ -899,11 +713,11 @@
       const doc = new jsPDF();
       doc.text(doc.splitTextToSize(currentContractText, 180), 15, 20);
       doc.addImage(document.getElementById('logo').toDataURL('image/jpeg'), 'JPEG', 70, 150, 70, 70);
-      doc.save('contrat_astro.pdf');
+      doc.save('contrat_mainframe.pdf');
 
       setTimeout(() => {
         const link = document.createElement('a');
-        link.download = 'macaron_astro.jpg';
+        link.download = 'token_macaron.jpg';
         link.href = document.getElementById('logo').toDataURL('image/jpeg');
         link.click();
       }, 300);
