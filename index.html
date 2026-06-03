@@ -50,15 +50,15 @@
     background: linear-gradient(180deg, #1a1a1e 0%, #111113 100%);
     border: 1px solid #333;
     border-bottom: 3px solid #0077ff;
-    padding: 50px 20px 40px 20px;
-    margin-bottom: 30px;
+    padding: 40px 20px;
+    margin-bottom: 25px;
     text-align: center;
     position: relative;
     border-radius: 4px;
   }
 
   .scroll-hint {
-    margin-top: 25px;
+    margin-top: 20px;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -89,8 +89,6 @@
     margin-top: 15px;
     margin-bottom: 10px;
   }
-
-  @media (max-width: 768px) { h1 { font-size: 28px; } }
 
   .tagline {
     font-size: 16px;
@@ -171,13 +169,28 @@
     gap: 15px;
   }
 
+  /* Version Mobile optimisée pour l'ergonomie des pouces */
   @media (max-width: 768px) {
-    .server-row { grid-template-columns: 1fr 1fr; gap: 10px; }
-    .rack-unit { padding: 15px 15px 15px 40px; }
-    .rack-unit h2 { font-size: 15px !important; }
-    .about-text { font-size: 13px !important; }
-    .rack-unit.mobile-half { grid-column: span 1; }
-    .rack-unit.mobile-full { grid-column: 1 / -1; }
+    body { padding: 10px; }
+    .container { padding: 10px; }
+    h1 { font-size: 26px; }
+    .tagline { font-size: 13px; }
+    
+    /* On empile verticalement pour que les boutons soient grands et confortables */
+    .server-row { grid-template-columns: 1fr; gap: 15px; }
+    .rack-unit { padding: 20px 15px 20px 40px; }
+    .rack-unit h2 { font-size: 16px !important; }
+    .about-text { font-size: 14px !important; } /* Légère augmentation de la taille pour lisibilité mobile */
+    
+    /* Amélioration de l'espace cliquable sur mobile */
+    .roles-container { grid-template-columns: 1fr !important; gap: 8px; }
+    .role-checkbox, .method-radio { padding: 14px 12px; min-height: 48px; }
+    .method-container { flex-direction: column; gap: 8px; }
+    
+    canvas {
+      max-width: 100%; /* Évite que le macaron ne dépasse sur petit écran */
+      height: auto;
+    }
   }
 
   .rack-unit h2 {
@@ -220,6 +233,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    min-height: 44px; /* Hauteur tactile standard de sécurité */
     padding: 12px;
     margin-top: 15px;
     background: #111;
@@ -254,7 +268,7 @@
   .badge {
     background: #111;
     border: 1px solid #444;
-    padding: 6px 12px;
+    padding: 8px 14px;
     font-size: 12px;
     color: #ccc;
     cursor: pointer;
@@ -284,6 +298,7 @@
     font-size: 13px;
     color: #ccc;
     border-left: 3px solid #ffaa00;
+    line-height: 1.5;
   }
   .recommendation-box a { color: #0077ff; text-decoration: none; font-weight: bold; }
   .recommendation-box a:hover { text-decoration: underline; }
@@ -304,10 +319,11 @@
     width: 100%;
     background: #0b0b0d;
     border: 1px solid #444;
-    padding: 12px;
+    padding: 14px 12px;
     color: #fff;
     font-family: inherit;
     border-radius: 2px;
+    font-size: 15px;
   }
   input[type="text"]:focus { outline: none; border-color: #0077ff; }
 
@@ -322,14 +338,15 @@
     font-size: 13px;
     border-radius: 2px;
     transition: all 0.2s;
+    user-select: none;
   }
-  .role-checkbox input, .method-radio input { margin-right: 10px; accent-color: #0077ff; }
+  .role-checkbox input, .method-radio input { margin-right: 12px; width: 18px; height: 18px; accent-color: #0077ff; }
   .role-checkbox.checked, .method-radio.checked { border-color: #0077ff; background: rgba(0, 119, 255, 0.05); color: #fff; }
   .role-checkbox.mandatory-role { border-color: #00ff44; }
   .role-checkbox.mandatory-role.checked { background: rgba(0, 255, 68, 0.05); }
 
   .method-container { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
-  .method-radio { flex: 1; min-width: 150px; justify-content: center; }
+  .method-radio { flex: 1; min-width: 150px; justify-content: flex-start; }
 
   .submit-btn {
     width: 100%;
@@ -345,21 +362,22 @@
     margin-top: 10px;
     border-radius: 2px;
     transition: background 0.2s;
+    min-height: 48px;
   }
   .submit-btn:hover { background: #0055cc; }
 
-  #result { margin-top: 30px; padding: 25px; background: #0b0b0d; border: 1px solid #444; display: none; border-radius: 2px; }
+  #result { margin-top: 30px; padding: 25px; background: #0b0b0d; border: 1px solid #444; display: none; border-radius: 2px; text-align: center; }
   #result.show { display: block; }
-  #contract { white-space: pre-line; font-size: 13px; color: #ccc; margin-bottom: 25px; line-height: 1.6; }
+  #contract { white-space: pre-line; font-size: 13px; color: #ccc; margin-bottom: 25px; line-height: 1.6; text-align: left; }
 
   canvas { display: block; margin: 20px auto; border: 1px solid #333; background: #000; border-radius: 50%; }
 
-  .error-message { color: #ff4444; font-size: 12px; margin-top: 8px; display: none; }
+  .error-message { color: #ff4444; font-size: 13px; margin-top: 8px; display: none; font-weight: 600; }
   .error-message.show { display: block; }
 
   footer { text-align: center; padding: 40px 0; margin-top: 50px; border-top: 1px solid #222; font-size: 12px; color: #666; }
-  .contact-info { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 15px; }
-  .contact-info a { color: #888; text-decoration: none; }
+  .contact-info { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
+  .contact-info a { color: #888; text-decoration: none; padding: 5px; }
   .contact-info a:hover { color: #fff; }
 </style>
 </head>
@@ -377,7 +395,7 @@
       </div>
     </header>
 
-    <div class="rack-frame">
+    <div class="grid">
       <div class="server-row">
         <div class="rack-unit u2 mobile-half">
           <h2><span class="led blue blink"></span><span data-fr="Site de rencontre" data-en="Dating Site">Site de rencontre</span></h2>
@@ -408,7 +426,7 @@
       </div>
 
       <div class="rack-unit u2 mobile-full">
-        <h2><span class="led green"></span><span data-fr="Centres d'intérêt" data-en="Interests">Centres d'intérêt</span></h2>
+        <h2><span class="led green"></span><span data-fr="Centres d'interest" data-en="Interests">Centres d'intérêt</span></h2>
         <div class="badges">
           <span class="badge interest-badge">Informatique</span>
           <span class="badge interest-badge">Serveurs</span>
@@ -580,10 +598,10 @@
       dominant: { fr: { title: "Dominant actif", description: "Mon mode d'expression naturel : assurer un leadership clair, protecteur, bienveillant et structurant dans la relation D/s." }, en: { title: "Active Dominant", description: "My natural way of being: providing clear, protective, caring, and structured leadership within the D/s relationship." } },
       gorge: { fr: { title: "Gorge profonde (Pratique sexuelle exclusive)", description: "Ma seule et unique pratique sexuelle acceptée et recherchée. Un moment d'abandon physique total et de contrôle axé sur la gorge, excluant absolument tout autre rapport sexuel." }, en: { title: "Deep Throat (Exclusive Sexual Practice)", description: "My one and only accepted and desired sexual practice. A moment of total physical surrender and control focused on the throat, strictly excluding any other sexual intercourse." } },
       cou_esclave: { fr: { title: "Esclave du cou (Rôle obligatoire)", description: "Le fondement indispensable de toute interaction avec moi. Ce rôle peut s'exercer à distance (virtuel) ou en face-à-face (réel) et requiert une dévotion totale au fétiche du cou." }, en: { title: "Neck Slave (Mandatory Role)", description: "The essential foundation of any interaction with me. This role can be fulfilled remotely (virtual) or in person (real) and requires total devotion to the neck fetish." } },
-      pony: { fr: { title: "Pony play", description: "Fantasme axé sur le dressage équestre et l'équipement. Une importance capitale est accordée à l'endurance pour porter le Maître (environ 55 kg) sur de longues durées. Un rituel quotidien obligatoire de 20 pompes et 20 squats est exigé." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear. Crucial importance is placed on endurance to carry the Master (around 55 kg) for extended periods. A strict daily routine of 20 push-ups and 20 squats is required." } },
+      pony: { fr: { title: "Pony play", description: "Fantasme axé sur le dressage équestre et l'équipement. Une importance capitale est accordée à l'endurance pour porter le Maître (environ 55 kg) sur de longues durées. Un rituel quotidien obligatoire de 20 pompes et 20 squats est exigé." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear. Crucial importance is placed on endurance to carry the Master (around 55 kg) for extended periods of play. A strict daily routine of 20 push-ups and 20 squats is required." } },
       puppy: { fr: { title: "Puppy play", description: "Jeu de rôle ludique et fidèle axé sur le dressage et l'affection d'un chiot." }, en: { title: "Puppy Play", description: "Playful and loyal roleplay focused on training and the affection of a puppy." } },
       mollusque: { fr: { title: "Mollusque de compagnie", description: "Fantasme de soumission et de régression (limace/escargot) avec obligation de ramper au sol. L'ajout du nourrissage forcé (avec de vrais insectes ou mollusques) est totalement facultatif et requiert un accord." }, en: { title: "Pet Mollusk", description: "Submission and regression fantasy (slug/snail) with the obligation to crawl on the ground. The addition of force-feeding (with real insects or mollusks) is completely optional and requires agreement." } },
-      insecte: { fr: { title: "Insecte", description: "Fantasme de dépersonnalisation avec l'obligation de ramper sur le sol. Le nourrissage forcé avec de vrais insectes ou mollusques est une option facultative soumise à un consentement explicite." }, en: { title: "Insect", description: "Depersonalization fantasy requiring crawling on the ground. Force-feeding with real insects or mollusks is an optional choice subject to explicit consent." } },
+      insecte: { fr: { title: "Insecte", description: "Fantasme de dépersonnalisation avec l'obligation de ramper sur le sol. Le nourrissage forcé avec de vrais insectes ou mollusques é une option facultative soumise à un consentement explicite." }, en: { title: "Insect", description: "Depersonalization fantasy requiring crawling on the ground. Force-feeding with real insects or mollusks is an optional choice subject to explicit consent." } },
       majordome: { fr: { title: "Majordome", description: "Fantasme de service domestique haut de gamme, codifié et raffiné au sein du foyer." }, en: { title: "Butler", description: "High-end, codified, and refined domestic service fantasy within the household." } },
       foot: { fr: { title: "Foot Slave", description: "Dévotion exclusive axée sur le soin, le massage et l'adoration des pieds du Maître." }, en: { title: "Foot Slave", description: "Exclusive devotion centered on the care, massage, and adoration of the Master's feet." } },
       raceplay: { fr: { title: "Raceplay", description: "Jeu de rôle consensuel et encadré explorant des dynamiques et stéréotypes spécifiques." }, en: { title: "Raceplay", description: "Consensual and framed roleplay exploring specific dynamics and stereotypes." } },
