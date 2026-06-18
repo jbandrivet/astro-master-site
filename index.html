@@ -367,9 +367,20 @@
   #result.show { display: block; }
   #contract { white-space: pre-line; font-size: 13px; color: #ccc; margin-bottom: 25px; line-height: 1.6; text-align: left; }
 
-  canvas { display: block; margin: 20px auto; border: 1px solid #333; background: #000; border-radius: 50%; }
+  canvas { display: none; margin: 20px auto; border: 1px solid #333; background: #000; border-radius: 50%; }
+  
+  /* Style de la vraie image generee pour le support de l'appui long mobile */
+  #badgeImg {
+    display: none;
+    margin: 20px auto;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(0, 119, 255, 0.5);
+    border: 3px solid #0077ff;
+    max-width: 100%;
+    height: auto;
+  }
 
-  .error-message { color: #ff4444; font-size: 13px; margin-top: 8px; display: none; font-weight: 600; }
+  .error-message { color: #ff4444; font-size: 12px; margin-top: 8px; display: none; font-weight: 600; }
   .error-message.show { display: block; }
 
   footer { text-align: center; padding: 40px 0; margin-top: 50px; border-top: 1px solid #222; font-size: 12px; color: #666; }
@@ -417,7 +428,7 @@
       
       <div class="rack-unit u2 mobile-full">
         <h2><span class="led green"></span><span data-fr="À propos" data-en="About">À propos</span></h2>
-        <p class="about-text" data-fr="Autiste, passionné par l'astronomie et l'immensité de l'univers, et principalement guidé par mon fétichisme du cou. J'ai une attirance particulière pour les personnes en surpoids possédant un cou bien arrondi, associées à un bouc circulaire soigneusement taillé ou totalement imberbes. Le sexe en lui-même ne m'intéresse pas plus que ça et je n'apprécie pas la nudité. Je préfère de loin les costumes, en particulier les tenues de majordome, les combinaisons de plongée en néoprène ou les pagnes pour le jeu de rôle. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Autistic, passionate about astronomy and the vastness of the universe, and primarily guided by my neck fetishism. I am particularly attracted to overweight individuals with a well-rounded neck, combined with a neatly trimmed circle beard or completely clean-shaven. Sex itself does not interest me that much and I do not appreciate nudity. I greatly prefer costumes, especially butler outfits, neoprene diving wetsuits, or loincloths for roleplay. I seek intense relationships based on trust, mutual respect, and clarity of roles.">
+        <p class="about-text" data-fr="Autiste, passionné par l'astronomie et l'immensité de l'univers, et principalement guided par mon fétichisme du cou. J'ai une attirance particulière pour les personnes en surpoids possédant un cou bien arrondi, associées à un bouc circulaire soigneusement taillé ou totalement imberbes. Le sexe en lui-même ne m'intéresse pas plus que ça et je n'apprécie pas la nudité. Je préfère de loin les costumes, en particulier les tenues de majordome, les combinaisons de plongée en néoprène ou les pagnes pour le jeu de rôle. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Autistic, passionate about astronomy and the vastness of the universe, and primarily guided by my neck fetishism. I am particularly attracted to overweight individuals with a well-rounded neck, combined with a neatly trimmed circle beard or completely clean-shaven. Sex itself does not interest me that much and I do not appreciate nudity. I greatly prefer costumes, especially butler outfits, neoprene diving wetsuits, or loincloths for roleplay. I seek intense relationships based on trust, mutual respect, and clarity of roles.">
           Autiste, passionné par l'astronomie et l'immensité de l'univers, et principalement guidé par mon fétichisme du cou. J'ai une attirance particulière pour les personnes en surpoids possédant un cou bien arrondi, associées à un bouc circulaire soigneusement taillé ou totalement imberbes. Le sexe en lui-même ne m'intéresse pas plus que ça et je n'apprécie pas la nudité. Je préfère de loin les costumes, en particulier les tenues de majordome, les combinaisons de plongée en néoprène ou les pagnes pour le jeu de rôle. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles.
         </p>
       </div>
@@ -560,7 +571,10 @@
         <div id="result">
           <div id="contract"></div>
           <canvas id="logo" width="250" height="250"></canvas>
+          <img id="badgeImg" src="" alt="Macaron d'appartenance">
+          
           <button class="submit-btn" style="background: #222; border: 1px solid #555;" onclick="downloadBothAssets()" data-fr="[ TÉLÉCHARGER LE PACK COMPLET ]" data-en="[ DOWNLOAD FULL PACK ]">[ TÉLÉCHARGER LE PACK COMPLET ]</button>
+          <button type="button" id="shareBadgeBtn" class="submit-btn" style="background: #0077ff; display:none; margin-top: 10px;" onclick="shareBadgeToGallery()" data-fr="[ ENREGISTRER LE MACARON DANS LA GALERIE ]" data-en="[ SAVE BADGE TO GALLERY ]">[ ENREGISTRER LE MACARON DANS LA GALERIE ]</button>
         </div>
       </div>
     </div>
@@ -591,7 +605,7 @@
       "Raceplay": { fr: "• Accepter pleinement les dynamiques de domination, de soumission ou d'humiliation basées sur des stéréotypes, tabous et rôles ethniques ou raciaux négociés, en portant le pagne exigé pour la mise en scène\n• Respecter scrupuleusement le cadre et les mots de sécurité établis", en: "• Fully accept dominance, submission, or humiliation dynamics based on negotiated ethnic or racial stereotypes and taboos, while wearing the required loincloth for the staging\n• Strictly respect the established framework and safety words" },
       "Garde du corps": { fr: "• Veiller avec une vigilance absolue à la sécurité physique et émotionnelle du Maître\n• Conserver en permanence une posture rigide au garde-à-vous, avec les mains jointes fermement dans le dos dès que je suis en sa présence\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver l'excellence et la discipline physique requises", en: "• Watch over the physical and emotional security of the Master with absolute vigilance\n• Permanently maintain a rigid standing attention posture, keeping my hands bound behind my back whenever in his presence\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain physical excellence and the strict required discipline" },
       "Bear de compagnie": { fr: "• Embrasser mon identité bear dans la relation\n• Accepter l'appréciation de ma pilosité et de ma carrure avec stature massive", en: "• Embrace my bear identity within the relationship\n• Accept appreciation of my body hair and bulky build" },
-      "Mollusque": { fr: "• Me comporter en mollusque de compagnie comme une limace ou un escargot\n• Ramper exclusivement au sol selon la volonté du Maître\n• Facultatif et soumis à un accord mutuel : Accepter d'être nourri de force, y compris avec de vrais insectes et mollusques, selon la volonté du Maître", en: "• Behave as a pet mollusk like a snail or slug\n• Crawl exclusively on the ground according to the Master's will\n• Optional and subject to mutual agreement: Accept being force-fed, including with real insects and mollusks, according to the Master's will" },
+      "Mollusque": { fr: "• Me comporter en mollusque de compagnie comme une limace ou un escargot\n• Ramper exclusivement au sol selon la volonté du Maître\n• Facultatif et soumis à un accord mutuel : Accepter d'être nourri de force, y compris avec de vrais insectes et mollusques, selon la volonté du Maître", en: "• Behave as a pet mollusk like a snail or slug\n• Crawl exclusively on the ground according to the Master's will\n• Optional (subject to mutual agreement): Accept being force-fed, including with real insects and mollusks, according to the Master's will" },
       "Insecte": { fr: "• Adopter la posture et la condition d'un insecte\n• Demeurer et ramper au sol en signe de soumission absolue\n• Facultatif et soumis à un accord mutuel : Accepter d'être nourri de force, y compris avec de vrais insectes et mollusques, selon les ordres du Maître", en: "• Adopt the posture and condition of an insect\n• Remain and crawl on the ground as a sign of absolute submission\n• Optional (subject to mutual agreement): Accept being force-fed, including with real insects and mollusks, according to the Master's orders" },
       "Bouffon": { fr: "• Assurer le divertissement du Maître en acceptant d'être ridicule volontairement\n• Raconter des blagues, faire des pitreries et tout mettre en œuvre pour le distraire selon ses exigences", en: "• Provide entertainment for the Master by willingly accepting to look ridiculous\n• Tell jokes, perform antics, and do everything possible to distract him according to his requirements" },
       "Sissy": { fr: "• Prendre en charge de manière rigoureuse l'intégralité des tâches ménagères et domestiques requises par le Maître\n• Accepter l'humiliation et la frustration inhérentes à ma condition de soumission", en: "• Take full and rigorous charge of all household and domestic chores demanded by the Master\n• Accept the humiliation and frustration inherent to my submissive status" }
@@ -749,6 +763,19 @@
         ctx.fillText(`${currentPrenom}`, 125, yPos);
       }
       
+      // Generation de la vraie image HTML pour le support de l'appui long mobile
+      const badgeImg = document.getElementById('badgeImg');
+      badgeImg.src = canvas.toDataURL('image/jpeg');
+      badgeImg.style.display = 'block';
+
+      // Affichage du bouton de sauvegarde native si le telephone supporte l'API de partage
+      const shareBtn = document.getElementById('shareBadgeBtn');
+      if (navigator.canShare) {
+        shareBtn.style.display = 'block';
+      } else {
+        shareBtn.style.display = 'none';
+      }
+      
       document.getElementById('result').classList.add('show');
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
 
@@ -781,6 +808,29 @@
         link.href = document.getElementById('logo').toDataURL('image/jpeg');
         link.click();
       }, 300);
+    }
+
+    // Fonction pour declencher le volet de partage du telephone et sauvegarder dans la galerie
+    async function shareBadgeToGallery() {
+      const canvas = document.getElementById('logo');
+      canvas.toBlob(async (blob) => {
+        const file = new File([blob], 'macaron_appartenance.jpg', { type: 'image/jpeg' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: "Macaron d'appartenance",
+              text: "Mon macaron d'appartenance Astro Master"
+            });
+          } catch (err) {
+            console.log("Action de partage ignoree ou annulee", err);
+          }
+        } else {
+          alert(currentLang === 'fr' 
+            ? "Votre navigateur ne supporte pas l'enregistrement direct. Laissez votre doigt appuyé sur l'image du macaron pour l'enregistrer dans vos photos." 
+            : "Your browser does not support direct saving. Long press the badge image to save it to your photos.");
+        }
+      }, 'image/jpeg');
     }
 
     document.querySelectorAll('.role-checkbox input').forEach(input => {
