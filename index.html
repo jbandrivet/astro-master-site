@@ -501,12 +501,12 @@
         </div>
 
         <form id="generatorForm">
-          <div class="form-group">
+          <div class="form-group" id="prenomGroup">
             <label for="prenom" data-fr="Prénom" data-en="First Name">Prénom</label>
             <input type="text" id="prenom" required maxlength="50">
           </div>
 
-          <div class="form-group">
+          <div class="form-group" id="nomGroup">
             <label for="nom" data-fr="Nom" data-en="Last Name">Nom</label>
             <input type="text" id="nom" required maxlength="50">
           </div>
@@ -672,6 +672,34 @@
         if(this.checked) {
           this.parentElement.classList.add('checked');
         }
+
+        // Gestion de l'affichage dynamique adaptatif des champs d'identité
+        if (groupName === 'nameDisplayOption') {
+          const prenomInput = document.getElementById('prenom');
+          const nomInput = document.getElementById('nom');
+          const prenomGroup = document.getElementById('prenomGroup');
+          const nomGroup = document.getElementById('nomGroup');
+          
+          if (this.value === 'both') {
+            prenomGroup.style.display = 'block';
+            prenomInput.required = true;
+            nomGroup.style.display = 'block';
+            nomInput.required = true;
+          } else if (this.value === 'firstname') {
+            prenomGroup.style.display = 'block';
+            prenomInput.required = true;
+            nomGroup.style.display = 'none';
+            nomInput.required = false;
+            nomInput.value = '';
+          } else if (this.value === 'none') {
+            prenomGroup.style.display = 'none';
+            prenomInput.required = false;
+            prenomInput.value = '';
+            nomGroup.style.display = 'none';
+            nomInput.required = false;
+            nomInput.value = '';
+          }
+        }
       });
     });
 
@@ -711,6 +739,10 @@
       const selectedMethod = document.querySelector('input[name="sendMethod"]:checked').value;
       const identityOption = document.querySelector('input[name="nameDisplayOption"]:checked').value;
 
+      // Configuration des traits automatiques pour les contrats anonymes ou partiels
+      let contractPrenom = currentPrenom || "___________";
+      let contractNom = currentNom || "___________";
+
       let engs = currentLang === 'fr' ? '• Servir avec dévouement et respect\n• Honorer les règles établies et le fétiche du Maître\n' : '• Serve with dedication and respect\n• Honor established rules and the Master\'s fetish\n';
       
       currentRoles.forEach(role => {
@@ -724,8 +756,8 @@
       let renderedRolesEn = Array.from(document.querySelectorAll('input[name="role"]:checked')).map(cb => cb.parentElement.querySelector('span').getAttribute('data-en'));
 
       currentContractText = currentLang === 'fr' 
-        ? `CONTRAT D'APPARTENANCE\n\nJe soussigné(e) ${currentPrenom} ${currentNom}, reconnais officiellement mes rôles de ${renderedRolesFr.join(', ')} auprès d'Astro Master.\n\nJe m'engage à :\n${engs}\nCe contrat est basé sur la confiance mutuelle et le respect absolu de notre dynamique.\nSigné le ${new Date().toLocaleDateString('fr-FR')}`
-        : `MEMBERSHIP CONTRACT\n\nI, the undersigned ${currentPrenom} ${currentNom}, officially acknowledge my roles as ${renderedRolesEn.join(', ')} of Astro Master.\n\nI commit to:\n${engs}\nThis contract is based on mutual trust and absolute respect for our dynamic.\nSigned on ${new Date().toLocaleDateString('en-US')}`;
+        ? `CONTRAT D'APPARTENANCE\n\nJe soussigné(e) ${contractPrenom} ${contractNom}, reconnais officiellement mes rôles de ${renderedRolesFr.join(', ')} auprès d'Astro Master.\n\nJe m'engage à :\n${engs}\nCe contrat est basé sur la confiance mutuelle et le respect absolu de notre dynamique.\nSigné le ${new Date().toLocaleDateString('fr-FR')}`
+        : `MEMBERSHIP CONTRACT\n\nI, the undersigned ${contractPrenom} ${contractNom}, officially acknowledge my roles as ${renderedRolesEn.join(', ')} of Astro Master.\n\nI commit to:\n${engs}\nThis contract is based on mutual trust and absolute respect for our dynamic.\nSigned on ${new Date().toLocaleDateString('en-US')}`;
       
       document.getElementById('contract').textContent = currentContractText;
       
@@ -765,7 +797,6 @@
       document.getElementById('result').classList.add('show');
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
 
-      // Lancement automatique du processus de pièces jointes couplées
       executeAutomatedAttachmentFlow(selectedMethod);
     });
 
@@ -783,7 +814,6 @@
         const jpegFile = new File([blob], 'macaron_appartenance.jpg', { type: 'image/jpeg' });
         const filesArray = [pdfFile, jpegFile];
 
-        // Si l'appareil supporte le partage natif des fichiers (Smartphones et tablettes)
         if (navigator.canShare && navigator.canShare({ files: filesArray })) {
           try {
             await navigator.share({
@@ -794,15 +824,15 @@
                 : "Hello Astro Master, please find my membership files attached."
             });
           } catch (err) {
-            console.log("Transmission annulee ou interrompue", err);
+            console.log("Transmission annulee", err);
           }
         } else {
-          // Securite de repli automatique pour les ordinateurs de bureau
           downloadAssetsManually();
           if (method === 'whatsapp') {
-            window.open("https://wa.me/33783204184?text=" + encodeURIComponent("Bonjour Astro Master, mon contrat vient d'être généré. Je vous joins les fichiers téléchargés."), '_blank');
+            let signerName = (currentPrenom || currentNom) ? `${currentPrenom} ${currentNom}`.trim() : "Anonyme";
+            window.open("https://wa.me/33783204184?text=" + encodeURIComponent(`Bonjour Astro Master, mon contrat vient d'être généré par ${signerName}. Je vous joins les fichiers téléchargés.`), '_blank');
           } else if (method === 'email') {
-            window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=Contrat d'Appartenance&body=" + encodeURIComponent(currentContractText));
+            window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=Nouveau Contrat d'Appartenance&body=" + encodeURIComponent(currentContractText));
           }
           alert(currentLang === 'fr' 
             ? "Sur ordinateur, les fichiers ont été enregistrés dans vos téléchargements. Veuillez simplement les glisser-déposer dans l'application qui vient de s'ouvrir." 
