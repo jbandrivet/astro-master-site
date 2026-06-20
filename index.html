@@ -572,7 +572,7 @@
           <canvas id="logo" width="250" height="250"></canvas>
           <img id="badgeImg" src="" alt="Macaron d'appartenance">
           
-          <button class="submit-btn" style="background: #222; border: 1px solid #555;" onclick="triggerManualFallback()" data-fr="[ ENREGISTRER LE PACK COMPLET MANUELLEMENT ]" data-en="[ SAVE FULL PACK MANUALLY ]">[ ENREGISTRER LE PACK COMPLET MANUELLEMENT ]</button>
+          <button class="submit-btn" style="background: #222; border: 1px solid #555;" onclick="triggerManualFallback()" data-fr="[ RELANCER LE TÉLÉCHARGEMENT ET L'APPLICATION ]" data-en="[ RESTART DOWNLOAD AND OPEN APP ]">[ RELANCER LE TÉLÉCHARGEMENT ET L'APPLICATION ]</button>
         </div>
       </div>
     </div>
@@ -612,7 +612,7 @@
     const kinkDefinitions = {
       cou: { fr: { title: "Fétichiste du cou", description: "Mon obsession absolue. L'intégralité de mes relations s'articule autour de la grâce, de la nudité et de la mise en valeur du cou de mes partenaires soumis. J'ai une attirance très marquée pour les personnes en surpoids avec un cou arrondi et une apparence imberbe ou avec un bouc circulaire net. La nudité générale ou génitale ne m'intéresse pas, je préfère les personnes en costume ou combinaison." }, en: { title: "Neck Fetishist", description: "My absolute obsession. All my relationships revolve around the grace, bareness, and presentation of my submissive partners' necks. I am strongly drawn to overweight individuals with a rounded neck and either a clean-shaven appearance or a neat circle beard. General or genital nudity does not interest me, I prefer people in costumes or suits." } },
       dominant: { fr: { title: "Dominant actif", description: "Mon mode d'expression naturel : assurer un leadership clair, protecteur, bienveillant et structurant dans la relation D/s." }, en: { title: "Active Dominant", description: "My natural way of being: providing clear, protective, caring, and structured leadership within the D/s relationship." } },
-      gorge: { fr: { title: "Gorge profonde", description: "Ma seule et unique pratique sexuelle acceptée et recherchée, sachant que le sexe en lui-même ne m'intéresse pas plus que ça. Un moment d'abandon physique total et de contrôle axé sur la gorge, excluant absolument tout autre rapport sexuel." }, en: { title: "Deep Throat", description: "My one and only accepted and desired sexual practice, knowing that sex itself doesn't interest me that much. A moment of total physical surrender and control focused on the throat, strictly excluding any other sexual intercourse." } },
+      gorge: { fr: { title: "Gorge profonde", description: "Ma seule et unique pratique sexuelle acceptée et recherchée, sachant que le sexe en lui-même ne m'intéresse pas plus que ça. Un moment d'abandon physique total et de contrôle axé sur la gorge, excluant absolutment tout autre rapport sexuel." }, en: { title: "Deep Throat", description: "My one and only accepted and desired sexual practice, knowing that sex itself doesn't interest me that much. A moment of total physical surrender and control focused on the throat, strictly excluding any other sexual intercourse." } },
       cou_esclave: { fr: { title: "Esclave du cou", description: "Le fondement indispensable de toute interaction avec moi. Ce rôle peut s'exercer à distance en virtuel ou en face-à-face en réel. Le soumis doit entièrement offrir son cou aux caresses du Maître et se plier sans condition à ses requêtes de photos, prises dans la posture exigée, à tout instant." }, en: { title: "Neck Slave", description: "The essential foundation of any interaction with me. This role can be fulfilled remotely in virtual or in person in real. The submissive must entirely offer their neck to the Master's touch and unconditionally comply with any photo requests, taken in the exact stance required, at any moment." } },
       pony: { fr: { title: "Pony play", description: "Fantasme axé sur le dressage équestre et l'équipement, ou en combinaison de plongée en néoprène. Une importance capitale est accordée à l'endurance pour porter le Maître de 55 kg environ sur de longues durées de jeu. Un rituel quotidien obligatoire de 20 pompes et 20 squats est exigé." }, en: { title: "Pony Play", description: "Fantasy focused on equestrian training and gear, or in a neoprene diving wetsuit. Crucial importance is placed on endurance to carry the Master of around 55 kg for extended periods of play. A strict daily routine of 20 push-ups and 20 squats is required." } },
       puppy: { fr: { title: "Puppy play", description: "Jeu de rôle ludique et fidèle axé sur le dressage et l'affection d'un chiot." }, en: { title: "Puppy Play", description: "Playful and loyal roleplay focused on training and the affection of a puppy." } },
@@ -673,7 +673,6 @@
           this.parentElement.classList.add('checked');
         }
 
-        // Gestion de l'affichage dynamique adaptatif des champs d'identité
         if (groupName === 'nameDisplayOption') {
           const prenomInput = document.getElementById('prenom');
           const nomInput = document.getElementById('nom');
@@ -739,7 +738,6 @@
       const selectedMethod = document.querySelector('input[name="sendMethod"]:checked').value;
       const identityOption = document.querySelector('input[name="nameDisplayOption"]:checked').value;
 
-      // Configuration des traits automatiques pour les contrats anonymes ou partiels
       let contractPrenom = currentPrenom || "___________";
       let contractNom = currentNom || "___________";
 
@@ -797,68 +795,40 @@
       document.getElementById('result').classList.add('show');
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
 
-      executeAutomatedAttachmentFlow(selectedMethod);
+      // Lancement simultané des téléchargements locaux ET de l'ouverture de l'application
+      executeSimultaneousDownloadAndAppFlow(selectedMethod);
     });
 
-    function executeAutomatedAttachmentFlow(method) {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.text(doc.splitTextToSize(currentContractText, 180), 15, 20);
-      doc.addImage(document.getElementById('logo').toDataURL('image/jpeg'), 'JPEG', 70, 150, 70, 70);
-      
-      const pdfBlob = doc.output('blob');
-      const pdfFile = new File([pdfBlob], 'contrat_appartenance.pdf', { type: 'application/pdf' });
-
-      const canvas = document.getElementById('logo');
-      canvas.toBlob(async (blob) => {
-        const jpegFile = new File([blob], 'macaron_appartenance.jpg', { type: 'image/jpeg' });
-        const filesArray = [pdfFile, jpegFile];
-
-        if (navigator.canShare && navigator.canShare({ files: filesArray })) {
-          try {
-            await navigator.share({
-              files: filesArray,
-              title: "Mon Contrat et Macaron d'appartenance",
-              text: currentLang === 'fr' 
-                ? "Bonjour Astro Master, voici mes documents d'appartenance en pièces jointes." 
-                : "Hello Astro Master, please find my membership files attached."
-            });
-          } catch (err) {
-            console.log("Transmission annulee", err);
-          }
-        } else {
-          downloadAssetsManually();
-          if (method === 'whatsapp') {
-            let signerName = (currentPrenom || currentNom) ? `${currentPrenom} ${currentNom}`.trim() : "Anonyme";
-            window.open("https://wa.me/33783204184?text=" + encodeURIComponent(`Bonjour Astro Master, mon contrat vient d'être généré par ${signerName}. Je vous joins les fichiers téléchargés.`), '_blank');
-          } else if (method === 'email') {
-            window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=Nouveau Contrat d'Appartenance&body=" + encodeURIComponent(currentContractText));
-          }
-          alert(currentLang === 'fr' 
-            ? "Sur ordinateur, les fichiers ont été enregistrés dans vos téléchargements. Veuillez simplement les glisser-déposer dans l'application qui vient de s'ouvrir." 
-            : "On desktop, files have been saved to your downloads. Please simply drag and drop them into the application that just opened.");
-        }
-      }, 'image/jpeg');
-    }
-
-    function downloadAssetsManually() {
+    function executeSimultaneousDownloadAndAppFlow(method) {
+      // 1. Déclenchement immédiat du téléchargement du contrat PDF
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.text(doc.splitTextToSize(currentContractText, 180), 15, 20);
       doc.addImage(document.getElementById('logo').toDataURL('image/jpeg'), 'JPEG', 70, 150, 70, 70);
       doc.save('contrat_appartenance.pdf');
 
+      // 2. Déclenchement automatique et immédiat du téléchargement de l'image du Macaron
       setTimeout(() => {
         const link = document.createElement('a');
         link.download = 'macaron_appartenance.jpg';
         link.href = document.getElementById('logo').toDataURL('image/jpeg');
         link.click();
       }, 300);
+
+      // 3. Ouverture instantanée de la plateforme de communication sélectionnée (WhatsApp ou Mail)
+      setTimeout(() => {
+        if (method === 'whatsapp') {
+          let signerName = (currentPrenom || currentNom) ? `${currentPrenom} ${currentNom}`.trim() : "Anonyme";
+          window.open("https://wa.me/33783204184?text=" + encodeURIComponent(`Bonjour Astro Master, mon contrat vient d'être généré par ${signerName}. Je vous joins les fichiers téléchargés dans mon appareil.`), '_blank');
+        } else if (method === 'email') {
+          window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=" + encodeURIComponent("Nouveau Contrat d'Appartenance") + "&body=" + encodeURIComponent(currentContractText));
+        }
+      }, 600);
     }
 
     function triggerManualFallback() {
       const selectedMethod = document.querySelector('input[name="sendMethod"]:checked').value;
-      executeAutomatedAttachmentFlow(selectedMethod);
+      executeSimultaneousDownloadAndAppFlow(selectedMethod);
     }
 
     document.querySelectorAll('.role-checkbox input').forEach(input => {
