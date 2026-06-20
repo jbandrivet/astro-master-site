@@ -369,7 +369,6 @@
 
   canvas { display: none; margin: 20px auto; border: 1px solid #333; background: #000; border-radius: 50%; }
   
-  /* Style de la vraie image generee pour le support de l'appui long mobile */
   #badgeImg {
     display: none;
     margin: 20px auto;
@@ -428,7 +427,7 @@
       
       <div class="rack-unit u2 mobile-full">
         <h2><span class="led green"></span><span data-fr="À propos" data-en="About">À propos</span></h2>
-        <p class="about-text" data-fr="Autiste, passionné par l'astronomie et l'immensité de l'univers, et principalement guided par mon fétichisme du cou. J'ai une attirance particulière pour les personnes en surpoids possédant un cou bien arrondi, associées à un bouc circulaire soigneusement taillé ou totalement imberbes. Le sexe en lui-même ne m'intéresse pas plus que ça et je n'apprécie pas la nudité. Je préfère de loin les costumes, en particulier les tenues de majordome, les combinaisons de plongée en néoprène ou les pagnes pour le jeu de rôle. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Autistic, passionate about astronomy and the vastness of the universe, and primarily guided by my neck fetishism. I am particularly attracted to overweight individuals with a well-rounded neck, combined with a neatly trimmed circle beard or completely clean-shaven. Sex itself does not interest me that much and I do not appreciate nudity. I greatly prefer costumes, especially butler outfits, neoprene diving wetsuits, or loincloths for roleplay. I seek intense relationships based on trust, mutual respect, and clarity of roles.">
+        <p class="about-text" data-fr="Autiste, passionné par l'astronomie et l'immensité de l'univers, et principalement guidé par mon fétichisme du cou. J'ai une attirance particulière pour les personnes en surpoids possédant un cou bien arrondi, associées à un bouc circulaire soigneusement taillé ou totalement imberbes. Le sexe en lui-même ne m'intéresse pas plus que ça et je n'apprécie pas la nudité. Je préfère de loin les costumes, en particulier les tenues de majordome, les combinaisons de plongée en néoprène ou les pagnes pour le jeu de rôle. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles." data-en="Autistic, passionate about astronomy and the vastness of the universe, and primarily guided by my neck fetishism. I am particularly attracted to overweight individuals with a well-rounded neck, combined with a neatly trimmed circle beard or completely clean-shaven. Sex itself does not interest me that much and I do not appreciate nudity. I greatly prefer costumes, especially butler outfits, neoprene diving wetsuits, or loincloths for roleplay. I seek intense relationships based on trust, mutual respect, and clarity of roles.">
           Autiste, passionné par l'astronomie et l'immensité de l'univers, et principalement guidé par mon fétichisme du cou. J'ai une attirance particulière pour les personnes en surpoids possédant un cou bien arrondi, associées à un bouc circulaire soigneusement taillé ou totalement imberbes. Le sexe en lui-même ne m'intéresse pas plus que ça et je n'apprécie pas la nudité. Je préfère de loin les costumes, en particulier les tenues de majordome, les combinaisons de plongée en néoprène ou les pagnes pour le jeu de rôle. Je recherche des relations intenses basées sur la confiance, le respect mutuel et la clarté des rôles.
         </p>
       </div>
@@ -573,8 +572,7 @@
           <canvas id="logo" width="250" height="250"></canvas>
           <img id="badgeImg" src="" alt="Macaron d'appartenance">
           
-          <button class="submit-btn" style="background: #222; border: 1px solid #555;" onclick="downloadBothAssets()" data-fr="[ TÉLÉCHARGER LE PACK COMPLET ]" data-en="[ DOWNLOAD FULL PACK ]">[ TÉLÉCHARGER LE PACK COMPLET ]</button>
-          <button type="button" id="shareBadgeBtn" class="submit-btn" style="background: #0077ff; display:none; margin-top: 10px;" onclick="shareBadgeToGallery()" data-fr="[ ENREGISTRER LE MACARON DANS LA GALERIE ]" data-en="[ SAVE BADGE TO GALLERY ]">[ ENREGISTRER LE MACARON DANS LA GALERIE ]</button>
+          <button class="submit-btn" style="background: #222; border: 1px solid #555;" onclick="triggerManualFallback()" data-fr="[ ENREGISTRER LE PACK COMPLET MANUELLEMENT ]" data-en="[ SAVE FULL PACK MANUALLY ]">[ ENREGISTRER LE PACK COMPLET MANUELLEMENT ]</button>
         </div>
       </div>
     </div>
@@ -605,7 +603,7 @@
       "Raceplay": { fr: "• Accepter pleinement les dynamiques de domination, de soumission ou d'humiliation basées sur des stéréotypes, tabous et rôles ethniques ou raciaux négociés, en portant le pagne exigé pour la mise en scène\n• Respecter scrupuleusement le cadre et les mots de sécurité établis", en: "• Fully accept dominance, submission, or humiliation dynamics based on negotiated ethnic or racial stereotypes and taboos, while wearing the required loincloth for the staging\n• Strictly respect the established framework and safety words" },
       "Garde du corps": { fr: "• Veiller avec une vigilance absolue à la sécurité physique et émotionnelle du Maître\n• Conserver en permanence une posture rigide au garde-à-vous, avec les mains jointes fermement dans le dos dès que je suis en sa présence\n• Accomplir rigoureusement un entraînement quotidien de 20 pompes et 20 squats afin de conserver l'excellence et la discipline physique requises", en: "• Watch over the physical and emotional security of the Master with absolute vigilance\n• Permanently maintain a rigid standing attention posture, keeping my hands bound behind my back whenever in his presence\n• Rigorously perform a daily routine of 20 push-ups and 20 squats to maintain physical excellence and the strict required discipline" },
       "Bear de compagnie": { fr: "• Embrasser mon identité bear dans la relation\n• Accepter l'appréciation de ma pilosité et de ma carrure avec stature massive", en: "• Embrace my bear identity within the relationship\n• Accept appreciation of my body hair and bulky build" },
-      "Mollusque": { fr: "• Me comporter en mollusque de compagnie comme une limace ou un escargot\n• Ramper exclusivement au sol selon la volonté du Maître\n• Facultatif et soumis à un accord mutuel : Accepter d'être nourri de force, y compris avec de vrais insectes et mollusques, selon la volonté du Maître", en: "• Behave as a pet mollusk like a snail or slug\n• Crawl exclusively on the ground according to the Master's will\n• Optional (subject to mutual agreement): Accept being force-fed, including with real insects and mollusks, according to the Master's will" },
+      "Mollusque": { fr: "• Me comporter en mollusque de compagnie comme une limace ou un escargot\n• Ramper exclusivement au sol selon la volonté du Maître\n• Facultatif et soumis à un accord mutuel : Accepter d'être nourri de force, y compris avec de vrais insectes et mollusques, selon la volonté du Maître", en: "• Behave as a pet mollusk like a snail or slug\n• Crawl exclusively on the ground according to the Master's will\n• Optional and subject to mutual agreement: Accept being force-fed, including with real insects and mollusks, according to the Master's will" },
       "Insecte": { fr: "• Adopter la posture et la condition d'un insecte\n• Demeurer et ramper au sol en signe de soumission absolue\n• Facultatif et soumis à un accord mutuel : Accepter d'être nourri de force, y compris avec de vrais insectes et mollusques, selon les ordres du Maître", en: "• Adopt the posture and condition of an insect\n• Remain and crawl on the ground as a sign of absolute submission\n• Optional (subject to mutual agreement): Accept being force-fed, including with real insects and mollusks, according to the Master's orders" },
       "Bouffon": { fr: "• Assurer le divertissement du Maître en acceptant d'être ridicule volontairement\n• Raconter des blagues, faire des pitreries et tout mettre en œuvre pour le distraire selon ses exigences", en: "• Provide entertainment for the Master by willingly accepting to look ridiculous\n• Tell jokes, perform antics, and do everything possible to distract him according to his requirements" },
       "Sissy": { fr: "• Prendre en charge de manière rigoureuse l'intégralité des tâches ménagères et domestiques requises par le Maître\n• Accepter l'humiliation et la frustration inhérentes à ma condition de soumission", en: "• Take full and rigorous charge of all household and domestic chores demanded by the Master\n• Accept the humiliation and frustration inherent to my submissive status" }
@@ -710,10 +708,7 @@
       currentNom = document.getElementById('nom').value;
       currentRoles = Array.from(document.querySelectorAll('input[name="role"]:checked')).map(cb => cb.value);
 
-      const selectedMethod = document.querySelector('input[name="sendMethod"]:checked');
-      if (!selectedMethod) { document.getElementById('methodError').classList.add('show'); return; }
-      document.getElementById('methodError').classList.remove('show');
-
+      const selectedMethod = document.querySelector('input[name="sendMethod"]:checked').value;
       const identityOption = document.querySelector('input[name="nameDisplayOption"]:checked').value;
 
       let engs = currentLang === 'fr' ? '• Servir avec dévouement et respect\n• Honorer les règles établies et le fétiche du Maître\n' : '• Serve with dedication and respect\n• Honor established rules and the Master\'s fetish\n';
@@ -763,39 +758,60 @@
         ctx.fillText(`${currentPrenom}`, 125, yPos);
       }
       
-      // Generation de la vraie image HTML pour le support de l'appui long mobile
       const badgeImg = document.getElementById('badgeImg');
       badgeImg.src = canvas.toDataURL('image/jpeg');
       badgeImg.style.display = 'block';
 
-      // Affichage du bouton de sauvegarde native si le telephone supporte l'API de partage
-      const shareBtn = document.getElementById('shareBadgeBtn');
-      if (navigator.canShare) {
-        shareBtn.style.display = 'block';
-      } else {
-        shareBtn.style.display = 'none';
-      }
-      
       document.getElementById('result').classList.add('show');
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
 
-      if (selectedMethod.value === 'whatsapp') {
-        sendToAstroWhatsApp();
-      } else if (selectedMethod.value === 'email') {
-        sendToAstroEmail();
-      }
+      // Lancement automatique du processus de pièces jointes couplées
+      executeAutomatedAttachmentFlow(selectedMethod);
     });
 
-    function sendToAstroWhatsApp() {
-      const msg = `Nouveau contrat d'appartenance soumis par ${currentPrenom} ${currentNom} pour les rôles : ${currentRoles.join(', ')}`;
-      window.open("https://wa.me/33783204184?text=" + encodeURIComponent(msg), '_blank');
+    function executeAutomatedAttachmentFlow(method) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text(doc.splitTextToSize(currentContractText, 180), 15, 20);
+      doc.addImage(document.getElementById('logo').toDataURL('image/jpeg'), 'JPEG', 70, 150, 70, 70);
+      
+      const pdfBlob = doc.output('blob');
+      const pdfFile = new File([pdfBlob], 'contrat_appartenance.pdf', { type: 'application/pdf' });
+
+      const canvas = document.getElementById('logo');
+      canvas.toBlob(async (blob) => {
+        const jpegFile = new File([blob], 'macaron_appartenance.jpg', { type: 'image/jpeg' });
+        const filesArray = [pdfFile, jpegFile];
+
+        // Si l'appareil supporte le partage natif des fichiers (Smartphones et tablettes)
+        if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+          try {
+            await navigator.share({
+              files: filesArray,
+              title: "Mon Contrat et Macaron d'appartenance",
+              text: currentLang === 'fr' 
+                ? "Bonjour Astro Master, voici mes documents d'appartenance en pièces jointes." 
+                : "Hello Astro Master, please find my membership files attached."
+            });
+          } catch (err) {
+            console.log("Transmission annulee ou interrompue", err);
+          }
+        } else {
+          // Securite de repli automatique pour les ordinateurs de bureau
+          downloadAssetsManually();
+          if (method === 'whatsapp') {
+            window.open("https://wa.me/33783204184?text=" + encodeURIComponent("Bonjour Astro Master, mon contrat vient d'être généré. Je vous joins les fichiers téléchargés."), '_blank');
+          } else if (method === 'email') {
+            window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=Contrat d'Appartenance&body=" + encodeURIComponent(currentContractText));
+          }
+          alert(currentLang === 'fr' 
+            ? "Sur ordinateur, les fichiers ont été enregistrés dans vos téléchargements. Veuillez simplement les glisser-déposer dans l'application qui vient de s'ouvrir." 
+            : "On desktop, files have been saved to your downloads. Please simply drag and drop them into the application that just opened.");
+        }
+      }, 'image/jpeg');
     }
 
-    function sendToAstroEmail() {
-      window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=Nouveau Contrat d'Appartenance&body=" + encodeURIComponent(currentContractText));
-    }
-
-    function downloadBothAssets() {
+    function downloadAssetsManually() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.text(doc.splitTextToSize(currentContractText, 180), 15, 20);
@@ -810,27 +826,9 @@
       }, 300);
     }
 
-    // Fonction pour declencher le volet de partage du telephone et sauvegarder dans la galerie
-    async function shareBadgeToGallery() {
-      const canvas = document.getElementById('logo');
-      canvas.toBlob(async (blob) => {
-        const file = new File([blob], 'macaron_appartenance.jpg', { type: 'image/jpeg' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({
-              files: [file],
-              title: "Macaron d'appartenance",
-              text: "Mon macaron d'appartenance Astro Master"
-            });
-          } catch (err) {
-            console.log("Action de partage ignoree ou annulee", err);
-          }
-        } else {
-          alert(currentLang === 'fr' 
-            ? "Votre navigateur ne supporte pas l'enregistrement direct. Laissez votre doigt appuyé sur l'image du macaron pour l'enregistrer dans vos photos." 
-            : "Your browser does not support direct saving. Long press the badge image to save it to your photos.");
-        }
-      }, 'image/jpeg');
+    function triggerManualFallback() {
+      const selectedMethod = document.querySelector('input[name="sendMethod"]:checked').value;
+      executeAutomatedAttachmentFlow(selectedMethod);
     }
 
     document.querySelectorAll('.role-checkbox input').forEach(input => {
