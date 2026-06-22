@@ -165,7 +165,7 @@
 
   .server-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
   }
 
@@ -421,6 +421,16 @@
           </p>
           <a href="https://mes-cous.ydns.eu/" class="eth-btn" target="_blank">
             <span data-fr="Visiter la galerie" data-en="Visit the gallery">Visiter la galerie</span>
+          </a>
+        </div>
+
+        <div class="rack-unit u2 mobile-half">
+          <h2><span class="led blue blink"></span><span data-fr="Under Control" data-en="Under Control">Under Control</span></h2>
+          <p class="about-text" data-fr="Espace complémentaire dédié au suivi et à la gestion des dynamiques d'appartenance." data-en="Companion space dedicated to tracking and managing membership dynamics.">
+            Espace complémentaire dédié au suivi et à la gestion des dynamiques d'appartenance.
+          </p>
+          <a href="https://under-control.duckdns.org/index.php" class="eth-btn" target="_blank">
+            <span data-fr="Ouvrir l'application" data-en="Open the application">Ouvrir l'application</span>
           </a>
         </div>
       </div>
@@ -799,14 +809,12 @@
     });
 
     function executeSimultaneousDownloadAndAppFlow(method) {
-      // 1. Déclenchement automatique du téléchargement du contrat PDF
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.text(doc.splitTextToSize(currentContractText, 180), 15, 20);
       doc.addImage(document.getElementById('logo').toDataURL('image/jpeg'), 'JPEG', 70, 150, 70, 70);
       doc.save('contrat_appartenance.pdf');
 
-      // 2. Déclenchement automatique du téléchargement du Macaron
       setTimeout(() => {
         const link = document.createElement('a');
         link.download = 'macaron_appartenance.jpg';
@@ -814,12 +822,11 @@
         link.click();
       }, 300);
 
-      // 3. Ouverture directe avec injection de l'intégralité du texte du contrat
       setTimeout(() => {
         if (method === 'whatsapp') {
           window.open("https://wa.me/33783204184?text=" + encodeURIComponent(currentContractText), '_blank');
         } else if (method === 'email') {
-          window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=" + encodeURIComponent("Nouveau Contrat d'Appartenance") + "&body=" + encodeURIComponent(currentContractText));
+          window.open("mailto:jeanbaptisteandrivet@gmail.com?subject=Nouveau Contrat d'Appartenance&body=" + encodeURIComponent(currentContractText));
         }
       }, 600);
     }
